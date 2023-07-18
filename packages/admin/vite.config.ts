@@ -12,9 +12,9 @@ const config = {
   plugins: [
     vue(),
     vueJsx(),
-    eslintPlugin({
-      failOnWarning: false
-    })
+    // eslintPlugin({
+    //   failOnWarning: false
+    // })
   ],
   resolve: {
     alias: {

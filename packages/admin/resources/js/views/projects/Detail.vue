@@ -28,6 +28,30 @@
       </span>
 
       <span
+        class="group flex cursor-pointer items-center rounded-md px-3 py-2 text-gray-700 ltr:ml-8 rtl:mr-8"
+        :class="{ 'bg-gray-200 text-gray-800': tab.active == 0 }"
+        @click="tab.select(0)"
+      >
+        <ViewColumnsIcon class="h-4 w-4 group-hover:text-gray-800" />
+        <span
+          class="text-sm font-medium group-hover:text-gray-800 ltr:ml-2 rtl:mr-2"
+          >{{ __('Milestone') }}</span
+        >
+      </span>
+
+      <span
+        class="group flex cursor-pointer items-center rounded-md px-3 py-2 text-gray-700 ltr:ml-8 rtl:mr-8"
+        :class="{ 'bg-gray-200 text-gray-800': tab.active == 0 }"
+        @click="tab.select(0)"
+      >
+        <ViewColumnsIcon class="h-4 w-4 group-hover:text-gray-800" />
+        <span
+          class="text-sm font-medium group-hover:text-gray-800 ltr:ml-2 rtl:mr-2"
+          >{{ __('ActivityLog') }}</span
+        >
+      </span>
+
+      <span
         class="group flex cursor-pointer items-center rounded-md px-3 py-2 text-gray-700 ltr:ml-2 rtl:mr-2"
         :class="{ 'bg-gray-200 text-gray-800': tab.active == 1 }"
         @click="tab.select(1)"
