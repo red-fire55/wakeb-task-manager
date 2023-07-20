@@ -26,11 +26,23 @@
           >{{ __('Board') }}</span
         >
       </span>
+       <!-- overview tab-->
+        <span
+            class="group flex cursor-pointer items-center rounded-md px-3 py-2 text-gray-700 ltr:ml-8 rtl:mr-8"
+            :class="{ 'bg-gray-200 text-gray-800': tab.active == 1 }"
+            @click="tab.select(1)"
+        >
+        <ViewfinderCircleIcon class="h-4 w-4 group-hover:text-gray-800" />
+        <span
+            class="text-sm font-medium group-hover:text-gray-800 ltr:ml-2 rtl:mr-2"
+        >{{ __('Overview') }}</span
+        >
+      </span>
 
       <span
         class="group flex cursor-pointer items-center rounded-md px-3 py-2 text-gray-700 ltr:ml-8 rtl:mr-8"
-        :class="{ 'bg-gray-200 text-gray-800': tab.active == 1 }"
-        @click="tab.select(1)"
+        :class="{ 'bg-gray-200 text-gray-800': tab.active == 2 }"
+        @click="tab.select(2)"
       >
         <ViewColumnsIcon class="h-4 w-4 group-hover:text-gray-800" />
         <span
@@ -41,8 +53,8 @@
 
       <span
         class="group flex cursor-pointer items-center rounded-md px-3 py-2 text-gray-700 ltr:ml-8 rtl:mr-8"
-        :class="{ 'bg-gray-200 text-gray-800': tab.active == 0 }"
-        @click="tab.select(0)"
+        :class="{ 'bg-gray-200 text-gray-800': tab.active == 3 }"
+        @click="tab.select(3)"
       >
         <ViewColumnsIcon class="h-4 w-4 group-hover:text-gray-800" />
         <span
@@ -53,8 +65,8 @@
 
       <span
         class="group flex cursor-pointer items-center rounded-md px-3 py-2 text-gray-700 ltr:ml-2 rtl:mr-2"
-        :class="{ 'bg-gray-200 text-gray-800': tab.active == 2 }"
-        @click="tab.select(2)"
+        :class="{ 'bg-gray-200 text-gray-800': tab.active == 4 }"
+        @click="tab.select(4)"
       >
         <ClockIcon class="h-4 w-4 group-hover:text-gray-800" />
         <span
@@ -91,10 +103,11 @@
   import { useRoute } from 'vue-router'
   import { useModalsStore, useTabStore } from 'spack'
   import TabBoard from './TabBoard.vue'
+  import TabOverview from "View/projects/TabOverview.vue";
   import TabMilestones from './TabMilestones.vue'
   import DetailMenu from './DetailMenu.vue'
   import TabTimeLogs from './TabTimeLogs.vue'
-  import { ClockIcon, ViewColumnsIcon } from '@heroicons/vue/24/outline'
+  import { ClockIcon, ViewColumnsIcon,ViewfinderCircleIcon } from '@heroicons/vue/24/outline'
   import { onBeforeRouteUpdate } from 'vue-router'
   import TaskModal from 'View/task/TaskModal.vue'
   import type { ConcreteComponent } from 'vue'
@@ -112,6 +125,7 @@
 
   tab.tabs([
     { component: markRaw(TabBoard), label: 'Board' },
+      { component: markRaw(TabOverview), label: 'Board' },
     { component: markRaw(TabMilestones), label: 'Milestones' },
     { component: markRaw(TabTimeLogs), label: 'Time Logs' },
   ])
