@@ -1,5 +1,6 @@
 <template>
-  <div class="flex">
+ <div>
+   <div class="flex">
     <div v-if="!noSearch" class="relative mb-4 w-64 rounded-md shadow-sm">
       <div
         class="pointer-events-none absolute inset-y-0 flex items-center ltr:left-0 ltr:pl-3 rtl:right-0 rtl:pr-3"
@@ -45,6 +46,7 @@
 
     <slot v-else :index="index" :items="index.data && index.data.data" />
   </div>
+ </div>
 </template>
 
 <script setup lang="ts">
@@ -80,7 +82,7 @@
   const index = useIndexStore(props.name)()
 
   index.setConfig(props)
-  index.fetch()
+  // index.fetch()
 
   if (!props.noFilters) index.getFilters()
 </script>

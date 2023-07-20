@@ -29,8 +29,8 @@
 
       <span
         class="group flex cursor-pointer items-center rounded-md px-3 py-2 text-gray-700 ltr:ml-8 rtl:mr-8"
-        :class="{ 'bg-gray-200 text-gray-800': tab.active == 0 }"
-        @click="tab.select(0)"
+        :class="{ 'bg-gray-200 text-gray-800': tab.active == 1 }"
+        @click="tab.select(1)"
       >
         <ViewColumnsIcon class="h-4 w-4 group-hover:text-gray-800" />
         <span
@@ -53,8 +53,8 @@
 
       <span
         class="group flex cursor-pointer items-center rounded-md px-3 py-2 text-gray-700 ltr:ml-2 rtl:mr-2"
-        :class="{ 'bg-gray-200 text-gray-800': tab.active == 1 }"
-        @click="tab.select(1)"
+        :class="{ 'bg-gray-200 text-gray-800': tab.active == 2 }"
+        @click="tab.select(2)"
       >
         <ClockIcon class="h-4 w-4 group-hover:text-gray-800" />
         <span
@@ -91,6 +91,7 @@
   import { useRoute } from 'vue-router'
   import { useModalsStore, useTabStore } from 'spack'
   import TabBoard from './TabBoard.vue'
+  import TabMilestones from './TabMilestones.vue'
   import DetailMenu from './DetailMenu.vue'
   import TabTimeLogs from './TabTimeLogs.vue'
   import { ClockIcon, ViewColumnsIcon } from '@heroicons/vue/24/outline'
@@ -111,6 +112,7 @@
 
   tab.tabs([
     { component: markRaw(TabBoard), label: 'Board' },
+    { component: markRaw(TabMilestones), label: 'Milestones' },
     { component: markRaw(TabTimeLogs), label: 'Time Logs' },
   ])
 
