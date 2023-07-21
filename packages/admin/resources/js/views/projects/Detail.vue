@@ -44,7 +44,7 @@
         :class="{ 'bg-gray-200 text-gray-800': tab.active == 2 }"
         @click="tab.select(2)"
       >
-        <ViewColumnsIcon class="h-4 w-4 group-hover:text-gray-800" />
+        <AdjustmentsHorizontalIcon class="h-4 w-4 group-hover:text-gray-800" />
         <span
           class="text-sm font-medium group-hover:text-gray-800 ltr:ml-2 rtl:mr-2"
           >{{ __('Milestone') }}</span
@@ -107,7 +107,7 @@
   import TabMilestones from './TabMilestones.vue'
   import DetailMenu from './DetailMenu.vue'
   import TabTimeLogs from './TabTimeLogs.vue'
-  import { ClockIcon, ViewColumnsIcon,ViewfinderCircleIcon } from '@heroicons/vue/24/outline'
+  import { ClockIcon, ViewColumnsIcon,ViewfinderCircleIcon, AdjustmentsHorizontalIcon } from '@heroicons/vue/24/outline'
   import { onBeforeRouteUpdate } from 'vue-router'
   import TaskModal from 'View/task/TaskModal.vue'
   import type { ConcreteComponent } from 'vue'
