@@ -1,5 +1,5 @@
 <template>
-    <section class=" mt-5 shadow-lg">
+    <section class=" mt-5 ">
         <div class="mx-auto max-w-screen-2xl ">
             <div class="bg-white relative shadow-md sm:rounded-lg overflow-hidden">
                 <div class="mx-4 mb-5">

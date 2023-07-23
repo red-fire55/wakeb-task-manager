@@ -56,7 +56,7 @@
         :class="{ 'bg-gray-200 text-gray-800': tab.active == 3 }"
         @click="tab.select(3)"
       >
-        <ViewColumnsIcon class="h-4 w-4 group-hover:text-gray-800" />
+        <ArrowPathIcon class="h-4 w-4 group-hover:text-gray-800" />
         <span
           class="text-sm font-medium group-hover:text-gray-800 ltr:ml-2 rtl:mr-2"
           >{{ __('ActivityLog') }}</span
@@ -107,10 +107,11 @@
   import TabMilestones from './TabMilestones.vue'
   import DetailMenu from './DetailMenu.vue'
   import TabTimeLogs from './TabTimeLogs.vue'
-  import { ClockIcon, ViewColumnsIcon,ViewfinderCircleIcon, AdjustmentsHorizontalIcon } from '@heroicons/vue/24/outline'
+  import { ClockIcon, ViewColumnsIcon,ViewfinderCircleIcon, AdjustmentsHorizontalIcon,ArrowPathIcon } from '@heroicons/vue/24/outline'
   import { onBeforeRouteUpdate } from 'vue-router'
   import TaskModal from 'View/task/TaskModal.vue'
   import type { ConcreteComponent } from 'vue'
+  import TabLog from "View/projects/TabLog.vue";
 
   const project = useProjectDetail(),
     route = useRoute()
@@ -127,6 +128,7 @@
     { component: markRaw(TabBoard), label: 'Board' },
       { component: markRaw(TabOverview), label: 'Board' },
     { component: markRaw(TabMilestones), label: 'Milestones' },
+      { component: markRaw(TabLog), label: 'ActivityLog' },
     { component: markRaw(TabTimeLogs), label: 'Time Logs' },
   ])
 
