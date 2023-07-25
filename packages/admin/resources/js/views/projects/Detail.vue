@@ -75,6 +75,18 @@
         >
       </span>
 
+      <span
+        class="group flex cursor-pointer items-center rounded-md px-3 py-2 text-gray-700 ltr:ml-2 rtl:mr-2"
+        :class="{ 'bg-gray-200 text-gray-800': tab.active == 4 }"
+        @click="tab.select(5)"
+      >
+        <ClockIcon class="h-4 w-4 group-hover:text-gray-800" />
+        <span
+          class="text-sm font-medium group-hover:text-gray-800 ltr:ml-2 rtl:mr-2"
+          >{{ __('Kpi') }}</span
+        >
+      </span>
+
       <div class="flex flex-shrink-0 -space-x-1 ltr:ml-8 rtl:mr-8">
         <UserAvatar
           v-for="user in project.data.users"
@@ -107,6 +119,7 @@
   import TabMilestones from './TabMilestones.vue'
   import DetailMenu from './DetailMenu.vue'
   import TabTimeLogs from './TabTimeLogs.vue'
+  import TabKpi from './TabKpi.vue'
   import { ClockIcon, ViewColumnsIcon,ViewfinderCircleIcon, AdjustmentsHorizontalIcon,ArrowPathIcon } from '@heroicons/vue/24/outline'
   import { onBeforeRouteUpdate } from 'vue-router'
   import TaskModal from 'View/task/TaskModal.vue'
@@ -126,10 +139,11 @@
 
   tab.tabs([
     { component: markRaw(TabBoard), label: 'Board' },
-      { component: markRaw(TabOverview), label: 'Board' },
+    { component: markRaw(TabOverview), label: 'Board' },
     { component: markRaw(TabMilestones), label: 'Milestones' },
-      { component: markRaw(TabLog), label: 'ActivityLog' },
+    { component: markRaw(TabLog), label: 'ActivityLog' },
     { component: markRaw(TabTimeLogs), label: 'Time Logs' },
+    { component: markRaw(TabKpi), label: 'Kpi' },
   ])
 
   project.fetch(route.params.id as string)
