@@ -56,69 +56,7 @@
   <div v-else>
     <IndexNoData v-if="!index.data.length" no-create />
 
-    <Card v-else>
-      <div class="space-y-4 divide-y pb-6">
-        <div
-          v-for="(item, itemIndex) in index.data"
-          :key="item.id"
-          class="flex px-6 pt-6"
-        >
-          <RouterLink
-            v-if="!isArchived"
-            v-slot="{ href, navigate }"
-            custom
-            :to="'/projects/' + item.id"
-          >
-            <a
-              :href="href"
-              class="flex cursor-pointer items-center leading-5 text-gray-700 transition duration-150 ease-in-out hover:underline"
-              @click="navigate"
-            >
-              <span
-                class="block h-2 w-2 flex-shrink-0 rounded-full"
-                :style="{ 'background-color': item.meta.color }"
-                aria-hidden="true"
-              ></span>
-              <span class="truncate text-gray-500 ltr:ml-2 rtl:mr-2">
-                {{ item.name }}
-              </span>
-            </a>
-          </RouterLink>
-
-          <p
-            v-if="isArchived"
-            class="flex items-center leading-5 text-gray-700"
-          >
-            <span
-              class="block h-2 w-2 flex-shrink-0 rounded-full"
-              :style="{ 'background-color': item.meta.color }"
-              aria-hidden="true"
-            ></span>
-            <span class="truncate text-gray-500 ltr:ml-2 rtl:mr-2">
-              {{ item.name }}
-            </span>
-          </p>
-
-          <div class="ml-auto flex space-x-3">
-            <ArchiveBoxIcon
-              v-show="!isArchived && can('project:delete')"
-              class="h-4 w-4 cursor-pointer text-gray-600 hover:text-gray-900"
-              @click="archive(item.id, itemIndex)"
-            />
-            <ArchiveBoxXMarkIcon
-              v-show="isArchived && can('project:delete')"
-              class="h-4 w-4 cursor-pointer text-gray-600 hover:text-gray-900"
-              @click="restore(item.id, itemIndex)"
-            />
-            <TrashIcon
-              v-show="isArchived && can('project:delete')"
-              class="h-4 w-4 cursor-pointer text-gray-600 hover:text-gray-900"
-              @click="onDelete(item.id, itemIndex)"
-            />
-          </div>
-        </div>
-      </div>
-    </Card>
+   <ProjectsTable />
   </div>
 </template>
 
@@ -134,6 +72,7 @@
   import { IndexNoData, Loader } from 'thetheme'
   import { ref } from 'vue'
   import { useProjectIndex } from 'Store/project'
+  import ProjectsTable from "../../components/projects/ProjectsTable.vue"
 
   const params = new URLSearchParams(window.location.search)
   const isArchived = ref(params.has('archived') ? true : false),

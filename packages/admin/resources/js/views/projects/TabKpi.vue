@@ -5,16 +5,16 @@
 
   <div v-else>
     <section>
-      <Topbar :title="__('Milestone')">
+      <Topbar :title="__('BalanceScore')">
         <div class="ltr:ml-auto rtl:mr-auto">
-          <TheButton
+          <!-- <TheButton
             v-if="can('user:create') && !indexInvitation.data.data.length"
             size="sm"
             data-cy="topbar-invitation-create-button"
             @click="OpenCreateMilestoneModal"
           >
             {{ __('NewMilestone') }}
-          </TheButton>
+          </TheButton> -->
         </div>
       </Topbar>
 

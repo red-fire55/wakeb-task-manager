@@ -2,6 +2,7 @@
   <FormModal :name="name" uri="projects">
     <FieldText name="name" label="Name" class="col-span-12" />
     <FieldText name="type" label="Type" class="col-span-12" />
+    <FieldText name="department" label="Department" class="col-span-12" />
     <FieldColor name="color" />
     <FieldChooseUsers name="users" />
   </FormModal>
