@@ -12,6 +12,7 @@ use Admin\Http\Controllers\Api\InvitationsController;
 use Admin\Http\Controllers\Api\LabelsController;
 use Admin\Http\Controllers\Api\LogoUpload;
 use Admin\Http\Controllers\Api\Metrics;
+use Admin\Http\Controllers\Api\MilestoneController;
 use Admin\Http\Controllers\Api\Notifications;
 use Admin\Http\Controllers\Api\NotificationsRead;
 use Admin\Http\Controllers\Api\ProfileController;
@@ -106,3 +107,6 @@ Route::resource('settings/email', SettingsEmailController::class)->only(['create
 Route::post('check-updates', CheckUpdates::class)->middleware('can:setting:updates');
 Route::post('update-app', UpdateApp::class)->middleware('can:setting:updates');
 Route::post('update-recipe', UpdateRecipe::class)->middleware('can:setting:updates');
+
+// Milestone
+Route::resource('milestone', MilestoneController::class);
