@@ -1,10 +1,13 @@
 <template>
-  <div class="cycle">
-    <div v-for="i in segments" :key="i" class="segment"></div>
-    <div class="buttons">
-      <button @click="incrementSegments">+</button>
-      <button @click="decrementSegments">-</button>
-    </div>
+  <div class="flex flex-row content-center justify-center">
+    <div class="pie-container p-8 mx-auto">
+    <svg :width="size" :height="size">
+      <circle :cx="radius" :cy="radius" :r="radius" fill="white" stroke="black" stroke-width="2" />
+      <g v-for="(slice, index) in slices" :key="index">
+        <path :d="describeArc(radius, radius, radius, slice.startAngle, slice.endAngle)" :fill="slice.color" />
+      </g>
+    </svg>
+  </div>
   </div>
 </template>
 
@@ -12,66 +15,59 @@
 export default {
   data() {
     return {
-      segments: 4 // default number of segments
+      slices: [],
+      size: 900,
+      radius: 250,
+      sliceCount: 6 // Change this value to adjust the number of slices
     }
   },
   methods: {
-    incrementSegments() {
-      this.segments++
+    describeArc(x, y, radius, startAngle, endAngle) {
+      const start = this.polarToCartesian(x, y, radius, endAngle)
+      const end = this.polarToCartesian(x, y, radius, startAngle)
+      const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1"
+      const d = [
+        "M", start.x, start.y,
+        "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y,
+        "L", x, y,
+        "L", start.x, start.y,
+        "z"
+      ].join(" ")
+      return d
     },
-    decrementSegments() {
-      if (this.segments > 1) {
-        this.segments--
+    polarToCartesian(x, y, radius, angleInDegrees) {
+      const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0
+      return {
+        x: x + (radius * Math.cos(angleInRadians)),
+        y: y + (radius * Math.sin(angleInRadians))
       }
+    },
+    updateSlices() {
+      const sliceAngle = 360 / this.sliceCount
+      this.slices = []
+      for (let i = 0; i < this.sliceCount; i++) {
+        const startAngle = i * sliceAngle
+        const endAngle = (i + 1) * sliceAngle
+        const color = `hsl(${i * (360 / this.sliceCount)}, 50%, 50%)`
+        this.slices.push({ startAngle, endAngle, color })
+      }
+    }
+  },
+  mounted() {
+    this.updateSlices()
+  },
+  watch: {
+    sliceCount() {
+      this.updateSlices()
     }
   }
 }
 </script>
 
 <style>
-.cycle {
-  width: 200px;
-  height: 200px;
-  position: relative;
-  border-radius: 50%;
-  background-color: #eee;
-}
-
-.segment {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transform-origin: 50% 50%;
-  border: 2px solid red;
-  border-radius: 50%;
-}
-
-.segment:nth-child(1) {
-  clip-path: polygon(50% 50%, 100% 50%, 100% 0%, 50% 0%);
-}
-
-.segment:nth-child(2) {
-  clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%);
-}
-
-.segment:nth-child(3) {
-  clip-path: polygon(50% 50%, 0% 50%, 0% 0%, 50% 0%);
-}
-
-.segment:nth-child(4) {
-  clip-path: polygon(50% 50%, 0% 50%, 0% 100%, 50% 100%);
-}
-
-.buttons {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.buttons button {
-  margin: 0 5px;
+.pie-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
