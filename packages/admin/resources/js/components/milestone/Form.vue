@@ -1,5 +1,5 @@
 <template>
-  <FormModal :id="id" :name="name" uri="users">
+  <FormModal :id="id" :name="name" uri="milestone">
     <FieldText name="name" label="Name" class="col-span-12" />
     <FieldText name="tasks" label="Tasks" class="col-span-12" />
     <FieldText name="start" label="Start Date" class="col-span-12" />

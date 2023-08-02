@@ -1,14 +1,18 @@
 <template>
+<div>
+  <button @click="sliceCount++" class="bg-[red] text-white mr-5">add</button>
+     <button @click="sliceCount--">remove</button>
   <div class="flex flex-row content-center justify-center">
+    
     <div class="pie-container p-8 mx-auto">
     <svg :width="size" :height="size">
       <circle :cx="radius" :cy="radius" :r="radius" fill="white" stroke="black" stroke-width="2" />
-      <g v-for="(slice, index) in slices" :key="index">
-        <path :d="describeArc(radius, radius, radius, slice.startAngle, slice.endAngle)" :fill="slice.color" />
+      <g v-for="(slice, index) in slices" :key="index" fill="white">
+        <path :d="describeArc(radius, radius, radius, slice.startAngle, slice.endAngle)" :stroke="slice.color" />
       </g>
     </svg>
   </div>
-  </div>
+  </div></div>
 </template>
 
 <script>
@@ -18,7 +22,7 @@ export default {
       slices: [],
       size: 900,
       radius: 250,
-      sliceCount: 6 // Change this value to adjust the number of slices
+      sliceCount: 5 // Change this value to adjust the number of slices
     }
   },
   methods: {
