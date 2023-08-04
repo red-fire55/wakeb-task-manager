@@ -18,6 +18,15 @@ class MilestoneController extends Controller
     }
 
     /**
+     * @param Milestone $milestone
+     * @return Field
+     */
+    public function create(Milestone $milestone): Field
+    {
+        return $this->fields($milestone);
+    }
+
+    /**
      * @param Request $request
      * @return MilestoneRequest
      */
@@ -36,10 +45,10 @@ class MilestoneController extends Controller
     }
 
     /**
-     * @param Milestone $milestone
+     * @param $milestone_id
      * @return Field
      */
-    public function edit($milestone_id)
+    public function edit($milestone_id): Field
     {
         return $this->fields(Milestone::find($milestone_id)->first());
     }
@@ -78,7 +87,7 @@ class MilestoneController extends Controller
             ->field('start_date', $model->start_date)
             ->field('end_date', $model->end_date)
             ->field('tasks', $model->tasks()->get())
-            ->field('project', $model->project()->get())
-            ->field('projectList', $model->projectList()->get());
+            ->field('project', $model->project()->get() ?? null, ['send project id as a foreign key'])
+            ->field('projectList', $model->projectList()->get() ?? null, ['send project list id as a foreign key']);
     }
 }
