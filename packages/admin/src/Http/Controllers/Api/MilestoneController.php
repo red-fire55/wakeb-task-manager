@@ -42,7 +42,7 @@ class MilestoneController extends Controller
      */
     public function show($milestone_id): Field
     {
-        return $this->fields(Milestone::find($milestone_id)->first());
+        return $this->fields(Milestone::find($milestone_id));
     }
 
     /**
@@ -51,7 +51,7 @@ class MilestoneController extends Controller
      */
     public function edit($milestone_id): Field
     {
-        return $this->fields(Milestone::find($milestone_id)->first());
+        return $this->fields(Milestone::find($milestone_id));
     }
 
     /**
