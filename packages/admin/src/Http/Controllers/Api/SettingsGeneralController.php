@@ -8,6 +8,8 @@ use AhsanDev\Support\Field;
 use AhsanDev\Support\Languages;
 use AhsanDev\Support\Timezonelist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class SettingsGeneralController extends Controller
 {
@@ -24,18 +26,18 @@ class SettingsGeneralController extends Controller
     public function create()
     {
         return Field::make()
-                ->field('app_logo', option('app_logo'))
-                ->field('app_name', option('app_name'))
-                ->field('app_url', option('app_url'))
-                ->field('app_locale', option('app_locale'), $this->locales())
-                ->field('app_direction', option('app_direction', 'ltr'), [['label' => 'LTR', 'value' => 'ltr'], ['label' => 'RTL', 'value' => 'rtl']])
-                ->field('app_timezone', option('app_timezone'), $this->timezones());
+            ->field('app_logo', option('app_logo'))
+            ->field('app_name', option('app_name'))
+            ->field('app_url', option('app_url'))
+            ->field('app_locale', option('app_locale'), $this->locales())
+            ->field('app_direction', option('app_direction', 'ltr'), [['label' => 'LTR', 'value' => 'ltr'], ['label' => 'RTL', 'value' => 'rtl']])
+            ->field('app_timezone', option('app_timezone'), $this->timezones());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -62,5 +64,13 @@ class SettingsGeneralController extends Controller
         $timezone = new Timezonelist;
 
         return $timezone->toArray(false);
+    }
+
+    /**
+     * @return Collection
+     */
+    protected function allFrequencies(): Collection
+    {
+        return DB::table('frequencies')->get();
     }
 }

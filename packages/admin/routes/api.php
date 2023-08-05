@@ -110,3 +110,6 @@ Route::post('update-recipe', UpdateRecipe::class)->middleware('can:setting:updat
 
 // Milestone
 Route::resource('milestone', MilestoneController::class);
+
+// Frequencies
+Route::get('frequencies', [SettingsGeneralController::class, 'allFrequencies'])->name('frequencies.index');
