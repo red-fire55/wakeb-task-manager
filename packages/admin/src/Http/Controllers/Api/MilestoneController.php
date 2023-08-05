@@ -87,7 +87,7 @@ class MilestoneController extends Controller
             ->field('name', $model->name)
             ->field('start_date', $model->start_date)
             ->field('end_date', $model->end_date)
-            ->field('tasks', $model->tasks()->get(),Task::all()->toArray())
+            ->field('tasks', $model->tasks()->get(), Task::options())
             ->field('project', $model->project()->get() ?? null, ['send project id as a foreign key'])
             ->field('projectList', $model->projectList()->get() ?? null, ['send project list id as a foreign key']);
     }
