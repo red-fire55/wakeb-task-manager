@@ -11,7 +11,7 @@
             v-if="can('user:create') && !indexInvitation.data.data.length"
             size="sm"
             data-cy="topbar-invitation-create-button"
-            @click="OpenCreateMilestoneModal"
+            @click="OpenCreateKpisModal"
           >
             {{ __('NewKpi') }}
           </TheButton>
@@ -159,7 +159,7 @@
     TheButton,
     Topbar,
   } from 'thetheme'
-  import Form from '../../components/milestone/Form.vue'
+  import Form from '../../components/kpi/Form.vue'
   import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
   
   const indexUser = useIndexStore('user')(),
@@ -196,7 +196,7 @@
     processing.value = false
   }
 
-  function OpenCreateMilestoneModal(id = null) {
+  function OpenCreateKpisModal(id = null) {
     useModalsStore().add(Form, { id })
   }
 
