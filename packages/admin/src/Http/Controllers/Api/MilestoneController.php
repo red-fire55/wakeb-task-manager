@@ -85,6 +85,7 @@ class MilestoneController extends Controller
         return Field::make()
             ->field('id', $model->id)
             ->field('name', $model->name)
+            ->field('order', $model->order)
             ->field('start_date', $model->start_date)
             ->field('end_date', $model->end_date)
             ->field('tasks', $model->tasks()->get(), Task::options())
