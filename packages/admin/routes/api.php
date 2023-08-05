@@ -9,6 +9,7 @@ use Admin\Http\Controllers\Api\FavoritesController;
 use Admin\Http\Controllers\Api\FileUpload;
 use Admin\Http\Controllers\Api\FiltersController;
 use Admin\Http\Controllers\Api\InvitationsController;
+use Admin\Http\Controllers\Api\KpiCategoryController;
 use Admin\Http\Controllers\Api\LabelsController;
 use Admin\Http\Controllers\Api\LogoUpload;
 use Admin\Http\Controllers\Api\Metrics;
@@ -113,3 +114,6 @@ Route::resource('milestone', MilestoneController::class);
 
 // Frequencies
 Route::get('frequencies', [SettingsGeneralController::class, 'allFrequencies'])->name('frequencies.index');
+
+//Kpi Categories
+Route::resource('kpiCategories', KpiCategoryController::class);

@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         //$this->call(RequiredSeeder::class);
         $this->call(FrequencyTableSeeder::class);
+        $this->call(KpiCategorySeeder::class);
     }
 }
