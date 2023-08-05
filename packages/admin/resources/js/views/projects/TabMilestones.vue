@@ -8,7 +8,7 @@
       <Topbar :title="__('Milestone')">
         <div class="ltr:ml-auto rtl:mr-auto">
           <TheButton
-            v-if="can('user:create') && !indexInvitation.data.data.length"
+            v-if="can('user:create')"
             size="sm"
             data-cy="topbar-invitation-create-button"
             @click="OpenCreateMilestoneModal"
@@ -31,39 +31,39 @@
                   <tr>
                     <TableTh
                       name="milestone"
-                      :index="indexUser"
+                      :index="indexMilestone"
                       :label="__('Name')"
                       sort="name"
                     />
                     <TableTh
                       name="milestone"
-                      :index="indexUser"
+                      :index="indexMilestone"
                       :label="__('AllTasks')"
                     />
                      <TableTh
                       name="milestone"
-                      :index="indexUser"
+                      :index="indexMilestone"
                       :label="__('Order')"
                     />
                      <TableTh
                       name="milestone"
-                      :index="indexUser"
+                      :index="indexMilestone"
                       :label="__('StartTime')"
                     />
                      <TableTh
                       name="milestone"
-                      :index="indexUser"
+                      :index="indexMilestone"
                       :label="__('EndTime')"
                     />
                     <TableTh
                       name="milestone"
-                      :index="indexUser"
+                      :index="indexMilestone"
                       :label="__('Actions')"
                     />
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
-                  <tr v-for="item in indexUser.data.data" :key="item.id">
+                  <tr v-for="item in indexMilestone.data.data" :key="item.id">
                     <td
                       class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                     >
@@ -85,23 +85,24 @@
 <td
                       class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                     >
-                      {{ item.roles[0].name }}
+                      {{ item.order }}
                     </td>
                     <td
                       class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                     >
-                      {{ item.roles[0].name }}
+                      {{ item.start_date }}
                     </td>
                     <td
                       class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                     >
-                      {{ item.roles[0].name }}
+                      {{ item.end_date }}
                     </td>
                     <td
                       class="whitespace-no-wrap flex items-center justify-start px-6 py-4 text-right text-sm font-medium leading-5"
                     >
+                        <!-- v-if="can('milestone:update')" -->
+
                       <span
-                        v-if="can('user:update')"
                         class="ml-2"
                         @click="openModal(item.id)"
                       >
@@ -109,18 +110,18 @@
                           class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
                         />
                       </span>
+                        <!-- v-if="can('user:delete')" -->
             
                       <TrashIcon
-                        v-if="can('user:delete')"
                         class="ml-2 w-5 cursor-pointer text-gray-400 hover:text-gray-800"
-                        @click.prevent="indexUser.deleteIt(item.id)"
+                        @click.prevent="indexMilestone.deleteIt(item.id)"
                       />
                     </td>
                   </tr>
                 </tbody>
               </table>
 
-              <IndexPagination :index="indexUser" />
+              <IndexPagination :index="indexMilestone" />
             </div>
           </div>
         </div>
@@ -142,28 +143,23 @@
   import Form from '../../components/milestone/Form.vue'
   import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
   
-  const indexUser = useIndexStore('user')(),
-    indexInvitation = useIndexStore('invitation')(),
+  const indexMilestone = useIndexStore('user')(),
     processing = ref(true)
   // invitations = ref([])
 
   checkProcessing()
 
-  indexUser.setConfig({
-    uri: 'users',
-    orderByDirection: 'desc',
+  indexMilestone.setConfig({
+    uri: 'milestone',
+    orderByDirection: 'name',
   })
-  indexUser.fetch()
+  indexMilestone.fetch()
 
-  indexInvitation.setConfig({
-    uri: 'invitations',
-    orderByDirection: 'desc',
-  })
-  indexInvitation.fetch()
+ 
 
   function checkProcessing() {
     setTimeout(function () {
-      if (indexUser.fetching || indexInvitation.fetching) {
+      if (indexMilestone.fetching ) {
         checkProcessing()
         return
       }
