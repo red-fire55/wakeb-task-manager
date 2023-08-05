@@ -11,7 +11,7 @@ class Milestone extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'start_date', 'end_date', 'project_id', 'project_list_id'];
+    protected $fillable = ['name', 'start_date', 'end_date', 'project_id', 'project_list_id', 'order'];
 
 
     public function tasks(): HasMany
