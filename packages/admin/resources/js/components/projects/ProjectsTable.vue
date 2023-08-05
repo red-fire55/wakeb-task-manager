@@ -5,19 +5,7 @@
 
   <div v-else>
     <section>
-      <Topbar :title="__('ActivityLog')">
-        <div class="ltr:ml-auto rtl:mr-auto">
-          <TheButton
-            v-if="can('user:create') && !indexInvitation.data.data.length"
-            size="sm"
-            data-cy="topbar-invitation-create-button"
-            @click="OpenCreateMilestoneModal"
-          >
-            {{ __('NewActivityLog') }}
-          </TheButton>
-        </div>
-      </Topbar>
-
+      
       <div class="flex flex-col">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div
@@ -64,6 +52,11 @@
                       name="end time"
                       :index="indexUser"
                       :label="__('EndTime')"
+                    />
+                    <TableTh
+                      name="actions"
+                      :index="indexUser"
+                      :label="__('Actions')"
                     />
                   </tr>
                 </thead>
@@ -114,7 +107,27 @@
                                 </div>
                             </td>
                             <td class="px-4 py-2 whitespace-nowrap font-medium text-gray-900  text-xs">23 Nov 2022</td>
+                            <td
+                      class="whitespace-no-wrap flex items-center justify-start px-6 py-4 text-right text-sm font-medium leading-5"
+                    >
+                      <span
+                        v-if="can('user:update')"
+                        class="ml-2"
+                        @click="openModal(item.id)"
+                      >
+                        <PencilSquareIcon
+                          class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
+                        />
+                      </span>
+            
+                      <TrashIcon
+                        v-if="can('user:delete')"
+                        class="ml-2 w-5 cursor-pointer text-gray-400 hover:text-gray-800"
+                        @click.prevent="indexUser.deleteIt(item.id)"
+                      />
+                    </td>
                         </tr>
+
                         <tr class="border-b hover:bg-gray-100 ">
                             <th scope="row" class="px-4 py-6 font-medium text-gray-900 whitespace-nowrap text-left ">Crossplatform analysis</th>
                             <td class="px-4 py-2 whitespace-nowrap">

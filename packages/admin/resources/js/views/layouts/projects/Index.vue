@@ -65,7 +65,20 @@
             >
               <FolderOpenIcon class="h-3.5 w-3.5" />
             </RouterLink> -->
-
+            <RouterLink
+              v-slot="{ href, navigate }"
+              to="/tech-radar"
+              custom
+            >
+              <a
+                :href="href"
+                data-cy="projects-index-button-sidebar"
+                class="mr-2 flex h-6 w-6 items-center justify-center rounded text-gray-500 hover:bg-gray-700 hover:text-gray-300"
+                @click.stop="navigate"
+              >
+                <SignalIcon class="h-3.5 w-3.5" />
+              </a>
+            </RouterLink>
             <RouterLink
               v-slot="{ href, navigate }"
               to="/projects"
@@ -139,7 +152,7 @@
   import SidebarProjectMenu from './ProjectMenu.vue'
   import { useProjectIndex } from 'Store/project'
   import { Collapsible } from 'thetheme'
-  import { FolderOpenIcon, PlusIcon } from '@heroicons/vue/24/outline'
+  import { FolderOpenIcon, PlusIcon, SignalIcon } from '@heroicons/vue/24/outline'
   import { useRouter } from 'vue-router'
   import { computed, ref } from 'vue'
 

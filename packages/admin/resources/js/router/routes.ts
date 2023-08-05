@@ -12,7 +12,7 @@ import TasksIndex from 'View/tasks/Index.vue'
 import UsersIndex from 'View/users/Index.vue'
 import LabelsIndex from 'View/labels/Index.vue'
 import ProjectsIndex from 'View/projects/Index.vue'
-import Milestones from 'View/milestones/Index.vue'
+import techRadar from 'View/radar/Index.vue'
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', component: Home },
@@ -32,6 +32,8 @@ export const routes: RouteRecordRaw[] = [
   { path: '/settings/general', component: SettingsGeneral },
   { path: '/settings/email', component: SettingsEmail },
   { path: '/settings/updates', component: SettingsUpdates },
+  //new routes
+  { path: '/tech-radar', component: techRadar },
 
   { path: '/403', name: 'Forbidden', component: Forbidden },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },

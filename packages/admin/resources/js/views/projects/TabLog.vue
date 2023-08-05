@@ -3,17 +3,16 @@
         <Loader size="40" color="#5850ec" />
     </div>
    <div v-else>
-       <tableLog/>
+       <Activity/>
    </div>
 </template>
 
 <script setup lang="ts">
-// import Table_log from "Component/activity_log/table_log.vue";
 import {Loader} from "@/thetheme";
 import { ref } from 'vue'
 import { useIndexStore} from 'spack'
 import Activity from "Component/activity_log/Activity.vue";
-import tableLog from "../../components/activity_log/table_log.vue"
+
 const indexUser = useIndexStore('user')(),
     indexInvitation = useIndexStore('invitation')(),
     processing = ref(true)

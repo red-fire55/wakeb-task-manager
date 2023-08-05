@@ -5,7 +5,7 @@
 
   <div v-else>
     <section>
-      <Topbar :title="__('Milestone')">
+      <Topbar :title="__('BalanceScore')">
         <div class="ltr:ml-auto rtl:mr-auto">
           <TheButton
             v-if="can('user:create') && !indexInvitation.data.data.length"
@@ -13,7 +13,7 @@
             data-cy="topbar-invitation-create-button"
             @click="OpenCreateMilestoneModal"
           >
-            {{ __('NewMilestone') }}
+            {{ __('NewKpi') }}
           </TheButton>
         </div>
       </Topbar>
@@ -32,31 +32,51 @@
                     <TableTh
                       name="milestone"
                       :index="indexUser"
-                      :label="__('Name')"
-                      sort="name"
+                      :label="__('KpiMeasured')"
+                      sort="Kpi Meaured"
                     />
                     <TableTh
-                      name="milestone"
+                      name="Weight"
                       :index="indexUser"
-                      :label="__('AllTasks')"
+                      :label="__('Weight')"
                     />
                      <TableTh
-                      name="milestone"
+                      name="SubWeight"
                       :index="indexUser"
-                      :label="__('Order')"
+                      :label="__('Sub Weight')"
                     />
                      <TableTh
-                      name="milestone"
+                      name="OwnerName"
                       :index="indexUser"
-                      :label="__('StartTime')"
+                      :label="__('Owner Name')"
                     />
                      <TableTh
-                      name="milestone"
+                      name="Target"
                       :index="indexUser"
-                      :label="__('EndTime')"
+                      :label="__('Target')"
                     />
                     <TableTh
-                      name="milestone"
+                      name="Result"
+                      :index="indexUser"
+                      :label="__('Result')"
+                    />
+                    <TableTh
+                      name="PreviousResult"
+                      :index="indexUser"
+                      :label="__('Previous Result')"
+                    />
+                    <TableTh
+                      name="Notes"
+                      :index="indexUser"
+                      :label="__('Notes')"
+                    />
+                    <TableTh
+                      name="Status"
+                      :index="indexUser"
+                      :label="__('Status')"
+                    />
+                    <TableTh
+                      name="Actions"
                       :index="indexUser"
                       :label="__('Actions')"
                     />
