@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use AhsanDev\Support\Optionable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Task extends Model
 {
     use HasFactory, SoftDeletes;
+    use Optionable;
 
     /**
      * The attributes that should be cast to native types.
@@ -39,7 +41,7 @@ class Task extends Model
     protected function humanDueDate(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->due_at?->toFormattedDateString(),
+            get: fn() => $this->due_at?->toFormattedDateString(),
         );
     }
 
@@ -121,5 +123,10 @@ class Task extends Model
     public function priority()
     {
         return $this->belongsTo(Priority::class);
+    }
+
+    public function scopeOptions($query)
+    {
+        return $query->get(['id as value', 'title as label']);
     }
 }
