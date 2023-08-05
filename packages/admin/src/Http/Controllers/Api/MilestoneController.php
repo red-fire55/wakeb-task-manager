@@ -15,7 +15,7 @@ class MilestoneController extends Controller
     public function index()
     {
         $query = Milestone::query();
-        return $query->with('tasks')->get();
+        return $query->with('tasks')->simplePaginate();
     }
 
     /**
