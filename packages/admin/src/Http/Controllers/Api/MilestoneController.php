@@ -6,6 +6,7 @@ use AhsanDev\Support\Field;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MilestoneRequest;
 use App\Models\Milestone;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class MilestoneController extends Controller
@@ -86,7 +87,7 @@ class MilestoneController extends Controller
             ->field('name', $model->name)
             ->field('start_date', $model->start_date)
             ->field('end_date', $model->end_date)
-            ->field('tasks', $model->tasks()->get())
+            ->field('tasks', $model->tasks()->get(),Task::all()->toArray())
             ->field('project', $model->project()->get() ?? null, ['send project id as a foreign key'])
             ->field('projectList', $model->projectList()->get() ?? null, ['send project list id as a foreign key']);
     }
