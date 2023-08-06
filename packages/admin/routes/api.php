@@ -117,3 +117,6 @@ Route::get('frequencies', [SettingsGeneralController::class, 'allFrequencies'])-
 
 //Kpi Categories
 Route::resource('kpiCategories', KpiCategoryController::class);
+
+//kpis
+Route::resource('kpis', \Admin\Http\Controllers\Api\KpiController::class);
