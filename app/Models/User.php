@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use AhsanDev\Support\Optionable;
 use App\Http\Filters\UserFilters;
 use AhsanDev\Support\Authorization\Authorizable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -52,7 +53,7 @@ use Laravel\Sanctum\HasApiTokens;
  */
 class User extends Authenticatable
 {
-    use Authorizable, HasApiTokens, HasFactory, Notifiable;
+    use Authorizable, HasApiTokens, HasFactory, Notifiable, Optionable;
 
     /**
      * The attributes that are mass assignable.
@@ -102,12 +103,12 @@ class User extends Authenticatable
     /**
      * Get the user's avatar.
      *
-     * @param  string  $value
+     * @param string $value
      * @return string
      */
     public function getAvatarAttribute($value)
     {
-        return $value ? '/'.$value : null;
+        return $value ? '/' . $value : null;
     }
 
     /**
@@ -143,8 +144,8 @@ class User extends Authenticatable
     /**
      * Apply all relevant filters.
      *
-     * @param  Illuminate\Database\Eloquent\Builder  $query
-     * @param  App\Http\Filters\UserFilters  $filters
+     * @param Illuminate\Database\Eloquent\Builder $query
+     * @param App\Http\Filters\UserFilters $filters
      * @return Builder
      */
     public function scopeFilter($query, UserFilters $filters)
