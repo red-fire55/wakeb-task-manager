@@ -1,6 +1,6 @@
 <template>
     <div v-if="processing" class="mt-8 flex justify-center">
-        <Loader size="40" color="#5850ec" />
+        <Loader size="40" color="#5850ec"/>
     </div>
 
     <div v-else>
@@ -40,11 +40,11 @@
                                         :index="indexUser"
                                         :label="__('Weight')"
                                     />
-                                    <!--                     <TableTh-->
-                                    <!--                      name="SubWeight"-->
-                                    <!--                      :index="indexUser"-->
-                                    <!--                      :label="__('Sub Weight')"-->
-                                    <!--                    />-->
+                                                         <TableTh
+                                                          name="SubWeight"
+                                                          :index="indexUser"
+                                                          :label="__('Sub Weight')"
+                                                        />
                                     <TableTh
                                         name="OwnerName"
                                         :index="indexUser"
@@ -128,6 +128,11 @@
                                         {{ item.roles[0].name }}
                                     </td>
                                     <td
+                                        class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
+                                    >
+                                        {{ item.roles[0].name }}
+                                    </td>
+                                    <td
                                         class="whitespace-no-wrap flex items-center justify-start px-6 py-4 text-right text-sm font-medium leading-5"
                                     >
                       <span
@@ -139,18 +144,26 @@
                             class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
                         />
                       </span>
-
+                                        <span
+                                            class="ml-2"
+                                            @click="openModal(item.id)"
+                                        >
+                        <PlusCircleIcon
+                            class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
+                        />
+                      </span>
                                         <TrashIcon
                                             v-if="can('user:delete')"
                                             class="ml-2 w-5 cursor-pointer text-gray-400 hover:text-gray-800"
                                             @click.prevent="indexUser.deleteIt(item.id)"
                                         />
+
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
 
-                            <IndexPagination :index="indexUser" />
+                            <IndexPagination :index="indexUser"/>
                         </div>
                     </div>
                 </div>
@@ -160,8 +173,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useIndexStore, useModalsStore } from 'spack'
+import {ref} from 'vue'
+import {useIndexStore, useModalsStore} from 'spack'
 import {
     IndexPagination,
     Loader,
@@ -170,7 +183,7 @@ import {
     Topbar,
 } from 'thetheme'
 import Form from '../../components/milestone/Form.vue'
-import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import {PencilSquareIcon, TrashIcon,PlusCircleIcon} from '@heroicons/vue/24/outline'
 
 const indexUser = useIndexStore('user')(),
     indexInvitation = useIndexStore('invitation')(),
@@ -207,10 +220,10 @@ function renderData() {
 }
 
 function OpenCreateMilestoneModal(id = null) {
-    useModalsStore().add(Form, { id })
+    useModalsStore().add(Form, {id})
 }
 
 function openModal(id: number | null = null) {
-    useModalsStore().add(Form, { id })
+    useModalsStore().add(Form, {id})
 }
 </script>
