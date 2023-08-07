@@ -86,6 +86,7 @@ class KpiController extends Controller
      */
     private function fields($model): Field
     {
+        $resultHistory = $model->resultHistory()->count();
         return Field::make()
             ->field('id', $model->id)
             ->field('measure', $model->measure)
@@ -95,6 +96,8 @@ class KpiController extends Controller
             ->field('target', $model->target)
             ->field('frequency', $model->frequency)
             ->field('sub_weight', $model->sub_weight)
-            ->field('kpi_category_id', $model->kpi_category_id, KpiCategory::options());
+            ->field('kpi_category_id', $model->kpi_category_id, KpiCategory::options())
+            ->field('previous_result', $resultHistory > 1 ? $model->resultHistory()->offset($resultHistory - 2)->limit(1)->get() : null)
+            ->field('current_result', $model->resultHistory()->latest()->first());
     }
 }
