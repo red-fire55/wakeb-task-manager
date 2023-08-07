@@ -80,7 +80,7 @@
                     <td
                       class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                     >
-                      {{ item.roles[0].name }}
+                      <span v-for="(item, i) in item.tasks" :key="i">{{ item.title }}</span>
                     </td>
 <td
                       class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
@@ -114,7 +114,7 @@
             
                       <TrashIcon
                         class="ml-2 w-5 cursor-pointer text-gray-400 hover:text-gray-800"
-                        @click.prevent="indexMilestone.deleteIt(item.id)"
+                        @click="indexMilestone.deleteIt(item.id)"
                       />
                     </td>
                   </tr>
@@ -131,8 +131,9 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, onMounted } from 'vue'
   import { useIndexStore, useModalsStore } from 'spack'
+  import axios from "axios"
   import {
     IndexPagination,
     Loader,
@@ -142,28 +143,27 @@
   } from 'thetheme'
   import Form from '../../components/milestone/Form.vue'
   import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
-  
-  const indexMilestone = useIndexStore('user')(),
+
+
+  const indexMilestone = useIndexStore('milestone')(),
     processing = ref(true)
   // invitations = ref([])
 
   checkProcessing()
-
+    
   indexMilestone.setConfig({
     uri: 'milestone',
-    orderByDirection: 'name',
+    orderByDirection: 'desc',
   })
   indexMilestone.fetch()
 
  
-
   function checkProcessing() {
     setTimeout(function () {
       if (indexMilestone.fetching ) {
         checkProcessing()
         return
       }
-
       renderData()
     }, 150)
   }

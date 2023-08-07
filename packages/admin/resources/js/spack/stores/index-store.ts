@@ -63,7 +63,7 @@ export const useIndexStore = function (name: string) {
           const proceedUri = shallowUri.value ? shallowUri.value : uri.value
 
           axios
-            .delete(`${proceedUri}/null`, {
+            .delete(`${proceedUri}/${ids}`, {
               data: { items },
             })
             .then(() => {

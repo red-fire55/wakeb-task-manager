@@ -3,20 +3,20 @@
         <Loader size="40" color="#5850ec"/>
     </div>
 
-    <div v-else>
-        <section>
-            <Topbar :title="__('BalanceScore')">
-                <div class="ltr:ml-auto rtl:mr-auto">
-                    <TheButton
-                        v-if="can('user:create') && !indexInvitation.data.data.length"
-                        size="sm"
-                        data-cy="topbar-invitation-create-button"
-                        @click="OpenCreateMilestoneModal"
-                    >
-                        {{ __('NewKpi') }}
-                    </TheButton>
-                </div>
-            </Topbar>
+  <div v-else>
+    <section>
+      <Topbar :title="__('BalanceScore')">
+        <div class="ltr:ml-auto rtl:mr-auto">
+          <TheButton
+            v-if="can('user:create') && !indexInvitation.data.data.length"
+            size="sm"
+            data-cy="topbar-invitation-create-button"
+            @click="OpenCreateKpisModal"
+          >
+            {{ __('NewKpi') }}
+          </TheButton>
+        </div>
+      </Topbar>
 
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -146,7 +146,7 @@
                       </span>
                                         <span
                                             class="ml-2"
-                                            @click="openModal(item.id)"
+                                            @click="openModal_add(item.id)"
                                         >
                         <PlusCircleIcon
                             class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
@@ -183,6 +183,7 @@ import {
     Topbar,
 } from 'thetheme'
 import Form from '../../components/milestone/Form.vue'
+import  addKpiItem from "@/components/kpi/addKpiItem.vue"
 import {PencilSquareIcon, TrashIcon,PlusCircleIcon} from '@heroicons/vue/24/outline'
 
 const indexUser = useIndexStore('user')(),
@@ -219,11 +220,14 @@ function renderData() {
     processing.value = false
 }
 
-function OpenCreateMilestoneModal(id = null) {
-    useModalsStore().add(Form, {id})
-}
+  function OpenCreateKpisModal(id = null) {
+    useModalsStore().add(Form, { id })
+  }
 
 function openModal(id: number | null = null) {
     useModalsStore().add(Form, {id})
+}
+function openModal_add(id: number | null = null) {
+    useModalsStore().add(addKpiItem, {id})
 }
 </script>

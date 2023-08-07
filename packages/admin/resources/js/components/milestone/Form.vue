@@ -1,7 +1,7 @@
 <template>
   <FormModal :id="id" :name="name" uri="milestone">
     <FieldText name="name" label="Name" class="col-span-12" />
-    <FieldSelect name="tasks" label="Tasks" class="col-span-12" />
+    <FieldSelect :multiple="true" name="tasks" label="Tasks" class="col-span-12" />
     <FieldText name="order" label="Order" class="col-span-12" type="number" />
     <FieldText name="start_date" label="Start Date" class="col-span-12" />
     <FieldText name="end_date" label="End Date" class="col-span-12" />

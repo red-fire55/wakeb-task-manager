@@ -38,6 +38,10 @@ export function useFieldSelect<T>() {
         type: String,
         default: 'value',
       },
+      multiple: {
+        type: Boolean,
+        default: false,
+      },
     },
 
     setup(props) {
@@ -79,6 +83,7 @@ export function useFieldSelect<T>() {
               }}
               // @ts-ignore
               v-model={form.data[props.name]}
+              multiple={props.multiple}
             >
               <option value={optionNull} disabled>
                 {__('Choose')} {props.label}
