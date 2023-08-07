@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(RequiredSeeder::class);
+        //$this->call(RequiredSeeder::class);
+        $this->call(FrequencyTableSeeder::class);
+        $this->call(KpiCategorySeeder::class);
     }
 }

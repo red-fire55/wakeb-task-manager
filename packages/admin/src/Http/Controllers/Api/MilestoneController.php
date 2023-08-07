@@ -6,6 +6,7 @@ use AhsanDev\Support\Field;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MilestoneRequest;
 use App\Models\Milestone;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class MilestoneController extends Controller
@@ -14,7 +15,16 @@ class MilestoneController extends Controller
     public function index()
     {
         $query = Milestone::query();
-        return $query->with('tasks')->get();
+        return $query->with('tasks')->simplePaginate();
+    }
+
+    /**
+     * @param Milestone $milestone
+     * @return Field
+     */
+    public function create(Milestone $milestone): Field
+    {
+        return $this->fields($milestone);
     }
 
     /**
@@ -32,16 +42,16 @@ class MilestoneController extends Controller
      */
     public function show($milestone_id): Field
     {
-        return $this->fields(Milestone::find($milestone_id)->first());
+        return $this->fields(Milestone::find($milestone_id));
     }
 
     /**
-     * @param Milestone $milestone
+     * @param $milestone_id
      * @return Field
      */
-    public function edit($milestone_id)
+    public function edit($milestone_id): Field
     {
-        return $this->fields(Milestone::find($milestone_id)->first());
+        return $this->fields(Milestone::find($milestone_id));
     }
 
     /**
@@ -75,10 +85,11 @@ class MilestoneController extends Controller
         return Field::make()
             ->field('id', $model->id)
             ->field('name', $model->name)
+            ->field('order', $model->order)
             ->field('start_date', $model->start_date)
             ->field('end_date', $model->end_date)
-            ->field('tasks', $model->tasks()->get())
-            ->field('project', $model->project()->get())
-            ->field('projectList', $model->projectList()->get());
+            ->field('tasks', $model->tasks()->get(), Task::options())
+            ->field('project', $model->project()->get() ?? null, ['send project id as a foreign key'])
+            ->field('projectList', $model->projectList()->get() ?? null, ['send project list id as a foreign key']);
     }
 }

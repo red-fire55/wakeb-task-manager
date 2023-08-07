@@ -21,6 +21,7 @@ class MilestoneRequest extends FormRequest
             'name' => 'required|string',
             'start_date' => 'required',
             'end_date' => 'required',
+            'order' => 'sometimes|integer',
             'tasks' => 'nullable|array',
             'project_id' => 'nullable|exists:projects,id',
             'project_list_id' => 'nullable|exists:project_lists,id',
