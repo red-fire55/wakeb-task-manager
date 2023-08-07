@@ -10,6 +10,7 @@ use Admin\Http\Controllers\Api\FileUpload;
 use Admin\Http\Controllers\Api\FiltersController;
 use Admin\Http\Controllers\Api\InvitationsController;
 use Admin\Http\Controllers\Api\KpiCategoryController;
+use Admin\Http\Controllers\Api\KpiController;
 use Admin\Http\Controllers\Api\LabelsController;
 use Admin\Http\Controllers\Api\LogoUpload;
 use Admin\Http\Controllers\Api\Metrics;
@@ -119,4 +120,4 @@ Route::get('frequencies', [SettingsGeneralController::class, 'allFrequencies'])-
 Route::resource('kpiCategories', KpiCategoryController::class);
 
 //kpis
-Route::resource('kpis', \Admin\Http\Controllers\Api\KpiController::class);
+Route::resource('kpis', KpiController::class);
