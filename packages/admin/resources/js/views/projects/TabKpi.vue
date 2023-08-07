@@ -8,7 +8,6 @@
       <Topbar :title="__('BalanceScore')">
         <div class="ltr:ml-auto rtl:mr-auto">
           <TheButton
-            v-if="can('user:create') && !indexInvitation.data.data.length"
             size="sm"
             data-cy="topbar-invitation-create-button"
             @click="OpenCreateKpisModal"
@@ -40,7 +39,7 @@
                                         :index="indexUser"
                                         :label="__('Weight')"
                                     />
-                                                         <TableTh
+                                    <TableTh
                                                           name="SubWeight"
                                                           :index="indexUser"
                                                           :label="__('Sub Weight')"
@@ -60,11 +59,7 @@
                                         :index="indexUser"
                                         :label="__('Result')"
                                     />
-                                    <!--                    <TableTh-->
-                                    <!--                      name="PreviousResult"-->
-                                    <!--                      :index="indexUser"-->
-                                    <!--                      :label="__('Previous Result')"-->
-                                    <!--                    />-->
+                                  
                                     <TableTh
                                         name="Notes"
                                         :index="indexUser"
@@ -82,7 +77,7 @@
                                     />
                                 </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-200 bg-white">
+                                <!-- <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr v-for="item in indexUser.data.data" :key="item.id">
                                     <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
@@ -144,23 +139,23 @@
                             class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
                         />
                       </span>
-                                        <span
-                                            class="ml-2"
-                                            @click="openModal_add(item.id)"
-                                        >
-                        <PlusCircleIcon
-                            class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
-                        />
-                      </span>
+                                        
                                         <TrashIcon
                                             v-if="can('user:delete')"
                                             class="ml-2 w-5 cursor-pointer text-gray-400 hover:text-gray-800"
                                             @click.prevent="indexUser.deleteIt(item.id)"
                                         />
-
+<span
+                                            class="ml-2"
+                                            @click="openModal_add_result(item.id)"
+                                        >
+                        <PlusCircleIcon
+                            class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
+                        />
+                      </span>
                                     </td>
                                 </tr>
-                                </tbody>
+                                </tbody> -->
                             </table>
 
                             <IndexPagination :index="indexUser"/>
@@ -181,33 +176,27 @@ import {
     TableTh,
     TheButton,
     Topbar,
+    // FormModelAdd
 } from 'thetheme'
-import Form from '../../components/milestone/Form.vue'
-import  addKpiItem from "@/components/kpi/addKpiItem.vue"
+import  Form from "@/components/kpi/Form.vue"
 import {PencilSquareIcon, TrashIcon,PlusCircleIcon} from '@heroicons/vue/24/outline'
 
-const indexUser = useIndexStore('user')(),
-    indexInvitation = useIndexStore('invitation')(),
+const indexKpis = useIndexStore('kpis')(),
     processing = ref(true)
-// invitations = ref([])
 
 checkProcessing()
 
-indexUser.setConfig({
-    uri: 'users',
-    orderByDirection: 'desc',
-})
-indexUser.fetch()
 
-indexInvitation.setConfig({
-    uri: 'invitations',
+
+indexKpis.setConfig({
+    uri: 'kpis',
     orderByDirection: 'desc',
 })
-indexInvitation.fetch()
+indexKpis.fetch()
 
 function checkProcessing() {
     setTimeout(function () {
-        if (indexUser.fetching || indexInvitation.fetching) {
+        if (indexKpis.fetching) {
             checkProcessing()
             return
         }
@@ -227,7 +216,7 @@ function renderData() {
 function openModal(id: number | null = null) {
     useModalsStore().add(Form, {id})
 }
-function openModal_add(id: number | null = null) {
-    useModalsStore().add(addKpiItem, {id})
-}
+// function openModal_add_result(id: number | null = null) {
+//     useModalsStore().add(FormModelAdd, {id})
+// }
 </script>
