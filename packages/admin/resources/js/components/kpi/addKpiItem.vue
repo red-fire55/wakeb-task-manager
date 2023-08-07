@@ -2,7 +2,7 @@
     <FormModelAdd :id="id" :name="name" uri="users">
         <div class="col-span-12">
             <label for="message" class="block  text-sm font-medium text-gray-900  ">Notes</label>
-            <textarea id="message" rows="4" disabled class="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Write your notes here..."></textarea>
+            <textarea id="message" rows="4"  class="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Write your notes here..."></textarea>
         </div>
 
          <div class="col-span-12">
