@@ -5,9 +5,9 @@
     <section v-else>
       <div class="px-6 pt-6">
         <h1 class="text-xl font-semibold text-gray-900" data-cy="page-title">
-          {{
-            title || (id ? __(`Edit ${getTitle}`) : __(`Create ${getTitle}`))
-          }}
+
+                {{ __('Create Kpi') }}
+
         </h1>
       </div>
 
