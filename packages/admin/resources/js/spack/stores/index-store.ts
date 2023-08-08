@@ -38,9 +38,8 @@ export const useIndexStore = function (name: string) {
 
     function fetch(payload: any | null = null) {
       fetching.value = payload ? payload.loading : true
-
       axios
-        .get(uri.value, {
+        .get(uri.value || name , {
           params: params.value,
         })
         .then((response) => {
