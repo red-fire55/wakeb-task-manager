@@ -8,6 +8,7 @@ import SettingsEmail from 'View/settings/Email.vue'
 import SettingsGeneral from 'View/settings/General.vue'
 import SettingsUpdates from 'View/settings/Updates.vue'
 import SettingsCruds from 'View/settings/Updates.vue'
+import projectCruds from 'View/settings/projectCruds.vue'
 import RolesIndex from 'View/roles/Index.vue'
 import TasksIndex from 'View/tasks/Index.vue'
 import UsersIndex from 'View/users/Index.vue'
@@ -34,7 +35,8 @@ export const routes: RouteRecordRaw[] = [
   { path: '/settings/general', component: SettingsGeneral },
   { path: '/settings/email', component: SettingsEmail },
   { path: '/settings/updates', component: SettingsUpdates },
-  { path: '/settings/cruds', component: SettingsCruds },
+    { path: '/settings/projectCruds', component: projectCruds },
+
   //new routes
   { path: '/tech-radar', component: techRadar },
 
