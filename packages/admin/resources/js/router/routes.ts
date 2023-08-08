@@ -7,12 +7,14 @@ import ProjectsDetail from 'View/projects/Detail.vue'
 import SettingsEmail from 'View/settings/Email.vue'
 import SettingsGeneral from 'View/settings/General.vue'
 import SettingsUpdates from 'View/settings/Updates.vue'
+import SettingsCruds from 'View/settings/Updates.vue'
 import RolesIndex from 'View/roles/Index.vue'
 import TasksIndex from 'View/tasks/Index.vue'
 import UsersIndex from 'View/users/Index.vue'
 import LabelsIndex from 'View/labels/Index.vue'
 import ProjectsIndex from 'View/projects/Index.vue'
 import techRadar from 'View/radar/Index.vue'
+
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', component: Home },
@@ -32,6 +34,7 @@ export const routes: RouteRecordRaw[] = [
   { path: '/settings/general', component: SettingsGeneral },
   { path: '/settings/email', component: SettingsEmail },
   { path: '/settings/updates', component: SettingsUpdates },
+  { path: '/settings/cruds', component: SettingsCruds },
   //new routes
   { path: '/tech-radar', component: techRadar },
 
