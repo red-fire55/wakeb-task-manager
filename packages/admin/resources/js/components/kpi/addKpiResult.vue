@@ -1,10 +1,7 @@
 <template>
-    <FormModelAdd :id="id" :name="name" uri="users">
-        <div class="col-span-12">
-            <label for="message" class="block  text-sm font-medium text-gray-900  ">Result</label>
-            <textarea id="message" rows="4"  class="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Write New Result here..."></textarea>
-        </div>
-
+    <FormModelAdd :id="id" :name="name" uri="result">
+        
+<TextArea name="result" label="Result"  class="col-span-12"/>
          <div class="col-span-12">
 
 
@@ -37,16 +34,17 @@
 </template>
 
 <script setup lang="ts">
-import { FormModelAdd } from 'thetheme'
+import { FormModelAdd, useTextArea } from 'thetheme'
 import { useFormStore, useIndexStore, useModalsStore } from 'spack'
 
 defineProps<{
     id?: number
 }>()
 
-const name = 'balance score'
+const name = 'Result'
 const form = useFormStore(name)()
 const index = useIndexStore(name)()
+const TextArea = useTextArea<any>()
 
 form.onSuccess(() => {
     index.fetch()
