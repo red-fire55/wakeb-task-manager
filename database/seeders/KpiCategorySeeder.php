@@ -16,7 +16,9 @@ class KpiCategorySeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         DB::table('kpi_categories')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
         $categories = ['Financial', 'Customer', 'organizational excellence', 'Employees & Growth'];
         foreach ($categories as $category) {
             KpiCategory::firstOrCreate([
