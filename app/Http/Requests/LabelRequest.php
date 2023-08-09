@@ -15,7 +15,7 @@ class LabelRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|min:3|max:190',
+            'name' => 'required|string|min:3|max:190|unique:labels,name' . ($this->request->label ? ',' . $this->request->label : ''),
             'color' => 'required',
         ];
     }
