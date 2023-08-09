@@ -1,16 +1,9 @@
 <template>
    <FormModal :id="id" :name="name" filterUri="kpis" uri="kpis">
-        <FieldText name="measure" label="Mesure" type="number" class="col-span-12" />
-        <FieldSelect name="owner_id" label="Owner Name"  class="col-span-12"/>
-        <FieldText name="target" label="Target"  class="col-span-12"/>
+        <FieldText name="name" label="name"  class="col-span-12" />
+       <FieldText name="name" label="arabic name"  class="col-span-12" />
 
-        <FieldText name="status" label="Status"  class="col-span-12"/>
-        <FieldText name="sub_weight" label="Weight"  class="col-span-12"/>
-      
-        <FieldSelect name="frequency" label="Frequency" class="col-span-12" />
-        
-        <FieldSelect name="kpi_category_id" label="Category" class="col-span-12" />
-      <TextArea name="notes" label="Notes"  class="col-span-12"/>
+      <TextArea name="description" label="description"  class="col-span-12"/>
     </FormModal>
 </template>
 
