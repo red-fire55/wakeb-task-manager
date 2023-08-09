@@ -123,5 +123,5 @@ Route::resource('kpiCategories', KpiCategoryController::class);
 Route::resource('kpis', KpiController::class);
 
 // Project Types
-Route::get('project_types/all_types', [\Admin\Http\Controllers\Api\ProjectTypeController::class, 'getaAllTypes']);
+Route::get('project_types/all_types', [\Admin\Http\Controllers\Api\ProjectTypeController::class, 'getAllTypes']);
 Route::resource('project_types', \Admin\Http\Controllers\Api\ProjectTypeController::class);
