@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MilestoneRequest;
 use App\Models\Milestone;
 use App\Models\Task;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class MilestoneController extends Controller
@@ -16,6 +17,15 @@ class MilestoneController extends Controller
     {
         $query = Milestone::query();
         return $query->with('tasks')->simplePaginate();
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public function getAllMilestones(): Collection
+    {
+        return Milestone::options();
     }
 
     /**
@@ -89,7 +99,6 @@ class MilestoneController extends Controller
             ->field('start_date', $model->start_date)
             ->field('end_date', $model->end_date)
             ->field('tasks', $model->tasks()->get(), Task::options())
-            ->field('project', $model->project()->get() ?? null, ['send project id as a foreign key'])
-            ->field('projectList', $model->projectList()->get() ?? null, ['send project list id as a foreign key']);
+            ->field('project', $model->project()->get() ?? null, ['send project id as a foreign key']);
     }
 }

@@ -111,6 +111,7 @@ Route::post('update-app', UpdateApp::class)->middleware('can:setting:updates');
 Route::post('update-recipe', UpdateRecipe::class)->middleware('can:setting:updates');
 
 // Milestone
+Route::get('milestone/get_all_milestones', [MilestoneController::class, 'getAllMilestones'])->name('milestone.getAllMilestones');
 Route::resource('milestone', MilestoneController::class);
 
 // Frequencies

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use AhsanDev\Support\Optionable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,8 +11,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Milestone extends Model
 {
     use HasFactory;
+    use Optionable;
 
-    protected $fillable = ['name', 'start_date', 'end_date', 'project_id', 'project_list_id', 'order'];
+    protected $fillable = ['name', 'start_date', 'end_date', 'project_id', 'order'];
 
 
     public function tasks(): HasMany
@@ -22,10 +24,5 @@ class Milestone extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
-    }
-
-    public function projectList(): BelongsTo
-    {
-        return $this->belongsTo(ProjectList::class);
     }
 }
