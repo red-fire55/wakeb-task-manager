@@ -65,7 +65,7 @@ class KpiCategoryController extends Controller
      */
     public function update(Request $request, $id): KpiCategoryRequest
     {
-        return new KpiCategoryRequest($request, KpiCategory::find($id)->first());
+        return new KpiCategoryRequest($request, KpiCategory::find($id));
     }
 
     /**
