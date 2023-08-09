@@ -8,12 +8,14 @@ import type { ProjectI } from 'types'
 export const useProjectIndex = defineStore('project-index', () => {
   const items = ref<ProjectI[]>([]),
     fetching = ref<boolean>(false)
-
+  let id = ref<number>(0)
   fetch()
 
   function create(): void {
     useModalsStore().add(ProjectForm)
   }
+
+
 
   async function fetch() {
     fetching.value = true
@@ -43,5 +45,6 @@ export const useProjectIndex = defineStore('project-index', () => {
     archive,
     favorite,
     edit,
+    id
   }
 })

@@ -46,7 +46,7 @@
   import { Dropdown } from 'thetheme'
   import { EllipsisHorizontalIcon } from '@heroicons/vue/24/outline'
   // import { useProjectFavoriteStore } from 'Store/project-favorite'
-  // import { useProjectIndex } from 'Store/project'
+  import { useProjectIndex } from 'Store/project'
   // import { useProjectArchiveStore } from 'Store/project-archive'
   import { ref } from 'vue'
   // import { projectAction } from 'Use/project-actions'
@@ -63,7 +63,7 @@
   const emit = defineEmits(['toggleMenu'])
 
   const isFavoriteProject = ref(props.isFavorite)
-  // const project = useProjectIndex()
+  // const project = useProjectIndex(props.id)()
   // const archive = useProjectArchiveStore()
 
   function onToggle(state: any) {
