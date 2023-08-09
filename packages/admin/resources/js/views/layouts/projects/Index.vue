@@ -122,7 +122,10 @@
                     : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                   'group flex items-center rounded-md px-3 py-2 text-sm font-medium',
                 ]"
-                @click="navigate"
+                @click="navigate, 
+            setId(item.id)"
+            
+                
               >
                 <span
                   class="h-2.5 w-2.5 rounded-full ltr:ml-1 ltr:mr-4 rtl:mr-1 rtl:ml-4"
@@ -164,6 +167,9 @@
   function isActive(href: string): boolean {
     return path.value.startsWith(href)
   }
+function setId(id:number){
+  localStorage.setItem("project_id", id)
+}
 
   function onToggle(data: any) {
     if (data.state) {

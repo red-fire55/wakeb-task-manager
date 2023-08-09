@@ -1,7 +1,7 @@
 <template>
-   <FormModal :id="id" :name="name" filterUri="kpis" uri="kpis">
+   <FormModal :id="id" :name="name" filterUri="project_types" uri="project_types">
        <FieldText name="name" label="name"  class="col-span-12" />
-       <FieldText name="name" label="arabic name"  class="col-span-12" />
+       <FieldText name="name_ar" label="arabic name"  class="col-span-12" />
        <TextArea name="description" label="description"  class="col-span-12"/>
     </FormModal>
 </template>
@@ -14,9 +14,9 @@
     id?: number
   }>()
 
-  const name = 'kpi'
+  const name = 'Project Types'
   const form = useFormStore(name)()
-  const index = useIndexStore('kpis')()
+  const index = useIndexStore('project_types')()
   const FieldText = useFieldText<any>()
   const FieldSelect = useFieldSelect<any>()
   const TextArea = useTextArea<any>()

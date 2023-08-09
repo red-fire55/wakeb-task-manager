@@ -14,13 +14,15 @@
   defineProps<{
     id?: number
   }>()
-
+let data = {
+  project_id: localStorage.getItem("project_id")
+  }
   const name = 'milestone'
-  const form = useFormStore(name)()
+  const form = useFormStore(name, data)()
   const index = useIndexStore(name)()
   const FieldText = useFieldText<any>()
   const FieldSelect = useFieldSelect<any>()
-
+  
   form.onSuccess(() => {
     index.fetch()
     useModalsStore().pop()

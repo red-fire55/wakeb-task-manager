@@ -8,7 +8,7 @@ interface FormSuccessResponse {
   message: string
 }
 
-export const useFormStore = function <T>(name: string) {
+export const useFormStore = function <T>(name: string, others: object | {}) {
   type FormDataResponse<K extends keyof T = keyof T> = {
     [P in K]: { name: P; value: T[P]; options: any }
   }[K]
@@ -58,8 +58,22 @@ export const useFormStore = function <T>(name: string) {
       )
     }
 
+
+
     function submit() {
       const method = id.value ? 'patch' : 'post'
+
+      if (others) {
+        let entries = Object.entries(others)
+        if (entries?.length > 1) {
+          entries.forEach(entry => {
+            data.value.entry[0] = entry[1]
+          })
+        }
+      }
+
+
+
 
       submitting.value = true
 
