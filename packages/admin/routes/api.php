@@ -5,6 +5,7 @@ use Admin\Http\Controllers\Api\Charts;
 use Admin\Http\Controllers\Api\CheckUpdates;
 use Admin\Http\Controllers\Api\ChecklistItemComplete;
 use Admin\Http\Controllers\Api\ChecklistItemsController;
+use Admin\Http\Controllers\Api\DepartmentController;
 use Admin\Http\Controllers\Api\FavoritesController;
 use Admin\Http\Controllers\Api\FileUpload;
 use Admin\Http\Controllers\Api\FiltersController;
@@ -29,6 +30,7 @@ use Admin\Http\Controllers\Api\ProjectTimeLogs;
 use Admin\Http\Controllers\Api\ProjectTotalTime;
 use Admin\Http\Controllers\Api\ProjectsController;
 use Admin\Http\Controllers\Api\ProjectsOptions;
+use Admin\Http\Controllers\Api\ProjectTypeController;
 use Admin\Http\Controllers\Api\RecentProjects;
 use Admin\Http\Controllers\Api\RolesController;
 use Admin\Http\Controllers\Api\SettingsEmailController;
@@ -117,12 +119,16 @@ Route::resource('milestone', MilestoneController::class);
 // Frequencies
 Route::get('frequencies', [SettingsGeneralController::class, 'allFrequencies'])->name('frequencies.index');
 
-//Kpi Categories
+// Kpi Categories
 Route::resource('kpiCategories', KpiCategoryController::class);
 
-//kpis
+// kpis
 Route::resource('kpis', KpiController::class);
 
 // Project Types
-Route::get('project_types/all_types', [\Admin\Http\Controllers\Api\ProjectTypeController::class, 'getAllTypes']);
-Route::resource('project_types', \Admin\Http\Controllers\Api\ProjectTypeController::class);
+Route::get('project_types/all_types', [ProjectTypeController::class, 'getAllTypes']);
+Route::resource('project_types', ProjectTypeController::class);
+
+// Departments
+Route::get('departments/get_all_departments', [DepartmentController::class, 'getAllDepartments'])->name('departments.get_all_departments');
+Route::resource('departments', DepartmentController::class);
