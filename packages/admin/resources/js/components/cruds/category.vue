@@ -5,7 +5,7 @@
 
   <div v-else>
     <section>
-      <Topbar :title="__('Milestone')">
+      <Topbar :title="__('category')">
         <div class="ltr:ml-auto rtl:mr-auto">
           <TheButton
             v-if="can('user:create')"
@@ -13,7 +13,7 @@
             data-cy="topbar-invitation-create-button"
             @click="OpenCreateMilestoneModal"
           >
-            {{ __('NewMilestone') }}
+            {{ __('create category') }}
           </TheButton>
         </div>
       </Topbar>
@@ -26,7 +26,7 @@
             <div
               class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg"
             >
-              <table class="min-w-full divide-y divide-gray-200">
+              <table class="min-w-full divide-y divide-gray-200" >
                 <thead>
                   <tr>
                     <TableTh
@@ -38,27 +38,12 @@
                     <TableTh
                       name="milestone"
                       :index="indexMilestone"
-                      :label="__('AllTasks')"
+                      :label="__('description')"
                     />
                      <TableTh
                       name="milestone"
                       :index="indexMilestone"
-                      :label="__('Order')"
-                    />
-                     <TableTh
-                      name="milestone"
-                      :index="indexMilestone"
-                      :label="__('StartTime')"
-                    />
-                     <TableTh
-                      name="milestone"
-                      :index="indexMilestone"
-                      :label="__('EndTime')"
-                    />
-                    <TableTh
-                      name="milestone"
-                      :index="indexMilestone"
-                      :label="__('Actions')"
+                      :label="__('action')"
                     />
                   </tr>
                 </thead>
@@ -82,41 +67,13 @@
                     >
                       <span v-for="(item, i) in item.tasks" :key="i">{{ item.title }}</span>
                     </td>
-<td
-                      class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
-                    >
-                      {{ item.order }}
-                    </td>
-                    <td
-                      class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
-                    >
-                      {{ item.start_date }}
-                    </td>
-                    <td
-                      class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
-                    >
-                      {{ item.end_date }}
-                    </td>
-                    <td
-                      class="whitespace-no-wrap flex items-center justify-start px-6 py-4 text-right text-sm font-medium leading-5"
-                    >
-                        <!-- v-if="can('milestone:update')" -->
 
-                      <span
-                        class="ml-2"
-                        @click="openModal(item.id)"
+                      <td
+                          class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                       >
-                        <PencilSquareIcon
-                          class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
-                        />
-                      </span>
-                        <!-- v-if="can('user:delete')" -->
-            
-                      <TrashIcon
-                        class="ml-2 w-5 cursor-pointer text-gray-400 hover:text-gray-800"
-                        @click="indexMilestone.deleteIt(item.id)"
-                      />
-                    </td>
+                          <span v-for="(item, i) in item.tasks" :key="i">{{ item.title }}</span>
+                      </td>
+
                   </tr>
                 </tbody>
               </table>
@@ -141,23 +98,22 @@
     TheButton,
     Topbar,
   } from 'thetheme'
-  import Form from '../../components/milestone/Form.vue'
+  // import Form from '../../components/milestone/Form.vue'
+  import Form from "Component/cruds/forms/CategoryForm.vue";
   import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
-
-
   const indexMilestone = useIndexStore('milestone')(),
     processing = ref(true)
   // invitations = ref([])
 
   checkProcessing()
-    
+
   indexMilestone.setConfig({
     uri: 'milestone',
     orderByDirection: 'desc',
   })
   indexMilestone.fetch()
 
- 
+
   function checkProcessing() {
     setTimeout(function () {
       if (indexMilestone.fetching ) {
