@@ -29,56 +29,56 @@
                                 <thead>
                                 <tr>
                                     <TableTh
-                                        name="milestone"
-                                        :index="indexUser"
+                                        name="Measure"
+                                        :index="indexKpis"
                                         :label="__('KpiMeasured')"
                                         sort="Kpi Meaured"
                                     />
                                     <TableTh
                                         name="Weight"
-                                        :index="indexUser"
+                                        :index="indexKpis"
                                         :label="__('Weight')"
                                     />
                                     <TableTh
-                                                          name="SubWeight"
-                                                          :index="indexUser"
+                                                          name="Sub Weight"
+                                                          :index="indexKpis"
                                                           :label="__('Sub Weight')"
                                                         />
                                     <TableTh
-                                        name="OwnerName"
-                                        :index="indexUser"
+                                        name="Owner Name"
+                                        :index="indexKpis"
                                         :label="__('Owner Name')"
                                     />
                                     <TableTh
                                         name="Target"
-                                        :index="indexUser"
+                                        :index="indexKpis"
                                         :label="__('Target')"
                                     />
                                     <TableTh
                                         name="Result"
-                                        :index="indexUser"
+                                        :index="indexKpis"
                                         :label="__('Result')"
                                     />
                                   
                                     <TableTh
                                         name="Notes"
-                                        :index="indexUser"
+                                        :index="indexKpis"
                                         :label="__('Notes')"
                                     />
                                     <TableTh
                                         name="Status"
-                                        :index="indexUser"
+                                        :index="indexKpis"
                                         :label="__('Status')"
                                     />
                                     <TableTh
                                         name="Actions"
-                                        :index="indexUser"
+                                        :index="indexKpis"
                                         :label="__('Actions')"
                                     />
                                 </tr>
                                 </thead>
-                                <!-- <tbody class="divide-y divide-gray-200 bg-white">
-                                <tr v-for="item in indexUser.data.data" :key="item.id">
+                                <tbody class="divide-y divide-gray-200 bg-white">
+                                <tr v-for="item in indexKpis.data.data" :key="item.id">
                                     <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                                     >
@@ -87,7 +87,7 @@
                           <span
                               class="mb-1 block truncate text-sm font-medium leading-none text-gray-900"
                           >
-                            {{ item.name }}
+                            {{ item.measure }}
                           </span>
                                             </div>
                                         </div>
@@ -95,43 +95,42 @@
                                     <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                                     >
-                                        {{ item.roles[0].name }}
+                                        <!-- {{ item.roles[0].name } -->
                                     </td>
                                     <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                                     >
-                                        {{ item.roles[0].name }}
+                                        {{ item.sub_weight }}
                                     </td>
                                     <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                                     >
-                                        {{ item.roles[0].name }}
+                                        {{ item?.owner?.name }}
                                     </td>
                                     <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                                     >
-                                        {{ item.roles[0].name }}
+                                        {{ item.target }}
                                     </td>
                                     <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                                     >
-                                        {{ item.roles[0].name }}
+                                        {{ item.result }}
                                     </td>
                                     <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                                     >
-                                        {{ item.roles[0].name }}
+                                        {{ item.notes }}
                                     </td>
                                     <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                                     >
-                                        {{ item.roles[0].name }}
+                                        {{ item.status }}
                                     </td>
                                     <td
                                         class="whitespace-no-wrap flex items-center justify-start px-6 py-4 text-right text-sm font-medium leading-5"
                                     >
                       <span
-                          v-if="can('user:update')"
                           class="ml-2"
                           @click="openModal(item.id)"
                       >
@@ -143,11 +142,11 @@
                                         <TrashIcon
                                             v-if="can('user:delete')"
                                             class="ml-2 w-5 cursor-pointer text-gray-400 hover:text-gray-800"
-                                            @click.prevent="indexUser.deleteIt(item.id)"
+                                            @click.prevent="indexKpis.deleteIt(item.id)"
                                         />
 <span
                                             class="ml-2"
-                                            @click="openModal_add_result(item.id)"
+                                            @click="OpenCreateKpisResultModal(item.id)"
                                         >
                         <PlusCircleIcon
                             class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
@@ -155,10 +154,10 @@
                       </span>
                                     </td>
                                 </tr>
-                                </tbody> -->
+                                </tbody>
                             </table>
 
-                            <IndexPagination :index="indexUser"/>
+                            <IndexPagination :index="indexKpis"/>
                         </div>
                     </div>
                 </div>
@@ -176,9 +175,9 @@ import {
     TableTh,
     TheButton,
     Topbar,
-    // FormModelAdd
 } from 'thetheme'
 import  Form from "@/components/kpi/Form.vue"
+import  ResultForm from "@/components/kpi/addKpiResult.vue"
 import {PencilSquareIcon, TrashIcon,PlusCircleIcon} from '@heroicons/vue/24/outline'
 
 const indexKpis = useIndexStore('kpis')(),
@@ -190,6 +189,7 @@ checkProcessing()
 
 indexKpis.setConfig({
     uri: 'kpis',
+    filterUri: 'kpis',
     orderByDirection: 'desc',
 })
 indexKpis.fetch()
@@ -212,11 +212,12 @@ function renderData() {
   function OpenCreateKpisModal(id = null) {
     useModalsStore().add(Form, { id })
   }
+ function OpenCreateKpisResultModal(id = null) {
+    useModalsStore().add(ResultForm, { id })
+  }
 
 function openModal(id: number | null = null) {
     useModalsStore().add(Form, {id})
 }
-// function openModal_add_result(id: number | null = null) {
-//     useModalsStore().add(FormModelAdd, {id})
-// }
+
 </script>
