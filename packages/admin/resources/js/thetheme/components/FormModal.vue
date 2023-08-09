@@ -50,7 +50,8 @@
     id?: number
     name: string
     uri: string
-    title?: string
+    title?: string,
+    others?: Object
   }>()
 
   const getTitle = computed(() => {

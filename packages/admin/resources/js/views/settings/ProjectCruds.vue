@@ -2,7 +2,8 @@
   <SettingsLayout>
       <div class="w-1/4 ml-auto">
           <label  class="block mb-2 text-sm font-medium text-gray-900 "> {{ __('Select crud') }}</label>
-          <select  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " v-model="selectedOption"  >
+          <select  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+           v-model="selectedOption"  >
               <option  v-for="i in selectedItems"  :key="i" >{{i}} </option>
           </select>
       </div>
@@ -19,7 +20,7 @@ import SettingsLayout from "View/settings/SettingsLayout.vue";
 import Deoartments from "Component/cruds/Deoartments.vue";
 import Types from "Component/cruds/Types.vue";
 const selectedItems = ["category","department","types"];
-const selectedOption = ref('option1');
+const selectedOption = ref('category');
 watch(selectedOption, (newValue) => {
     console.log(`Selected option changed to: ${newValue}`);
 });

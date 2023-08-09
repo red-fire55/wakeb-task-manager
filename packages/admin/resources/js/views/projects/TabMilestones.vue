@@ -121,19 +121,25 @@
                 </tbody>
               </table>
 
+           
               <IndexPagination :index="indexMilestone" />
             </div>
           </div>
         </div>
       </div>
     </section>
+     <!-- <div class="w-100" v-if="detail">
+              <div class="w-100"  v-for="(item, i) in Object.entries(detail)" :key="i">
+                {{item[0]}} : {{ item[1] }}
+              </div>
+              
+            </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
   import { ref, onMounted } from 'vue'
   import { useIndexStore, useModalsStore } from 'spack'
-  import axios from "axios"
   import {
     IndexPagination,
     Loader,
@@ -147,7 +153,6 @@
 
   const indexMilestone = useIndexStore('milestone')(),
     processing = ref(true)
-  // invitations = ref([])
 
   checkProcessing()
     
