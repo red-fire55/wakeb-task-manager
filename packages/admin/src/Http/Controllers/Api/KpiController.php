@@ -10,6 +10,7 @@ use App\Models\KpiCategory;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KpiController extends Controller
 {
@@ -94,7 +95,7 @@ class KpiController extends Controller
             ->field('notes', $model->notes)
             ->field('status', $model->status)
             ->field('target', $model->target)
-            ->field('frequency', $model->frequency)
+            ->field('frequency', $model->frequency, DB::table('frequencies')->select('id as value', 'name as label')->get())
             ->field('sub_weight', $model->sub_weight)
             ->field('kpi_category_id', $model->kpi_category_id, KpiCategory::options())
             ->field('previous_result', $resultHistory > 1 ? $model->resultHistory()->offset($resultHistory - 2)->limit(1)->get() : null)

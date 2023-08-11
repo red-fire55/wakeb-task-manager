@@ -12,6 +12,7 @@ use Admin\Http\Controllers\Api\FiltersController;
 use Admin\Http\Controllers\Api\InvitationsController;
 use Admin\Http\Controllers\Api\KpiCategoryController;
 use Admin\Http\Controllers\Api\KpiController;
+use Admin\Http\Controllers\Api\KpiResultController;
 use Admin\Http\Controllers\Api\LabelsController;
 use Admin\Http\Controllers\Api\LogoUpload;
 use Admin\Http\Controllers\Api\Metrics;
@@ -121,6 +122,10 @@ Route::get('frequencies', [SettingsGeneralController::class, 'allFrequencies'])-
 
 // Kpi Categories
 Route::resource('kpiCategories', KpiCategoryController::class);
+
+// crud for result of kpis
+Route::get('kpis/{kpi_id}/results/get_all_results', [KpiResultController::class, 'getAllResults'])->name('kpis.getAllResults');
+Route::resource('kpis/{kpi_id}/results', KpiResultController::class);
 
 // kpis
 Route::resource('kpis', KpiController::class);
