@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use AhsanDev\Support\Requests\FormRequest;
-use App\Models\KpiResultHistory;
+use App\Models\KpiResult;
 use Illuminate\Support\Facades\DB;
 
 class KpiRequest extends FormRequest
@@ -40,7 +40,7 @@ class KpiRequest extends FormRequest
                 if ($lastResult) {
                     $lastResult->update(['description' => $this->request->previous_result, 'status' => 'previous']);
                 }
-                KpiResultHistory::create([
+                KpiResult::create([
                     'description' => $this->request->current_result,
                     'status' => 'current',
                     'kpi_id' => $this->model->id,
