@@ -16,7 +16,7 @@ class KpiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'measure' => 'required|numeric',
+            'measure' => 'required|string|min:3',
             'owner_id' => 'required|exists:users,id',
             'status' => 'nullable|string',
             'notes' => 'nullable',
