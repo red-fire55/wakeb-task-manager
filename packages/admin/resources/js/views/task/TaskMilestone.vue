@@ -7,7 +7,7 @@
     </div>
 
     <div  class="flex flex-wrap px-2 pt-2">
-      {{ task.data.milestone_id? task.data.milestone_id: "no milestone" }}
+      {{ task.data.milestone?.id? task.data.milestone.name: "no milestone" }}
     </div>
   </section>
 </template>

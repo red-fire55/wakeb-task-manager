@@ -68,7 +68,6 @@
   const task = useTaskStore(),
     projectDetail = useProjectDetail(),
     can = inject('can') as (permission: string) => boolean
-
   function updateProjectDetail() {
     projectDetail.fetch(task.data.project_id)
   }
@@ -86,7 +85,6 @@
       })
     }
 
-    console.log(task.data.users)
 
     axios
       .patch('tasks/' + task.data.id + '/assign', {
