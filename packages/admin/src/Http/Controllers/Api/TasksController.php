@@ -43,7 +43,7 @@ class TasksController
 
         return $query->whereNull('completed_at')->get()
             ->groupBy(function ($item) {
-                if (! $item->due_at) {
+                if (!$item->due_at) {
                     return 'no overdue';
                 }
 
@@ -64,7 +64,7 @@ class TasksController
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Http\Models\Task  $task
+     * @param \App\Http\Models\Task $task
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -75,6 +75,7 @@ class TasksController
         $task = Task::create([
             'title' => $request->task,
             'project_id' => $request->project_id,
+            'milestone_id' => $request->milestone_id,
             'project_list_id' => $request->list_id,
             'order' => $prevOrder + 1,
         ]);
@@ -85,7 +86,7 @@ class TasksController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Task  $task
+     * @param \App\Models\Task $task
      * @return \Illuminate\Http\Response
      */
     public function show(Task $task)
@@ -99,6 +100,7 @@ class TasksController
             'task' => $task->load(
                 'project',
                 'projectList',
+                'milestone',
                 'project.users',
                 'priority',
                 'users',
@@ -115,13 +117,13 @@ class TasksController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Task  $task
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Task $task
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Task $task)
     {
-        $task->update($request->only('title', 'description'));
+        $task->update($request->only('title', 'description', 'milestone_id'));
 
         return ['success' => true];
     }
@@ -129,7 +131,7 @@ class TasksController
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Http\Models\Task  $task
+     * @param \App\Http\Models\Task $task
      * @return \Illuminate\Http\Response
      */
     public function complete(Task $task)
@@ -150,7 +152,7 @@ class TasksController
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Http\Models\Task  $task
+     * @param \App\Http\Models\Task $task
      * @return \Illuminate\Http\Response
      */
     public function start(Task $task)
@@ -165,7 +167,7 @@ class TasksController
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Http\Models\Task  $task
+     * @param \App\Http\Models\Task $task
      * @return \Illuminate\Http\Response
      */
     public function due(Task $task)
@@ -180,7 +182,7 @@ class TasksController
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Http\Models\Task  $task
+     * @param \App\Http\Models\Task $task
      * @return \Illuminate\Http\Response
      */
     public function task(Task $task)
@@ -193,7 +195,7 @@ class TasksController
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Http\Models\Task  $task
+     * @param \App\Http\Models\Task $task
      * @return \Illuminate\Http\Response
      */
     public function content(Task $task)
@@ -209,7 +211,7 @@ class TasksController
     /**
      * Display a listing of the resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
