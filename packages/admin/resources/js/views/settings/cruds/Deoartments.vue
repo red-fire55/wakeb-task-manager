@@ -1,4 +1,6 @@
 <template>
+<SettingsLayout>
+    <Card class="p-6">
     <div v-if="processing" class="mt-8 flex justify-center">
         <Loader size="40" color="#5850ec" />
     </div>
@@ -30,24 +32,24 @@
                                 <tr>
                                     <TableTh
                                         name="milestone"
-                                        :index="indexMilestone"
+                                        :index="indexDepartment"
                                         :label="__('Name')"
                                         sort="name"
                                     />
                                     <TableTh
                                         name="milestone"
-                                        :index="indexMilestone"
+                                        :index="indexDepartment"
                                         :label="__('description')"
                                     />
                                     <TableTh
                                         name="milestone"
-                                        :index="indexMilestone"
+                                        :index="indexDepartment"
                                         :label="__('action')"
                                     />
                                 </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                <tr v-for="item in indexMilestone.data.data" :key="item.id">
+                                <tr v-for="item in indexDepartment.data.data" :key="item.id">
                                     <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                                     >
@@ -62,28 +64,42 @@
                                         </div>
                                     </td>
                                     <td
-                                        class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
-                                    >
-                                        <span v-for="(item, i) in item.tasks" :key="i">{{ item.title }}</span>
-                                    </td>
+                      class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
+                    >
+                      <span>{{ item.description }}</span>
+                    </td>
 
-                                    <td
-                                        class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
-                                    >
-                                        <span v-for="(item, i) in item.tasks" :key="i">{{ item.title }}</span>
-                                    </td>
+                     <td
+                      class="whitespace-no-wrap flex items-center justify-start px-6 py-4 text-right text-sm font-medium leading-5"
+                    >
+                           <span
+                        class="ml-2"
+                        @click="openModal(item.id)"
+                      >
+                        <PencilSquareIcon
+                          class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
+                        />
+                      </span>
+            
+                      <TrashIcon
+                        class="ml-2 w-5 cursor-pointer text-gray-400 hover:text-gray-800"
+                        @click="indexMilestone.deleteIt(item.id)"
+                      />
+                      </td>
 
                                 </tr>
                                 </tbody>
                             </table>
 
-                            <IndexPagination :index="indexMilestone" />
+                            <IndexPagination :index="indexDepartment" />
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
+    </Card>
+</SettingsLayout>
 </template>
 
 <script setup lang="ts">
@@ -98,26 +114,28 @@ import {
     Topbar,
 } from 'thetheme'
 // import Form from '../../components/milestone/Form.vue'
-import Form from "Component/cruds/forms/DepartmentForm.vue";
+import Form from "./forms/DepartmentForm.vue";
+  import SettingsLayout from '../SettingsLayout.vue'
+
 import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
 
 
-const indexMilestone = useIndexStore('milestone')(),
+const indexDepartment = useIndexStore('departments')(),
     processing = ref(true)
 // invitations = ref([])
 
 checkProcessing()
 
-indexMilestone.setConfig({
-    uri: 'milestone',
+indexDepartment.setConfig({
+    uri: 'departments',
     orderByDirection: 'desc',
 })
-indexMilestone.fetch()
+indexDepartment.fetch()
 
 
 function checkProcessing() {
     setTimeout(function () {
-        if (indexMilestone.fetching ) {
+        if (indexDepartment.fetching ) {
             checkProcessing()
             return
         }

@@ -1,6 +1,6 @@
 <template>
    <FormModal :id="id" :name="name" filterUri="kpis" uri="kpis">
-        <FieldText name="measure" label="Mesure" type="number" class="col-span-12" />
+        <FieldText name="measure" label="Mesure"  class="col-span-12" />
         <FieldSelect name="owner_id" label="Owner Name"  class="col-span-12"/>
         <FieldText name="target" label="Target"  class="col-span-12"/>
 

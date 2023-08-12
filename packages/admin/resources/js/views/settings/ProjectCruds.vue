@@ -1,27 +1,66 @@
+
 <template>
-  <SettingsLayout>
-      <div class="w-1/4 ml-auto">
-          <label  class="block mb-2 text-sm font-medium text-gray-900 "> {{ __('Select crud') }}</label>
-          <select  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-           v-model="selectedOption"  >
-              <option  v-for="i in selectedItems"  :key="i" >{{i}} </option>
-          </select>
-      </div>
-      <category class="mt-10" v-if="selectedOption === 'category'" />
-      <deoartments class="mt-10" v-if="selectedOption === 'department'"/>
-      <types class="mt-10" v-if="selectedOption === 'types'"/>
-  </SettingsLayout>
+  <section class="py-2">
+    <Collapsible close>
+      <template #trigger="{ open }">
+        <div class="flex cursor-pointer items-center pl-3">
+          
+ <p
+            class="px-1 text-md font-sm  text-gray-700"
+          >
+             Projects 
+          </p>
+          <svg
+            viewBox="0 0 16 16"
+            class="h-4 w-4 text-gray-500 ml-auto mr-2"
+            :class="{ 'rotate-[270deg]': !open }"
+          >
+            <path
+              d="M14 5.758L13.156 5 7.992 9.506l-.55-.48.002.002-4.588-4.003L2 5.77 7.992 11 14 5.758"
+              fill="currentColor"
+            ></path>
+          </svg>
+        </div>
+      </template>
+
+      <template #content>
+        <div class="mt-2.5">
+          <template v-for="item in crud_tables" :key="item.name">
+            <RouterLink
+              v-slot="{ navigate, href, route }"
+              :to="`/${item.path}`"
+              custom
+            >
+              <a
+                :href="href"
+                :class="[
+                  isActive(item.path)
+                    ? 'bg-gray-900 text-white'
+                    : 'text-gray-500 hover:bg-gray-700 hover:text-white',
+                  'group flex items-center rounded-md py-2 pl-7 pr-2 text-sm font-medium',
+                ]"
+                @click="navigate"
+              >
+                <span class="flex-1 truncate">{{ item.name }}</span>
+              </a>
+            </RouterLink>
+          </template>
+        </div>
+      </template>
+    </Collapsible>
+  </section>
 </template>
 
-<script setup>
-import { ref, watch } from 'vue';
-import Category from "Component/cruds/category.vue";
-import SettingsLayout from "View/settings/SettingsLayout.vue";
-import Deoartments from "Component/cruds/Deoartments.vue";
-import Types from "Component/cruds/Types.vue";
-const selectedItems = ["category","department","types"];
-const selectedOption = ref('category');
-watch(selectedOption, (newValue) => {
-    console.log(`Selected option changed to: ${newValue}`);
-});
+<script setup lang="ts">
+  import { computed } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { Collapsible } from 'thetheme'
+
+  const router = useRouter(),
+    path = computed(() => router.currentRoute.value.path)
+    const crud_tables = [{name:"category", path: 'settings/Categories'}, {name:"department", path:"settings/Departments"},{name:"types", path:"settings/Types"}];
+
+  function isActive(href: string) {
+    return path.value.startsWith(href)
+  }
 </script>

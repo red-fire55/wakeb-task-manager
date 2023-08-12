@@ -10,7 +10,4 @@ export const useSettingsNav: SettingsNav[] = [
   { label: 'Labels', uri: '/labels', permission: 'label:view' },
   { label: 'Roles & Permissions', uri: '/roles', permission: 'role:view' },
   { label: 'Updates', uri: '/settings/updates', permission: 'setting:updates' },
-    { label: 'Project Cruds', uri: '/settings/projectCruds', permission: 'projectCruds' },
-
-
 ]

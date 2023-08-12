@@ -2,27 +2,29 @@
   <FormModal :id="id" :name="name" uri="milestone">
     <FieldText name="name" label="Name" class="col-span-12" />
     <FieldText name="order" label="Order" class="col-span-12" type="number" />
-    <FieldText name="start_date" label="Start Date" class="col-span-12" />
-    <FieldText name="end_date" label="End Date" class="col-span-12" />
+    <DatePicker name="Start Date" value="start_date" :formName="name" class="col-span-12"/>
+    <DatePicker name="End Date" value="end_date" :formName="name" class="col-span-12"/>
   </FormModal>
 </template>
 
 <script setup lang="ts">
-  import { FormModal, useFieldSelect, useFieldText } from 'thetheme'
+  import { FormModal, useFieldSelect, useFieldText, DatePicker } from 'thetheme'
   import { useFormStore, useIndexStore, useModalsStore } from 'spack'
+  import {useProjectDetail} from "Store/project-detail";
 
   defineProps<{
     id?: number
   }>()
-let data = {
-  project_id: localStorage.getItem("project_id")
-  }
+
   const name = 'milestone'
-  const form = useFormStore(name, data)()
+  const form = useFormStore(name)()
   const index = useIndexStore(name)()
   const FieldText = useFieldText<any>()
   const FieldSelect = useFieldSelect<any>()
-  
+  const project = useProjectDetail()
+  setTimeout(()=>{
+    form.data['project_id'] = project.data.id
+  }, 500)
   form.onSuccess(() => {
     index.fetch()
     useModalsStore().pop()

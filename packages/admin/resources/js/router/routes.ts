@@ -15,6 +15,10 @@ import UsersIndex from 'View/users/Index.vue'
 import LabelsIndex from 'View/labels/Index.vue'
 import ProjectsIndex from 'View/projects/Index.vue'
 import techRadar from 'View/radar/Index.vue'
+import Categories from "View/settings/cruds/category.vue"
+import Departments from "View/settings/cruds/Deoartments.vue"
+import Types from "View/settings/cruds/Types.vue"
+
 
 
 export const routes: RouteRecordRaw[] = [
@@ -35,7 +39,9 @@ export const routes: RouteRecordRaw[] = [
   { path: '/settings/general', component: SettingsGeneral },
   { path: '/settings/email', component: SettingsEmail },
   { path: '/settings/updates', component: SettingsUpdates },
-    { path: '/settings/projectCruds', component: projectCruds },
+  { path: '/settings/Categories', component: Categories },
+  { path: '/settings/Departments', component: Departments },
+  { path: '/settings/Types', component: Types },
 
   //new routes
   { path: '/tech-radar', component: techRadar },
