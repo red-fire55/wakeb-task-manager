@@ -22,7 +22,7 @@ class KpiRequest extends FormRequest
             'notes' => 'nullable',
             'target' => 'nullable|string',
             'kpi_category_id' => 'required|exists:kpi_categories,id',
-            'frequency' => 'nullable|string',
+            'frequency' => 'nullable|numeric|exists:frequencies,id',
             'sub_weight' => 'required|numeric',
         ];
     }
