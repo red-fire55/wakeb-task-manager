@@ -6,6 +6,7 @@ use AhsanDev\Support\Optionable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends Model
@@ -102,7 +103,7 @@ class Task extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function project()
     {
@@ -110,7 +111,7 @@ class Task extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function projectList()
     {
@@ -118,7 +119,7 @@ class Task extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function priority()
     {
@@ -128,5 +129,13 @@ class Task extends Model
     public function scopeOptions($query)
     {
         return $query->get(['id as value', 'title as label']);
+    }
+
+    /***
+     * @return BelongsTo
+     */
+    public function milestone(): BelongsTo
+    {
+        return $this->belongsTo(Milestone::class);
     }
 }
