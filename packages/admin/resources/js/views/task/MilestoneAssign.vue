@@ -1,5 +1,5 @@
 <template>
-  <Dropdown name="task-assign" :modal="true" close-outside>
+  <Dropdown name="milestone-assign" :modal="true" close-outside :close="closeDropdown">
     <template #trigger>
       <span class="cursor-pointer">
         <svg
@@ -34,7 +34,7 @@
         >
           <span
             v-if="
-             milestones.length
+             milestones.length > 0 
                 ? milestones.find((x: any) => x.id == milestone.id)
                 : null
             "
@@ -68,7 +68,7 @@
     projectDetail = useProjectDetail(),
     can = inject('can') as (permission: string) => boolean
     let milestones = ref<any[]>([])
-
+    let closeDropdown = ref(false)
   function updateProjectDetail() {
     projectDetail.fetch(task.data.project_id)
   }
@@ -85,7 +85,7 @@
     axios
       .patch('tasks/' + task.data.id, task.data)
       .then(({ data }) => {
-        console.log(data)
+        closeDropdown.value = true
         updateProjectDetail()
       })
   }
