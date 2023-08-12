@@ -1,4 +1,6 @@
 <template>
+<SettingsLayout>
+    <Card class="p-6">
   <div v-if="processing" class="mt-8 flex justify-center">
     <Loader size="40" color="#5850ec" />
   </div>
@@ -97,6 +99,8 @@
       </div>
     </section>
   </div>
+    </Card>
+</SettingsLayout>
 </template>
 
 <script setup lang="ts">
@@ -111,7 +115,9 @@
     Topbar,
   } from 'thetheme'
   // import Form from '../../components/milestone/Form.vue'
-  import Form from "Component/cruds/forms/CategoryForm.vue";
+  import SettingsLayout from '../SettingsLayout.vue'
+
+  import Form from "./forms/CategoryForm.vue";
   import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
   const indexkpiCategories = useIndexStore('kpiCategories')(),
     processing = ref(true)

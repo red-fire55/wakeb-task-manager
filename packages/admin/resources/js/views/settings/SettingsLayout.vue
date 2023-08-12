@@ -32,7 +32,9 @@
                 {{ __(nav.label) }}
               </a>
             </router-link>
+
           </template>
+                <ProjectCruds />
         </nav>
       </Card>
     </div>
@@ -45,4 +47,5 @@
 <script setup lang="ts">
   import { useSettingsNav } from 'Use/settings-nav'
   import { Card } from 'thetheme'
+  import ProjectCruds from "./ProjectCruds.vue"
 </script>

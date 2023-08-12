@@ -6,7 +6,7 @@
       <div class="px-6 pt-6">
         <h1 class="text-xl font-semibold text-gray-900" data-cy="page-title">
 
-                {{ __('Create Kpi') }}
+                {{ getTitle }}
 
         </h1>
       </div>

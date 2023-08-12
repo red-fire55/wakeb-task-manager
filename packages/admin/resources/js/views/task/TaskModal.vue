@@ -74,6 +74,7 @@
         >
           <TaskTimer />
           <TaskProjectList />
+          <TaskMilestone />
           <TaskAssignee />
           <TaskDueDate />
           <TaskLabels />
@@ -103,6 +104,7 @@
   import TaskProjectList from './TaskProjectList.vue'
   import TaskTimer from './TaskTimer.vue'
   import TaskDueDate from './TaskDueDate.vue'
+  import TaskMilestone from './TaskMilestone.vue'
 
   const props = defineProps<{
     id: number
