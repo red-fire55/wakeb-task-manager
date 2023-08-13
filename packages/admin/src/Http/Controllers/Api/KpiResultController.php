@@ -18,7 +18,7 @@ class KpiResultController extends Controller
      */
     public function index(): Paginator
     {
-        return KpiResult::query()->simplePaginate();
+        return KpiResult::query()->with('creator')->simplePaginate();
     }
 
     /**
@@ -100,6 +100,9 @@ class KpiResultController extends Controller
         return Field::make()
             ->field('description', $model->description)
             ->field('status', $model->status)
+            ->field('title', $model->status)
+            ->field('creator', $model->creator)
+            ->field('created_at', $model->created_at)
             ->field('kpi_id', $model->kpi_id, Kpi::options());
     }
 }

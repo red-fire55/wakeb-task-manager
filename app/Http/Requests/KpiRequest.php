@@ -44,6 +44,8 @@ class KpiRequest extends FormRequest
                     'description' => $this->request->current_result,
                     'status' => 'current',
                     'kpi_id' => $this->model->id,
+                    'creator_id' => auth()->id(),
+                    'title' => $this->model->title,
                 ]);
             }
         });

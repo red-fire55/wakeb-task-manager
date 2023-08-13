@@ -25,6 +25,7 @@ class KpiResultRequest extends FormRequest
     {
         return [
             'description' => 'required',
+            'title' => 'required|string',
             'status' => 'nullable|in:current,previous',
             'kpi_id' => 'required|numeric|exists:kpis,id'
         ];
@@ -37,7 +38,7 @@ class KpiResultRequest extends FormRequest
             if ($kpi) {
                 $kpi->resultHistory()?->latest()?->first()?->update(['status' => 'previous']);
             }
-            $this->attributes = array_merge($this->attributes, ['status' => 'current']);
+            $this->attributes = array_merge($this->attributes, ['status' => 'current', 'creator_id' => auth()->id()]);
             $this->model->forceFill($this->attributes);
             $this->model->save();
         });
