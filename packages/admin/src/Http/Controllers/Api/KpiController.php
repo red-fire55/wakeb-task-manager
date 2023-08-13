@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\KpiRequest;
 use App\Models\Kpi;
 use App\Models\KpiCategory;
+use App\Models\Status;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Request;
@@ -93,12 +94,30 @@ class KpiController extends Controller
             ->field('measure', $model->measure)
             ->field('owner_id', $model->owner_id, User::options())
             ->field('notes', $model->notes)
-            ->field('status', $model->status)
+            ->field('status', $model->status, Status::options())
             ->field('target', $model->target)
             ->field('frequency', $model->frequency, DB::table('frequencies')->select('id as value', 'name as label')->get())
             ->field('sub_weight', $model->sub_weight)
+            ->field('weight', $this->getWeight($model->sub_weight))
             ->field('kpi_category_id', $model->kpi_category_id, KpiCategory::options())
             ->field('previous_result', $resultHistory > 1 ? $model->resultHistory()->offset($resultHistory - 2)->limit(1)->get() : null)
             ->field('current_result', $model->resultHistory()->latest()->first());
+    }
+
+    /**
+     * @param $sub_weight
+     * @return float
+     */
+    private function getWeight($sub_weight): float
+    {
+        return number_format(($sub_weight / $this->getTotalWeightForMeasure()) * 100, 2);
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getTotalWeightForMeasure(): mixed
+    {
+        return Kpi::select(DB::raw('SUM(sub_weight) as weight'))->groupBy('kpi_category_id')->value('weight');
     }
 }
