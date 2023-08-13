@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\KpiRequest;
 use App\Models\Kpi;
 use App\Models\KpiCategory;
+use App\Models\Status;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Request;
@@ -93,7 +94,7 @@ class KpiController extends Controller
             ->field('measure', $model->measure)
             ->field('owner_id', $model->owner_id, User::options())
             ->field('notes', $model->notes)
-            ->field('status', $model->status)
+            ->field('status', $model->status, Status::options())
             ->field('target', $model->target)
             ->field('frequency', $model->frequency, DB::table('frequencies')->select('id as value', 'name as label')->get())
             ->field('sub_weight', $model->sub_weight)

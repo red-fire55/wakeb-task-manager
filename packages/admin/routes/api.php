@@ -137,3 +137,7 @@ Route::resource('project_types', ProjectTypeController::class);
 // Departments
 Route::get('departments/get_all_departments', [DepartmentController::class, 'getAllDepartments'])->name('departments.get_all_departments');
 Route::resource('departments', DepartmentController::class);
+
+// Statuses
+Route::get('statuses/get_all_statuses', [\App\Http\Controllers\StatusController::class, 'getAllStatuses'])->name('statuses.');
+Route::resource('statuses', \App\Http\Controllers\StatusController::class);
