@@ -59,7 +59,7 @@
                                         :index="indexKpis"
                                         :label="__('Result')"
                                     />
-                                  
+
                                     <TableTh
                                         name="Notes"
                                         :index="indexKpis"
@@ -138,7 +138,7 @@
                             class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
                         />
                       </span>
-                                        
+
                                         <TrashIcon
                                             v-if="can('user:delete')"
                                             class="ml-2 w-5 cursor-pointer text-gray-400 hover:text-gray-800"
@@ -182,18 +182,13 @@ import {PencilSquareIcon, TrashIcon,PlusCircleIcon} from '@heroicons/vue/24/outl
 
 const indexKpis = useIndexStore('kpis')(),
     processing = ref(true)
-
 checkProcessing()
-
-
-
 indexKpis.setConfig({
     uri: 'kpis',
     filterUri: 'kpis',
     orderByDirection: 'desc',
 })
 indexKpis.fetch()
-
 function checkProcessing() {
     setTimeout(function () {
         if (indexKpis.fetching) {
