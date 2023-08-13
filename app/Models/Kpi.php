@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\DB;
 
 
 class Kpi extends Model
@@ -17,6 +18,8 @@ class Kpi extends Model
 
 
     protected $fillable = ['measure', 'owner_id', 'notes', 'status', 'target', 'kpi_category_id', 'frequency', 'sub_weight'];
+
+    protected $appends = ['weight'];
 
     /**
      * @return BelongsTo
@@ -49,5 +52,34 @@ class Kpi extends Model
     public function scopeOptions($query): mixed
     {
         return $query->get(['id as value', 'measure as label']);
+    }
+
+    /**
+     * @return float
+     */
+    public function getWeightAttribute(): float
+    {
+        $sub_weight = 0;
+        if (array_key_exists('sub_weight', $this->attributes)) {
+            $sub_weight = $this->attributes['sub_weight'];
+        }
+        return $this->getWeightColumn($sub_weight);
+    }
+
+    /**
+     * @param $sub_weight
+     * @return float
+     */
+    private function getWeightColumn($sub_weight): float
+    {
+        return number_format(($sub_weight / $this->getTotalWeightForMeasure()) * 100, 2);
+    }
+
+    /**
+     * @return mixed
+     */
+    private static function getTotalWeightForMeasure(): mixed
+    {
+        return DB::table('kpis')->select(DB::raw('SUM(sub_weight) as weight'))->groupBy('kpi_category_id')->value('weight');
     }
 }
