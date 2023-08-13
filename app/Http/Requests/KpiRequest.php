@@ -41,11 +41,11 @@ class KpiRequest extends FormRequest
                     $lastResult->update(['description' => $this->request->previous_result, 'status' => 'previous']);
                 }
                 KpiResult::create([
+                    'title' => $this->request->current_result,
                     'description' => $this->request->current_result,
                     'status' => 'current',
                     'kpi_id' => $this->model->id,
                     'creator_id' => auth()->id(),
-                    'title' => $this->model->title,
                 ]);
             }
         });
