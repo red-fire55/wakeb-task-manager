@@ -35,13 +35,13 @@
                 :href="href"
                 :class="[
                   isActive(item.path)
-                    ? 'bg-gray-900 text-white'
-                    : 'text-gray-500 hover:bg-gray-700 hover:text-white',
+                    ? 'text-gray-900'
+                    : 'text-gray-500 hover:bg-gray-100',
                   'group flex items-center rounded-md py-2 pl-7 pr-2 text-sm font-medium',
                 ]"
                 @click="navigate"
               >
-                <span class="flex-1 truncate">{{ item.name }}</span>
+                <span class="flex-1 truncate hover:opacity-250 ">{{ item.name }}</span>
               </a>
             </RouterLink>
           </template>
@@ -58,9 +58,12 @@
 
   const router = useRouter(),
     path = computed(() => router.currentRoute.value.path)
-    const crud_tables = [{name:"category", path: 'settings/Categories'}, {name:"department", path:"settings/Departments"},{name:"types", path:"settings/Types"}];
+    const crud_tables = [{name:"category", path: 'settings/Categories'},
+     {name:"department", path:"settings/Departments"},
+     {name:"types", path:"settings/Types"}];
 
   function isActive(href: string) {
-    return path.value.startsWith(href)
+    let new_path = `/${href}`
+    return path.value == new_path
   }
 </script>
