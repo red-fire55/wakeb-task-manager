@@ -54,11 +54,11 @@
                                         :index="indexKpis"
                                         :label="__('Target')"
                                     />
-                                    <TableTh
+                                    <!-- <TableTh
                                         name="Result"
                                         :index="indexKpis"
                                         :label="__('Result')"
-                                    />
+                                    /> -->
 
                                     <TableTh
                                         name="Notes"
@@ -95,7 +95,7 @@
                                     <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                                     >
-                                        <!-- {{ item.roles[0].name } -->
+                                        {{ item.weight }}
                                     </td>
                                     <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
@@ -112,11 +112,11 @@
                                     >
                                         {{ item.target }}
                                     </td>
-                                    <td
+                                    <!-- <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                                     >
                                         {{ item.result }}
-                                    </td>
+                                    </td> -->
                                     <td
                                         class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                                     >
