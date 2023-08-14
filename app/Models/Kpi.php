@@ -72,7 +72,7 @@ class Kpi extends Model
      */
     private function getWeightColumn($sub_weight): float
     {
-        return number_format(($sub_weight / $this->getTotalWeightForMeasure()) * 100, 2);
+        return number_format(($sub_weight / max(1, $this->getTotalWeightForMeasure())) * 100, 2);
     }
 
     /**

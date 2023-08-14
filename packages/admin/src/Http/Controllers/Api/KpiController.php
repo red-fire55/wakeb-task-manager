@@ -110,7 +110,7 @@ class KpiController extends Controller
      */
     private function getWeight($sub_weight): float
     {
-        return number_format(($sub_weight / $this->getTotalWeightForMeasure()) * 100, 2);
+        return number_format(($sub_weight / max($this->getTotalWeightForMeasure(), 1)) * 100, 2);
     }
 
     /**
