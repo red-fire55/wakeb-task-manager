@@ -1,5 +1,5 @@
 <template>
-    <section class="mt-4 ">
+    <section class="">
         <div class="">
             <Card class="py-4 ltr:pl-4 ltr:pr-3 rtl:pr-4 rtl:pl-3">
                 <h3 class="mb-4 font-medium">

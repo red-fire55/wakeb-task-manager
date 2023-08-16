@@ -1,5 +1,5 @@
 <template>
-    <div class="border-b-1">
+    <div class="border-b-1 mt-10">
         <div class="flex justify-between mb-1">
             <span class="text-base font-medium text-gray-800">Progect Progress</span>
             <span class="text-sm font-medium text-gray-800 ">45%</span>
