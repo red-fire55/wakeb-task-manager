@@ -11,7 +11,7 @@
           <p
             class="truncate text-sm font-medium text-gray-500 ltr:ml-16 rtl:mr-16"
           >
-            {{ __('Open Tasks') }}
+            {{ __('status') }}
           </p>
         </dt>
         <dd class="flex items-baseline ltr:ml-16 rtl:mr-16">
@@ -31,7 +31,7 @@
           <p
             class="truncate text-sm font-medium text-gray-500 ltr:ml-16 rtl:mr-16"
           >
-            {{ __('Completed Tasks') }}
+            {{ __('kpi delay') }}
           </p>
         </dt>
         <dd class="flex items-baseline ltr:ml-16 rtl:mr-16">
@@ -51,7 +51,7 @@
           <p
             class="truncate text-sm font-medium text-gray-500 ltr:ml-16 rtl:mr-16"
           >
-            {{ __('Total Projects') }}
+            {{ __('Total Kpis') }}
           </p>
         </dt>
         <dd class="flex items-baseline ltr:ml-16 rtl:mr-16">
@@ -71,7 +71,7 @@
           <p
             class="truncate text-sm font-medium text-gray-500 ltr:ml-16 rtl:mr-16"
           >
-            {{ __('Total Projects') }}
+            {{ __('Total categories') }}
           </p>
         </dt>
         <dd class="flex items-baseline ltr:ml-16 rtl:mr-16">
