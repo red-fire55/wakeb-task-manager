@@ -4,8 +4,10 @@ namespace Admin\Http\Controllers\Api;
 
 use App\Http\Filters\ProjectFilters;
 use App\Http\Requests\ProjectRequest;
+use App\Models\Department;
 use App\Models\Project;
 use App\Models\ProjectList;
+use App\Models\ProjectType;
 use App\Models\RecentProject;
 use App\Models\Status;
 use App\Models\User;
@@ -13,7 +15,9 @@ use AhsanDev\Support\Authorization\Http\Controllers\AuthorizeController;
 use AhsanDev\Support\Field;
 use Facades\Admin\Static\Color;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection as CollectionAlias;
 
 class ProjectsController extends AuthorizeController
 {
@@ -22,16 +26,14 @@ class ProjectsController extends AuthorizeController
     protected $excludeResource = ['view', 'detail'];
 
     /**
-     * Display a listing of the resource.
-     *
-     * @param  \App\Http\Filters\ProjectFilters  $filters
-     * @return \Illuminate\Http\Response
+     * @param ProjectFilters $filters
+     * @return Builder[]|Collection|CollectionAlias
      */
-    public function index(ProjectFilters $filters)
+    public function index(ProjectFilters $filters): array|Collection|CollectionAlias
     {
         $query = Project::query();
 
-        if (! auth()->user()->isSuperAdmin()) {
+        if (!auth()->user()->isSuperAdmin()) {
             $query->whereHas('users', function (Builder $q) {
                 $q->whereId(auth()->id());
             });
@@ -42,9 +44,9 @@ class ProjectsController extends AuthorizeController
         }
 
         return $query->get(['id', 'name', 'meta'])
-                    ->filter(function ($item) {
-                        return $item->append(['is_favorite']);
-                    });
+            ->filter(function ($item) {
+                return $item->append(['is_favorite']);
+            });
 
         $query->filter($filters)
             ->select('id', 'name', 'color_id')
@@ -60,39 +62,33 @@ class ProjectsController extends AuthorizeController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @param Project $project
+     * @return Field
      */
-    public function create(Project $project)
+    public function create(Project $project): Field
     {
         return $this->fields($project);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Project $project
+     * @return ProjectRequest
      */
-    public function store(Request $request, Project $project)
+    public function store(Request $request, Project $project): ProjectRequest
     {
         return new ProjectRequest($request, $project);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return mixed
      */
-    public function show($id)
+    public function show($id): mixed
     {
         $query = Project::whereId($id);
 
-        if (! auth()->user()->isSuperAdmin()) {
+        if (!auth()->user()->isSuperAdmin()) {
             $query->whereHas('users', function (Builder $q) {
                 $q->where('id', auth()->id());
             });
@@ -100,7 +96,7 @@ class ProjectsController extends AuthorizeController
 
         $project = $query->first();
 
-        if (! $project) {
+        if (!$project) {
             abort(403);
         }
 
@@ -117,45 +113,39 @@ class ProjectsController extends AuthorizeController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @param Project $project
+     * @return Field
      */
-    public function edit(Project $project)
+    public function edit(Project $project): Field
     {
         return $this->fields($project);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Project $project
+     * @return ProjectRequest
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, Project $project): ProjectRequest
     {
         return new ProjectRequest($request, $project);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return string[]
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, $id): array
     {
         $project = Project::withTrashed()->find($request->items[0]);
 
         $project->users()->detach();
         // $project->favoriteBy()->detach();
-        $project->tasks()->each(fn ($item) => $item->users()->detach());
-        $project->tasks()->each(fn ($item) => $item->tasks()->forceDelete());
-        $project->tasks()->each(fn ($item) => $item->comments()->forceDelete());
-        $project->tasks()->each(fn ($item) => $item->attachments()->forceDelete());
+        $project->tasks()->each(fn($item) => $item->users()->detach());
+        $project->tasks()->each(fn($item) => $item->tasks()->forceDelete());
+        $project->tasks()->each(fn($item) => $item->comments()->forceDelete());
+        $project->tasks()->each(fn($item) => $item->attachments()->forceDelete());
 
         $project->tasks()->forceDelete();
         $project->lists()->forceDelete();
@@ -167,13 +157,11 @@ class ProjectsController extends AuthorizeController
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Project $project
+     * @param Request $request
+     * @return array
      */
-    public function complete(Project $project, Request $request)
+    public function complete(Project $project, Request $request): array
     {
         if ($project->completed_at) {
             $project->update(['status_id' => Status::getId('Ongoing'), 'completed_at' => null]);
@@ -187,12 +175,10 @@ class ProjectsController extends AuthorizeController
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return true[]
      */
-    public function listUpdate(Request $request)
+    public function listUpdate(Request $request): array
     {
         ProjectList::find($request->list_id)->update([
             'name' => $request->name,
@@ -202,36 +188,34 @@ class ProjectsController extends AuthorizeController
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return true[]
      */
-    public function listDelete(Request $request)
+    public function listDelete(Request $request): array
     {
         $list = ProjectList::find($request->list_id);
-        $list->tasks()->each(fn ($item) => $item->users()->detach());
-        $list->tasks()->each(fn ($item) => $item->tasks()->forceDelete());
-        $list->tasks()->each(fn ($item) => $item->comments()->forceDelete());
-        $list->tasks()->each(fn ($item) => $item->attachments()->forceDelete());
+        $list->tasks()->each(fn($item) => $item->users()->detach());
+        $list->tasks()->each(fn($item) => $item->tasks()->forceDelete());
+        $list->tasks()->each(fn($item) => $item->comments()->forceDelete());
+        $list->tasks()->each(fn($item) => $item->attachments()->forceDelete());
         $list->tasks()->forceDelete();
         $list->forceDelete();
 
         return ['success' => true];
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+    /***
+     * @param $model
+     * @return Field
      */
-    public function fields($model)
+    public function fields($model): Field
     {
         return Field::make()
-                ->field('name', $model->name)
-                ->field('description', $model->description)
-                ->field('color', $model->meta['color'] ?? Color::default(), Color::options())
-                ->field('users', $model->users->isEmpty() ? [auth()->id()] : $model->users->pluck('id'), User::orderBy('name')->get(['id', 'name', 'email', 'avatar', 'meta']));
+            ->field('name', $model->name)
+            ->field('description', $model->description)
+            ->field('type_id', optional($model->type)->id, ProjectType::options())
+            ->field('department_id', optional($model->department)->id, Department::options())
+            ->field('color', $model->meta['color'] ?? Color::default(), Color::options())
+            ->field('users', $model->users->isEmpty() ? [auth()->id()] : $model->users->pluck('id'), User::orderBy('name')->get(['id', 'name', 'email', 'avatar', 'meta']));
     }
 }
