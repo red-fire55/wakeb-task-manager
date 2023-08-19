@@ -1,15 +1,15 @@
 <template>
   <FormModal :name="name" uri="projects">
     <FieldText name="name" label="Name" class="col-span-12" />
-    <FieldText name="type" label="Type" class="col-span-12" />
-    <FieldText name="department" label="Department" class="col-span-12" />
+    <FieldSelect name="type_id" label="Type" class="col-span-12" />
+    <FieldSelect name="department_id" label="Department" class="col-span-12" />
     <FieldColor name="color" />
     <FieldChooseUsers name="users" />
   </FormModal>
 </template>
 
 <script setup lang="ts">
-  import { FormModal, useFieldText } from 'thetheme'
+  import { FormModal, useFieldText, useFieldSelect } from 'thetheme'
   import FieldColor from 'Component/FieldColor.vue'
   import FieldChooseUsers from './FieldChooseUsers.vue'
   import { useFormStore, useIndexStore, useModalsStore } from 'spack'
@@ -21,7 +21,7 @@
   const project = useProjectIndex()
   const projectIndexStore = useIndexStore('projects')()
   const FieldText = useFieldText<ProjectForm>()
-
+  const FieldSelect = useFieldSelect<any>()
   form.onSuccess((response) => {
     const params = new URLSearchParams(window.location.search)
 
