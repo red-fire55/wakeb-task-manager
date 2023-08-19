@@ -21,6 +21,8 @@ class ProjectRequest extends FormRequest
             'description' => 'nullable',
             'color' => 'required',
             'users' => 'required|array',
+            'type_id' => 'nullable|exists:project_types,id',
+            'department_id' => 'nullable|exists:departments,id'
         ];
     }
 

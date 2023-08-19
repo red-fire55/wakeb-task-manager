@@ -6,6 +6,7 @@ use App\Http\Filters\ProjectFilters;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
@@ -30,7 +31,7 @@ class Project extends Model
     protected function remainingUsers(): Attribute
     {
         return new Attribute(
-            get: fn () => ($this->users->count() > 10) ? ($this->users->count() - 10) : 0,
+            get: fn() => ($this->users->count() > 10) ? ($this->users->count() - 10) : 0,
         );
     }
 
@@ -79,12 +80,20 @@ class Project extends Model
     /**
      * Apply all relevant filters.
      *
-     * @param  Illuminate\Database\Eloquent\Builder  $query
-     * @param  App\Http\Filters\ProjectFilters  $filters
+     * @param Illuminate\Database\Eloquent\Builder $query
+     * @param App\Http\Filters\ProjectFilters $filters
      * @return Builder
      */
     public function scopeFilter($query, ProjectFilters $filters)
     {
         return $filters->apply($query);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function type(): HasOne
+    {
+        return $this->hasOne(ProjectType::class, 'type_id', 'id');
     }
 }
