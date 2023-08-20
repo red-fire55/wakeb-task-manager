@@ -1,13 +1,13 @@
 {
   "js/main.css": {
-    "file": "assets/main-d588d15c.css",
+    "file": "assets/main-da5f06a2.css",
     "src": "js/main.css"
   },
   "js/main.ts": {
     "css": [
-      "assets/main-d588d15c.css"
+      "assets/main-da5f06a2.css"
     ],
-    "file": "assets/main-8f4ca3aa.js",
+    "file": "assets/main-684a9ff7.js",
     "isEntry": true,
     "src": "js/main.ts"
   }

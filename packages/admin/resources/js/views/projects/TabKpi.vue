@@ -4,12 +4,18 @@
     </div>
     <div v-else>
         <section>
-            <KpiMetrics />
+            <KpiMetrics @filterKpis='filter_kpi' />
+            
             <Topbar :title="__('BalanceScore')">
                 <div class="ltr:ml-auto rtl:mr-auto">
-                    <TheButton size="sm" data-cy="topbar-invitation-create-button" @click="OpenCreateKpisModal">
+                    
+                        <div class="flex flex-row flex-row-reverse">
+                            <TheButton size="sm" data-cy="topbar-invitation-create-button" @click="OpenCreateKpisModal">
                         {{ __('NewKpi') }}
                     </TheButton>
+                <DatePicker name="" value="filter_date_from" :formName="name" class="col-span-12 mr-5"/>
+                        <DatePicker name="" value="filter_date_to" :formName="name" class="col-span-12"/>
+            </div>
                 </div>
             </Topbar>
             <div class="flex flex-col">
@@ -52,14 +58,18 @@
                                         <td class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500">
                                             {{ item.sub_weight }}
                                         </td>
-                                        <td class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500">
-                                            {{ item.category.name }}
+                                        <td class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500 ">
+                                            <span class="cursor-pointer">{{ item.category.name }}</span>
                                         </td>
                                         <td class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500">
-                                            {{ item?.owner?.name }}
+                                            <div class="flex -space-x-4 w-28">
+                                    <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/avatar-10.png" alt="" class="w-10 h-10 flex-shrink-0 border-2 border-white rounded-full ">
+                                    
+                                   
+                                </div>
                                         </td>
                                         <td class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500">
-                                            {{ item.target }}
+                                            <span class="">{{ item.target }}</span>
                                         </td>
                                         <!-- <td
                                             class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
@@ -70,7 +80,13 @@
                                             {{ item.notes }}
                                         </td>
                                         <td class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500">
-                                            {{ item.status }}
+                                           
+                                            <div class="flex justify-end mb-1">
+                                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400"> {{ item.status }}%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 ">
+                                    <div class="bg-sky-300 h-1.5 rounded-full" :style="`width: ${Number(item.status)}%`"></div>
+                                </div>
                                         </td>
                                         <td class="whitespace-no-wrap flex items-center justify-start px-6 py-4 text-right text-sm font-medium leading-5">
                                             <span class="ml-2" @click="openModal(item.id)">
@@ -93,6 +109,7 @@
                     </div>
                 </div>
             </div>
+            <chart1 class="w-full mt-5"/>
         </section>
     </div>
 </template>
@@ -103,7 +120,8 @@
     } from 'vue'
     import {
         useIndexStore,
-        useModalsStore
+        useModalsStore,
+        axios
     } from 'spack'
     import {
         IndexPagination,
@@ -111,17 +129,20 @@
         TableTh,
         TheButton,
         Topbar,
+        DatePicker
     } from 'thetheme'
     import Form from "@/components/kpi/Form.vue"
     import ResultForm from "@/components/kpi/addKpiResult.vue"
     import KpiMetrics from "@/components/kpi/kpi_metrics.vue"
+    import chart1 from "Component/overview/chart1.vue";
     import {
         PencilSquareIcon,
         TrashIcon,
         PlusCircleIcon
     } from '@heroicons/vue/24/outline'
-    const indexKpis = useIndexStore('kpis')(),
+    let indexKpis = useIndexStore('kpis')(),
         processing = ref(true)
+
     checkProcessing()
     indexKpis.setConfig({
         uri: 'kpis',
@@ -154,6 +175,12 @@
     function openModal(id: number | null = null) {
         useModalsStore().add(Form, {
             id
+        })
+    }
+
+    function filter_kpi(e){
+        axios.get(`kpis?category=${e}`).then(res=>{
+indexKpis.data.data = res.data.data
         })
     }
 </script>
