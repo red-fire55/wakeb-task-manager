@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Admin\Http\Controllers\Api;
 
 use AhsanDev\Support\Field;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StatusRequest;
 use App\Models\Status;
 use Illuminate\Contracts\Pagination\Paginator;

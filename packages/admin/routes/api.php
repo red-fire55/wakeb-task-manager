@@ -1,10 +1,11 @@
 <?php
 
+use Admin\Http\Controllers\Api\ActivityController;
 use Admin\Http\Controllers\Api\AvatarUpload;
 use Admin\Http\Controllers\Api\Charts;
-use Admin\Http\Controllers\Api\CheckUpdates;
 use Admin\Http\Controllers\Api\ChecklistItemComplete;
 use Admin\Http\Controllers\Api\ChecklistItemsController;
+use Admin\Http\Controllers\Api\CheckUpdates;
 use Admin\Http\Controllers\Api\DepartmentController;
 use Admin\Http\Controllers\Api\FavoritesController;
 use Admin\Http\Controllers\Api\FileUpload;
@@ -24,18 +25,19 @@ use Admin\Http\Controllers\Api\ProjectArchive;
 use Admin\Http\Controllers\Api\ProjectDuplicate;
 use Admin\Http\Controllers\Api\ProjectExportTimeLogs;
 use Admin\Http\Controllers\Api\ProjectFavorite;
-use Admin\Http\Controllers\Api\ProjectListSort;
 use Admin\Http\Controllers\Api\ProjectListsController;
+use Admin\Http\Controllers\Api\ProjectListSort;
 use Admin\Http\Controllers\Api\ProjectRestore;
-use Admin\Http\Controllers\Api\ProjectTimeLogs;
-use Admin\Http\Controllers\Api\ProjectTotalTime;
 use Admin\Http\Controllers\Api\ProjectsController;
 use Admin\Http\Controllers\Api\ProjectsOptions;
+use Admin\Http\Controllers\Api\ProjectTimeLogs;
+use Admin\Http\Controllers\Api\ProjectTotalTime;
 use Admin\Http\Controllers\Api\ProjectTypeController;
 use Admin\Http\Controllers\Api\RecentProjects;
 use Admin\Http\Controllers\Api\RolesController;
 use Admin\Http\Controllers\Api\SettingsEmailController;
 use Admin\Http\Controllers\Api\SettingsGeneralController;
+use Admin\Http\Controllers\Api\StatusController;
 use Admin\Http\Controllers\Api\SubTasksController;
 use Admin\Http\Controllers\Api\TaskArchive;
 use Admin\Http\Controllers\Api\TaskAssign;
@@ -48,8 +50,8 @@ use Admin\Http\Controllers\Api\TaskMove;
 use Admin\Http\Controllers\Api\TaskPriority;
 use Admin\Http\Controllers\Api\TaskRecurring;
 use Admin\Http\Controllers\Api\TaskRestore;
-use Admin\Http\Controllers\Api\TaskSort;
 use Admin\Http\Controllers\Api\TasksController;
+use Admin\Http\Controllers\Api\TaskSort;
 use Admin\Http\Controllers\Api\TimeLogsController;
 use Admin\Http\Controllers\Api\UpdateApp;
 use Admin\Http\Controllers\Api\UpdateRecipe;
@@ -139,5 +141,8 @@ Route::get('departments/get_all_departments', [DepartmentController::class, 'get
 Route::resource('departments', DepartmentController::class);
 
 // Statuses
-Route::get('statuses/get_all_statuses', [\App\Http\Controllers\StatusController::class, 'getAllStatuses'])->name('statuses.');
-Route::resource('statuses', \App\Http\Controllers\StatusController::class);
+Route::get('statuses/get_all_statuses', [StatusController::class, 'getAllStatuses'])->name('statuses.');
+Route::resource('statuses', StatusController::class);
+
+// logs
+Route::get('/logs', ActivityController::class);
