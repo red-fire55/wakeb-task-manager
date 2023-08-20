@@ -87,6 +87,11 @@ class User extends Authenticatable
     ];
 
     /**
+     * @var string[]
+     */
+    protected $appends = ['avatar'];
+
+    /**
      * Get user permissions
      *
      * @return array
