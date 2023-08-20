@@ -6,7 +6,9 @@ namespace App\Models;
 use AhsanDev\Support\Optionable;
 use App\Http\Filters\UserFilters;
 use AhsanDev\Support\Authorization\Authorizable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -35,20 +37,20 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|User filter(\App\Http\Filters\UserFilters $filters)
- * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @method static \Illuminate\Database\Eloquent\Builder|User whereAvatar($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereMeta($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static Builder|User filter(\App\Http\Filters\UserFilters $filters)
+ * @method static Builder|User newModelQuery()
+ * @method static Builder|User newQuery()
+ * @method static Builder|User query()
+ * @method static Builder|User whereAvatar($value)
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereEmail($value)
+ * @method static Builder|User whereEmailVerifiedAt($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User whereMeta($value)
+ * @method static Builder|User whereName($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User whereRememberToken($value)
+ * @method static Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable
@@ -87,11 +89,14 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get user permissions
-     *
-     * @return array
+     * @var string[]
      */
-    public function allPermissions()
+    protected $appends = ['avatar'];
+
+    /**
+     * @return mixed
+     */
+    public function allPermissions(): mixed
     {
         if ($this->id == 1) {
             return Permission::pluck('name');
@@ -104,9 +109,9 @@ class User extends Authenticatable
      * Get the user's avatar.
      *
      * @param string $value
-     * @return string
+     * @return string|null
      */
-    public function getAvatarAttribute($value)
+    public function getAvatarAttribute($value): string|null
     {
         return $value ? '/' . $value : null;
     }
@@ -116,7 +121,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         return $this->hasRole('Admin');
     }
@@ -126,7 +131,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function isUser()
+    public function isUser(): bool
     {
         return $this->hasRole('User');
     }
@@ -134,21 +139,19 @@ class User extends Authenticatable
     /**
      * Get the user's favorite projects.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function favorites()
+    public function favorites(): HasMany
     {
         return $this->hasMany(FavoriteProject::class);
     }
 
     /**
-     * Apply all relevant filters.
-     *
-     * @param Illuminate\Database\Eloquent\Builder $query
-     * @param App\Http\Filters\UserFilters $filters
+     * @param $query
+     * @param UserFilters $filters
      * @return Builder
      */
-    public function scopeFilter($query, UserFilters $filters)
+    public function scopeFilter($query, UserFilters $filters): Builder
     {
         return $filters->apply($query);
     }

@@ -4,6 +4,7 @@ namespace Admin\Http\Controllers\Api;
 
 use AhsanDev\Support\Field;
 use App\Http\Controllers\Controller;
+use App\Http\Filters\KpiFilters;
 use App\Http\Requests\KpiRequest;
 use App\Models\Kpi;
 use App\Models\KpiCategory;
@@ -19,9 +20,11 @@ class KpiController extends Controller
     /**
      * @return Paginator
      */
-    public function index(): Paginator
+    public function index(Request $request): Paginator
     {
+        $filters = $request->all();
         $query = Kpi::query();
+        $query = (new KpiFilters)->apply($query, $filters);
         return $query->with('owner')->with('category')->simplePaginate();
     }
 
