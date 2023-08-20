@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 
 class Kpi extends Model
 {
-    use HasFactory;
-    use Optionable;
+    use HasFactory, Optionable, LogsActivity;
 
 
     protected $fillable = ['measure', 'owner_id', 'notes', 'status', 'target', 'kpi_category_id', 'frequency', 'sub_weight'];
@@ -81,5 +82,14 @@ class Kpi extends Model
     private static function getTotalWeightForMeasure(): mixed
     {
         return DB::table('kpis')->select(DB::raw('SUM(sub_weight) as weight'))->groupBy('kpi_category_id')->value('weight');
+    }
+
+    /**
+     * @return LogOptions
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable();
     }
 }
