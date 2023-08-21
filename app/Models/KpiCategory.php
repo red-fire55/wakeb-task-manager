@@ -12,4 +12,16 @@ class KpiCategory extends Model
     use Optionable;
 
     protected $fillable = ['name', 'description'];
+
+    protected $appends = ['category_count'];
+
+    public function getCategoryCountAttribute($id)
+    {
+        return $this->kpis()->count();
+    }
+
+    public function kpis()
+    {
+        return $this->belongsTo(Kpi::class, 'id', 'kpi_category_id');
+    }
 }
