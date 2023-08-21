@@ -89,11 +89,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * @var string[]
-     */
-    protected $appends = ['avatar'];
-
-    /**
      * @return mixed
      */
     public function allPermissions(): mixed
