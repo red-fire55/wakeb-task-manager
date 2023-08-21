@@ -56,7 +56,12 @@
                                             {{ item.weight }}
                                         </td>
                                         <td class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500">
-                                            {{ item.sub_weight }}
+                                            <div class="flex justify-end mb-1">
+                                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400"> {{ item.sub_weight }}%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 ">
+                                    <div class="bg-sky-300 h-1.5 rounded-full" :style="`width: ${Number(item.sub_weight)}%`"></div>
+                                </div>
                                         </td>
                                         <td class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500 ">
                                             <span class="cursor-pointer">{{ item.category.name }}</span>
@@ -81,12 +86,7 @@
                                         </td>
                                         <td class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500">
                                            
-                                            <div class="flex justify-end mb-1">
-                                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400"> {{ item.status }}%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-1.5 ">
-                                    <div class="bg-sky-300 h-1.5 rounded-full" :style="`width: ${Number(item.status)}%`"></div>
-                                </div>
+                                            {{ item.status }}
                                         </td>
                                         <td class="whitespace-no-wrap flex items-center justify-start px-6 py-4 text-right text-sm font-medium leading-5">
                                             <span class="ml-2" @click="openModal(item.id)">
