@@ -2,11 +2,9 @@
 
 namespace Admin\Http\Controllers\Api;
 
-use App\Models\Project;
-use App\Models\Task;
+use App\Models\KpiCategory;
+use App\Models\Status;
 use Carbon\Carbon;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Charts
@@ -16,6 +14,8 @@ class Charts
         return [
             'chart_tasks_yearly' => $this->chartTasksYearly(),
             'chart_tasks_weekly' => $this->chartTasksWeekly(),
+            'chart_kpis_by_category' => $this->chartKpisByCategory(),
+            'chart_kpis_by_status' => $this->chartKpisByStatus(),
         ];
     }
 
@@ -31,17 +31,17 @@ class Charts
         $query = DB::table('tasks');
 
         $query->select(DB::raw("date_format(tasks.completed_at + INTERVAL 0 HOUR, '%Y-%m-%d') as date_result, count(tasks.id) as aggregate"))
-                ->whereBetween('tasks.completed_at', [today()->addDay()->subWeek(), $this->getTodayEndDate()])
-                ->whereNull('parent_id')
-                ->whereExists(function ($q) {
-                    $q->select(DB::raw('*'))
-                        ->from('users')
-                        ->join('task_user', 'users.id', '=', 'task_user.user_id')
-                        ->whereColumn('task_user.task_id', 'tasks.id')
-                        ->whereId(auth()->id());
-                })
-                ->groupBy(DB::raw("date_format(tasks.completed_at + INTERVAL 0 HOUR, '%Y-%m-%d')"))
-                ->orderBy('date_result');
+            ->whereBetween('tasks.completed_at', [today()->addDay()->subWeek(), $this->getTodayEndDate()])
+            ->whereNull('parent_id')
+            ->whereExists(function ($q) {
+                $q->select(DB::raw('*'))
+                    ->from('users')
+                    ->join('task_user', 'users.id', '=', 'task_user.user_id')
+                    ->whereColumn('task_user.task_id', 'tasks.id')
+                    ->whereId(auth()->id());
+            })
+            ->groupBy(DB::raw("date_format(tasks.completed_at + INTERVAL 0 HOUR, '%Y-%m-%d')"))
+            ->orderBy('date_result');
 
         $results = $query->get();
 
@@ -66,17 +66,17 @@ class Charts
         $query = DB::table('tasks');
 
         $query->select(DB::raw("date_format(tasks.completed_at + INTERVAL 0 HOUR, '%Y-%m') as date_result, count(tasks.id) as aggregate"))
-                ->whereBetween('tasks.completed_at', [today()->startOfYear(), today()->endOfYear()])
-                ->whereNull('parent_id')
-                ->whereExists(function ($q) {
-                    $q->select(DB::raw('*'))
-                        ->from('users')
-                        ->join('task_user', 'users.id', '=', 'task_user.user_id')
-                        ->whereColumn('task_user.task_id', 'tasks.id')
-                        ->whereId(auth()->id());
-                })
-                ->groupBy(DB::raw("date_format(tasks.completed_at + INTERVAL 0 HOUR, '%Y-%m')"))
-                ->orderBy('date_result');
+            ->whereBetween('tasks.completed_at', [today()->startOfYear(), today()->endOfYear()])
+            ->whereNull('parent_id')
+            ->whereExists(function ($q) {
+                $q->select(DB::raw('*'))
+                    ->from('users')
+                    ->join('task_user', 'users.id', '=', 'task_user.user_id')
+                    ->whereColumn('task_user.task_id', 'tasks.id')
+                    ->whereId(auth()->id());
+            })
+            ->groupBy(DB::raw("date_format(tasks.completed_at + INTERVAL 0 HOUR, '%Y-%m')"))
+            ->orderBy('date_result');
 
         $results = $query->get();
 
@@ -94,5 +94,25 @@ class Charts
         }
 
         return $months;
+    }
+
+    protected function chartKpisByCategory()
+    {
+        $categories = KpiCategory::get(['id', 'name']);
+        $result = [];
+        foreach ($categories as $category) {
+            $result[$category->name] = $category->kpis()->count();
+        }
+        return $result;
+    }
+
+    protected function chartKpisByStatus()
+    {
+        $statuses = Status::get(['id', 'name']);
+        $result = [];
+        foreach ($statuses as $status) {
+            $result[$status->name] = $status->kpis()->count();
+        }
+        return $result;
     }
 }

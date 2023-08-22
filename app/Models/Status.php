@@ -5,6 +5,7 @@ namespace App\Models;
 use AhsanDev\Support\Optionable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Status extends Model
 {
@@ -13,4 +14,12 @@ class Status extends Model
 
     protected $fillable = ['name', 'color', 'description'];
 
+
+    /**
+     * @return BelongsTo
+     */
+    public function kpis(): BelongsTo
+    {
+        return $this->belongsTo(Kpi::class, 'status_id', 'id');
+    }
 }

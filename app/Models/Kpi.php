@@ -27,7 +27,7 @@ class Kpi extends Model
      */
     public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'kpi_category_id', 'id');
+        return $this->belongsTo(User::class, 'owner_id', 'id');
     }
 
     /**
