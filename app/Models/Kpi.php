@@ -92,4 +92,12 @@ class Kpi extends Model
         return LogOptions::defaults()
             ->logFillable();
     }
+
+    /**
+     * @return HasOne
+     */
+    public function status(): HasOne
+    {
+        return $this->hasOne(Status::class, 'id', 'status_id');
+    }
 }

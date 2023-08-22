@@ -9,11 +9,7 @@ class KpiFilters
     {
         foreach ($filters as $filter => $value) {
             if (method_exists($this, $filter)) {
-                if (is_array($value) && sizeof($value) > 1) {
-                    $this->$filter($builder, $value[0], $value[1]);
-                } else {
-                    $this->$filter($builder, is_array($value) ? $value[0] : $value);
-                }
+                $this->$filter($builder, $value);
             }
         }
         return $builder;
@@ -24,18 +20,13 @@ class KpiFilters
      * @param $value
      * @return mixed
      */
-    private function category($query, $value): mixed
+    private function category($query, $categories): mixed
     {
-        return $query->where('kpi_category_id', $value);
+        return $query->whereIn('kpi_category_id', $categories);
     }
 
-    private function date($query, $start, $end): mixed
+    private function date($query, $dateRange): mixed
     {
-        //swap values if range is reversed
-        if ($start > $end) {
-            [$start, $end] = [$end, $start];
-        }
-
-        return $query->where('created_at', '>=', $start)->where('created_at', '<=', $end);
+        return $query->whereBetween('created_at', $dateRange);
     }
 }
