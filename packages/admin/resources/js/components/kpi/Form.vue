@@ -5,7 +5,7 @@
         <FieldText name="target" label="Target"  class="col-span-12"/>
 
         <FieldText name="status" label="Status"  class="col-span-12"/>
-        <FieldText name="sub_weight" label="Weight"  class="col-span-12"/>
+        <FieldText name="sub_weight" label="Weight" type="number" max="2" class="col-span-12"/>
       
         <FieldSelect name="frequency" label="Frequency" class="col-span-12" />
         

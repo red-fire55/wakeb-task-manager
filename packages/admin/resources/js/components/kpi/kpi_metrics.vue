@@ -19,7 +19,7 @@
         </dt>
         <dd class="flex items-baseline ltr:ml-16 rtl:mr-16">
           <p class="text-2xl font-semibold text-gray-900">
-            {{ 0 }}
+            {{ item.category_count }} Kpi
           </p>
         </dd>
       </div>

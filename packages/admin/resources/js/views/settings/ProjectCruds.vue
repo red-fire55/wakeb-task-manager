@@ -1,15 +1,18 @@
 
 <template>
   <section class="py-2">
-    <Collapsible close>
+    <Collapsible :open="isActive('/settings/Categories') || isActive('/settings/Departments') || isActive('/settings/Types') ">
+    <!--  -->
       <template #trigger="{ open }">
         <div class="flex cursor-pointer items-center pl-3">
           
- <p
+          <p
             class="px-1 text-md font-sm  text-gray-700"
           >
              Projects 
+             
           </p>
+
           <svg
             viewBox="0 0 16 16"
             class="h-4 w-4 text-gray-500 ml-auto mr-2"
@@ -28,14 +31,14 @@
           <template v-for="item in crud_tables" :key="item.name">
             <RouterLink
               v-slot="{ navigate, href, route }"
-              :to="`/${item.path}`"
+              :to="`${item.path}`"
               custom
             >
               <a
                 :href="href"
                 :class="[
                   isActive(item.path)
-                    ? 'text-gray-900'
+                    ? 'text-gray-900 bg-gray-100'
                     : 'text-gray-500 hover:bg-gray-100',
                   'group flex items-center rounded-md py-2 pl-7 pr-2 text-sm font-medium',
                 ]"
@@ -53,17 +56,18 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useRouter } from 'vue-router'
+  import { useRouter, useRoute } from 'vue-router'
   import { Collapsible } from 'thetheme'
 
   const router = useRouter(),
     path = computed(() => router.currentRoute.value.path)
-    const crud_tables = [{name:"category", path: 'settings/Categories'},
-     {name:"department", path:"settings/Departments"},
-     {name:"types", path:"settings/Types"}];
+    const crud_tables = [{name:"category", path: '/settings/Categories'},
+     {name:"department", path:"/settings/Departments"},
+     {name:"types", path:"/settings/Types"}]
+     const route = useRoute()
 
   function isActive(href: string) {
-    let new_path = `/${href}`
-    return path.value == new_path
+    return path.value == href
   }
+  let main_path = computed(() =>route.path)
 </script>
