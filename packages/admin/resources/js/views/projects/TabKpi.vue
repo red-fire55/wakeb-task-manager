@@ -68,7 +68,7 @@
                                         </td>
                                         <td class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500">
                                             <div class="flex -space-x-4 w-28">
-                                    <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/avatar-10.png" alt="" class="w-10 h-10 flex-shrink-0 border-2 border-white rounded-full ">
+                                    <img :src="item.owner.avatar" alt="" class="w-10 h-10 flex-shrink-0 border-2 border-white rounded-full ">
                                     
                                    
                                 </div>
@@ -148,6 +148,7 @@
         uri: 'kpis',
         filterUri: 'kpis',
         orderByDirection: 'desc',
+        page: 2
     })
     indexKpis.fetch()
     function checkProcessing() {

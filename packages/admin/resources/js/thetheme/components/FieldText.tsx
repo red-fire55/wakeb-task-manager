@@ -1,4 +1,4 @@
-import { defineComponent, inject } from 'vue'
+import { defineComponent, inject, watch } from 'vue'
 import { useFormStore } from 'spack'
 import type { PropType } from 'vue'
 import FieldBase from './FieldBase.vue'
@@ -26,6 +26,9 @@ export function useFieldText<T>() {
       lg: Boolean,
       full: Boolean,
       disabled: Boolean,
+      max: Number,
+      min: Number,
+
     },
 
     setup(props) {
@@ -42,6 +45,14 @@ export function useFieldText<T>() {
       // //   'sm:max-w-lg': props.lg,
       // //   'max-w-lg sm:max-w-xs': props.inline,
       // })
+
+
+      watch(
+        () => form.data[props.name],
+        (val) => {
+          props.max && val.toString().length < props.max ? '' : form.data[props.name] = val.toString().substr(0, props.max)
+        }
+      )
 
       return () => (
         <FieldBase

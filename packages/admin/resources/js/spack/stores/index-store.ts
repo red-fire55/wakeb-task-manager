@@ -20,6 +20,7 @@ export const useIndexStore = function (name: string) {
         searchNumericColumn: 'id',
         orderBy: 'id',
         orderByDirection: 'desc',
+        per_page: 2
       })
 
     function setConfig(props: {
