@@ -6,6 +6,7 @@ use AhsanDev\Support\Optionable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Status extends Model
 {
@@ -16,10 +17,10 @@ class Status extends Model
 
 
     /**
-     * @return BelongsTo
+     * @return HasMany
      */
-    public function kpis(): BelongsTo
+    public function kpis(): HasMany
     {
-        return $this->belongsTo(Kpi::class, 'status_id', 'id');
+        return $this->hasMany(Kpi::class, 'status_id', 'id');
     }
 }
