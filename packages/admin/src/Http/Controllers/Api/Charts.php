@@ -2,6 +2,7 @@
 
 namespace Admin\Http\Controllers\Api;
 
+use App\Models\Kpi;
 use App\Models\KpiCategory;
 use App\Models\Status;
 use Carbon\Carbon;
@@ -16,6 +17,7 @@ class Charts
             'chart_tasks_weekly' => $this->chartTasksWeekly(),
             'chart_kpis_by_category' => $this->chartKpisByCategory(),
             'chart_kpis_by_status' => $this->chartKpisByStatus(),
+            'chart_kpis_with_weight' => $this->chartKpisWithWeight(),
         ];
     }
 
@@ -114,5 +116,30 @@ class Charts
             $result[$status->name] = $status->kpis()->count();
         }
         return $result;
+    }
+
+    protected function chartKpisWithWeight()
+    {
+        $categoriesCount = KpiCategory::count();
+        $percentageOfCategory = 100 / max(1, $categoriesCount);
+        $sumOfKpisForEachCategory = Kpi::join('kpi_categories', 'kpi_categories.id', 'kpis.kpi_category_id')
+            ->groupBy('kpis.kpi_category_id')
+            ->select(DB::raw('SUM(kpis.sub_weight) as totalCategoryWeight'),
+                'kpi_categories.name as category_name', 'kpi_categories.id as category_id')
+            ->get();
+        $results = [];
+        foreach ($sumOfKpisForEachCategory as $category) {
+            $results = array_merge($results,
+                Kpi::where('kpi_category_id', $category->category_id)
+                    ->select(DB::raw("sub_weight/$category->totalCategoryWeight*100 as weightOfKpi"), "id", "measure")
+                    ->get()->toArray());
+        }
+        $lastResults = [];
+        foreach ($results as $item) {
+            $item['weightOfKpi'] *= ($percentageOfCategory / 100);
+            $item['weightOfKpi'] = number_format($item['weightOfKpi'], 2);
+            $lastResults[] = $item;
+        }
+        return $lastResults;
     }
 }

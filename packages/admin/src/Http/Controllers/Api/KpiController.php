@@ -25,7 +25,7 @@ class KpiController extends Controller
         $filters = $request->all();
         $query = Kpi::query();
         $query = (new KpiFilters)->apply($query, $filters);
-        return $query->with('owner')->with('category')->simplePaginate();
+        return $query->with('owner', 'category', 'status')->latest()->simplePaginate($request->input('per_page', 15));
     }
 
     /**
