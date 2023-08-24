@@ -12,8 +12,8 @@ export const useIndexStore = function (name: string) {
       shallowUri = ref<string>(''),
       data = ref<any>({}),
       filters = ref<any[]>([]),
-      appliedFilters = ref<any[]>([]),
-      params = ref<any>({
+      appliedFilters = ref<any[]>([])
+      let params = ref<any>({
         page: 1,
         search: null,
         searchColumn: 'name',
