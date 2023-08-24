@@ -4,7 +4,7 @@
   </div>
   <div v-else>
     <section>
-      <KpiMetrics @filterKpis="filter_kpi_category" />
+      <KpiMetrics @filterKpis="filter_kpi_category" :filters="filters"/>
 
       <Topbar :title="__('BalanceScore')">
         <div class="ltr:ml-auto rtl:mr-auto">
