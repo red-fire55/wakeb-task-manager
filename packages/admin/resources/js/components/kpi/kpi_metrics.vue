@@ -5,15 +5,13 @@
         class="relative overflow-hidden rounded-lg bg-white py-5 px-4 shadow sm:py-6 sm:px-6 cursor-pointer"
         v-for="(item, i) in categories"
         :key="i"
-        @click="filter_kpi(item.id)"
+        @click="filter_kpi(item)"
       >
         <dt>
           <div class="absolute rounded-md bg-indigo-500 p-3">
             <inbox-icon class="h-6 w-6 text-white" />
           </div>
-          <p
-            class="truncate text-sm font-medium text-gray-500 ltr:ml-16 rtl:mr-16"
-          >
+          <p class="truncate text-sm font-medium text-gray-500 ltr:ml-16 rtl:mr-16">
             {{ item.name }}
           </p>
         </dt>
@@ -23,31 +21,27 @@
           </p>
         </dd>
       </div>
-
-      
     </dl>
   </section>
 </template>
 
 <script setup lang="ts">
-  import { useHomeStore } from 'Store/home'
-  import {
-    CalendarIcon,
-    CheckCircleIcon,
-    InboxIcon,
-  } from '@heroicons/vue/24/outline'
-  import {ref, defineEmits } from "vue"
-  import {axios} from "spack"
-  let categories = ref([])
-  const emit = defineEmits(['filterKpis'])
+import { useHomeStore } from "Store/home";
+import { CalendarIcon, CheckCircleIcon, InboxIcon } from "@heroicons/vue/24/outline";
+import { ref, defineEmits } from "vue";
+import { axios } from "spack";
+let categories = ref([]),
+filter_categories = []
+const emit = defineEmits(["filterKpis"]);
 
-  const filter_kpi = (item)=>{
-    emit("filterKpis", item)
-  }
+const filter_kpi = (item) => {
+  filter_categories.push(item.id)
+  emit("filterKpis", filter_categories);
+};
 
-axios.get('kpiCategories').then(res=>{
-  categories.value = res.data.data 
-})
-  
-  const home = useHomeStore()
+axios.get("kpiCategories").then((res) => {
+  categories.value = res.data.data;
+});
+
+const home = useHomeStore();
 </script>
