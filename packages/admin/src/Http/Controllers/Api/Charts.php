@@ -138,7 +138,7 @@ class Charts
         foreach ($results as $item) {
             $item['weightOfKpi'] *= ($percentageOfCategory / 100);
             $item['weightOfKpi'] = number_format($item['weightOfKpi'], 2);
-            $lastResults[] = $item;
+            $lastResults[$item['measure']] = (float)$item['weightOfKpi'];
         }
         return $lastResults;
     }
