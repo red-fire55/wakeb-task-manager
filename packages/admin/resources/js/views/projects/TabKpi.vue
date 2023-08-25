@@ -246,7 +246,6 @@ function filter_kpi_category(data) {
       indexKpis.data.data = res.data.data;
     });
 }
-
 watch(
   () => kpis_form.data["filter_date_from"],
   (val) => {

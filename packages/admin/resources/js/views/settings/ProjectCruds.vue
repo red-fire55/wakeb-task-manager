@@ -63,7 +63,8 @@
     path = computed(() => router.currentRoute.value.path)
     const crud_tables = [{name:"category", path: '/settings/Categories'},
      {name:"department", path:"/settings/Departments"},
-     {name:"types", path:"/settings/Types"}]
+     {name:"types", path:"/settings/Types"},
+     {name:"status", path:"/settings/status"}]
      const route = useRoute()
 
   function isActive(href: string) {
