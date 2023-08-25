@@ -21,14 +21,18 @@ class Charts
         ];
     }
 
-    protected function getTodayEndDate()
+    /**
+     * @return Carbon
+     */
+    protected function getTodayEndDate(): Carbon
     {
         return today()->add('23 Hours 59 Minutes 59 Seconds');
-
-        return today()->add('18 Hours 59 Minutes 59 Seconds');
     }
 
-    protected function chartTasksWeekly()
+    /**
+     * @return array
+     */
+    protected function chartTasksWeekly(): array
     {
         $query = DB::table('tasks');
 
@@ -63,7 +67,10 @@ class Charts
         return $days;
     }
 
-    protected function chartTasksYearly()
+    /**
+     * @return array
+     */
+    protected function chartTasksYearly(): array
     {
         $query = DB::table('tasks');
 
@@ -98,7 +105,10 @@ class Charts
         return $months;
     }
 
-    protected function chartKpisByCategory()
+    /**
+     * @return array
+     */
+    protected function chartKpisByCategory(): array
     {
         $categories = KpiCategory::get(['id', 'name']);
         $result = [];
@@ -108,7 +118,10 @@ class Charts
         return $result;
     }
 
-    protected function chartKpisByStatus()
+    /**
+     * @return array
+     */
+    protected function chartKpisByStatus(): array
     {
         $statuses = Status::get(['id', 'name']);
         $result = [];
@@ -118,7 +131,10 @@ class Charts
         return $result;
     }
 
-    protected function chartKpisWithWeight()
+    /**
+     * @return array
+     */
+    protected function chartKpisWithWeight(): array
     {
         $categoriesCount = KpiCategory::count();
         $percentageOfCategory = 100 / max(1, $categoriesCount);
@@ -138,7 +154,7 @@ class Charts
         foreach ($results as $item) {
             $item['weightOfKpi'] *= ($percentageOfCategory / 100);
             $item['weightOfKpi'] = number_format($item['weightOfKpi'], 2);
-            $lastResults[] = $item;
+            $lastResults[$item['measure']] = (float)$item['weightOfKpi'];
         }
         return $lastResults;
     }
