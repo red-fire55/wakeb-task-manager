@@ -4,7 +4,7 @@
         <FieldSelect name="owner_id" label="Owner Name"  class="col-span-12"/>
         <FieldText name="target" label="Target"  class="col-span-12"/>
 
-        <FieldText name="status" label="Status"  class="col-span-12"/>
+        <FieldSelect name="status_id" label="Status"  class="col-span-12"/>
         <FieldText name="sub_weight" label="Weight" type="number" :max="2"  class="col-span-12"/>
       
         <FieldSelect name="frequency" label="Frequency" class="col-span-12" />

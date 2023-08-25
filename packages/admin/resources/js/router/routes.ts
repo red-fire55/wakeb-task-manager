@@ -18,6 +18,8 @@ import techRadar from 'View/radar/Index.vue'
 import Categories from "View/settings/cruds/category.vue"
 import Departments from "View/settings/cruds/Deoartments.vue"
 import Types from "View/settings/cruds/Types.vue"
+import Statuses from "View/settings/cruds/Status.vue"
+
 
 
 
@@ -42,6 +44,7 @@ export const routes: RouteRecordRaw[] = [
   { path: '/settings/Categories', component: Categories },
   { path: '/settings/Departments', component: Departments },
   { path: '/settings/Types', component: Types },
+  { path: '/settings/status', component: Statuses },
 
   //new routes
   { path: '/tech-radar', component: techRadar },
