@@ -138,10 +138,10 @@ class Charts
     {
         $categoriesCount = KpiCategory::count();
         $percentageOfCategory = 100 / max(1, $categoriesCount);
-        $sumOfKpisForEachCategory = Kpi::join('kpi_categories', 'kpi_categories.id', 'kpis.kpi_category_id')
+        $sumOfKpisForEachCategory = DB::table('kpis')
+            ->join('kpi_categories', 'kpis.kpi_category_id', '=', 'kpi_categories.id')
             ->groupBy('kpis.kpi_category_id')
-            ->select(DB::raw('SUM(kpis.sub_weight) as totalCategoryWeight'),
-                'kpi_categories.name as category_name', 'kpi_categories.id as category_id')
+            ->selectRaw('SUM(kpis.sub_weight) as totalCategoryWeight, kpi_categories.name as category_name, kpis.kpi_category_id as category_id')
             ->get();
         $results = [];
         foreach ($sumOfKpisForEachCategory as $category) {
