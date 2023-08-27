@@ -1,7 +1,7 @@
 
 <template>
   <section class="py-2">
-    <Collapsible :open="isActive('/settings/Categories') || isActive('/settings/Departments') || isActive('/settings/Types') ">
+    <Collapsible :open="isActive('/settings/Categories') || isActive('/settings/Departments') || isActive('/settings/Types') || isActive('/settings/status')">
     <!--  -->
       <template #trigger="{ open }">
         <div class="flex cursor-pointer items-center pl-3">

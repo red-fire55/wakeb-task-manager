@@ -162,7 +162,7 @@
           </div>
         </div>
       </div>
-      <charts class="w-full" />
+      <charts class="w-full mb-10" />
     </section>
   </div>
 </template>
