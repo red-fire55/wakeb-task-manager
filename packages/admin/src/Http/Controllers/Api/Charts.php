@@ -4,13 +4,17 @@ namespace Admin\Http\Controllers\Api;
 
 use App\Models\Kpi;
 use App\Models\KpiCategory;
+use App\Models\Milestone;
+use App\Models\Project;
 use App\Models\Status;
+use App\Models\Task;
 use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
 class Charts
 {
-    public function __invoke(): array
+    public function __invoke($project_id = 0): array
     {
         return [
             'chart_tasks_yearly' => $this->chartTasksYearly(),
@@ -18,6 +22,8 @@ class Charts
             'chart_kpis_by_category' => $this->chartKpisByCategory(),
             'chart_kpis_by_status' => $this->chartKpisByStatus(),
             'chart_kpis_with_weight' => $this->chartKpisWithWeight(),
+            'chart_tasks_for_milestone' => $this->chartTasksForMilestone(),
+            'chart_delegated_tasks_for_project' => $project_id ? $this->chartDelegatedTasksForProject($project_id) : [],
         ];
     }
 
@@ -157,5 +163,53 @@ class Charts
             $lastResults[$item['measure']] = (float)$item['weightOfKpi'];
         }
         return $lastResults;
+    }
+
+    /**
+     * @return array
+     */
+    protected function chartTasksForMilestone(): array
+    {
+        $milestones = Milestone::all();
+        $result = [];
+        foreach ($milestones as $milestone) {
+            $result[$milestone->name] = $milestone->tasks()->count();
+        }
+        return $result;
+    }
+
+    /**
+     * @param $projectId
+     * @return array
+     */
+    protected function chartDelegatedTasksForProject($projectId): array
+    {
+        $project = Project::find($projectId);
+        $delegatedTasks = Task::select(
+            DB::raw('YEAR(created_at) as year'),
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('count(*) as task_count')
+        )
+            ->where('project_id', $projectId)
+            ->where('completed_at', null)
+            ->orWhere('completed_at', '>', $project->end_time)
+            ->groupBy('year', 'month')
+            ->orderBy('year')
+            ->orderBy('month')
+            ->get();
+
+        $result = [];
+        for ($i = 0; $i < 12; $i++) {
+            $day = today()->month($i + 1)->format('M');
+            $result[$day] = $delegatedTasks[$day]->task_count ?? 0;
+        }
+        foreach ($delegatedTasks as $count) {
+            $year = $count->year;
+            $month = $count->month;
+            $taskCount = $count->task_count;
+            $date = Carbon::createFromDate($year, $month, 1);
+            $result[$date->format('M')] = $taskCount;
+        }
+        return $result;
     }
 }
