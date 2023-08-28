@@ -119,8 +119,8 @@ class Project extends Model
     public function getProgressAttribute(): float
     {
         $completedTasks = $this->getCompletedTasksCount();
-        $total = max($this->getAllTasksCount(), 1);
-        return number_format((($total - $completedTasks) / $total) * 100, 2);
+        $total = $this->getAllTasksCount();
+        return number_format((($total - $completedTasks) / (max($total, 1))) * 100, 2);
     }
 
     /**
