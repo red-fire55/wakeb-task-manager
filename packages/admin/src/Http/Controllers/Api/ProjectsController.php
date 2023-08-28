@@ -213,6 +213,7 @@ class ProjectsController extends AuthorizeController
         return Field::make()
             ->field('name', $model->name)
             ->field('description', $model->description)
+            ->field('end_time', $model->end_time)
             ->field('type_id', optional($model->type)->id, ProjectType::options())
             ->field('department_id', optional($model->department)->id, Department::options())
             ->field('color', $model->meta['color'] ?? Color::default(), Color::options())

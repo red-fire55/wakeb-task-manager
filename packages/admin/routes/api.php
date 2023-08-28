@@ -52,6 +52,7 @@ use Admin\Http\Controllers\Api\TaskRecurring;
 use Admin\Http\Controllers\Api\TaskRestore;
 use Admin\Http\Controllers\Api\TasksController;
 use Admin\Http\Controllers\Api\TaskSort;
+use Admin\Http\Controllers\Api\ProjectStatisticsController;
 use Admin\Http\Controllers\Api\TimeLogsController;
 use Admin\Http\Controllers\Api\UpdateApp;
 use Admin\Http\Controllers\Api\UpdateRecipe;
@@ -71,6 +72,9 @@ Route::resource('profile', ProfileController::class)->only(['create', 'store']);
 Route::resource('time-logs', TimeLogsController::class)->only(['index', 'store']);
 
 Route::resource('favorites', FavoritesController::class)->only(['index', 'store', 'destroy']);
+
+//Statistics
+Route::get('projects/{id}/statistics', ProjectStatisticsController::class);
 Route::get('projects/options', ProjectsOptions::class);
 Route::resource('projects', ProjectsController::class);
 Route::resource('projects.lists', ProjectListsController::class)->shallow();

@@ -22,7 +22,8 @@ class ProjectRequest extends FormRequest
             'color' => 'required',
             'users' => 'required|array',
             'type_id' => 'nullable|exists:project_types,id',
-            'department_id' => 'nullable|exists:departments,id'
+            'department_id' => 'nullable|exists:departments,id',
+            'end_time' => 'required|date'
         ];
     }
 
