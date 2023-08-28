@@ -43,9 +43,9 @@ class ProjectsController extends AuthorizeController
             $query->onlyTrashed();
         }
 
-        return $query->get(['id', 'name', 'meta'])
+        return $query->with(['type', 'department', 'users', 'status'])->get(['id', 'name', 'meta', 'end_time'])
             ->filter(function ($item) {
-                return $item->append(['is_favorite']);
+                return $item->append(['is_favorite', 'progress']);
             });
 
         $query->filter($filters)
@@ -216,6 +216,7 @@ class ProjectsController extends AuthorizeController
             ->field('end_time', $model->end_time)
             ->field('type_id', optional($model->type)->id, ProjectType::options())
             ->field('department_id', optional($model->department)->id, Department::options())
+            ->field('status_id', optional($model->status)->id, Status::options())
             ->field('color', $model->meta['color'] ?? Color::default(), Color::options())
             ->field('users', $model->users->isEmpty() ? [auth()->id()] : $model->users->pluck('id'), User::orderBy('name')->get(['id', 'name', 'email', 'avatar', 'meta']));
     }
