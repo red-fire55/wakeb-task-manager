@@ -61,7 +61,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('{resource}/filters', FiltersController::class);
 Route::get('metrics', Metrics::class);
-Route::get('charts', Charts::class);
+Route::get('charts/{project_id?}', Charts::class);
 Route::get('notifications', Notifications::class);
 Route::post('notifications/read', NotificationsRead::class);
 Route::get('recent-projects', RecentProjects::class);
