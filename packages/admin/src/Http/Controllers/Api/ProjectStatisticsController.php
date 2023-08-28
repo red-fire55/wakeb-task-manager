@@ -17,11 +17,11 @@ class ProjectStatisticsController extends Controller
     public function __invoke(Request $request, $id)
     {
         return [
-            'project_progress' => $this->getProjectProgress($id) . '%',
-            'opened_tasks' => $this->decimalRepresentation($this->getOpenedTasksCount($id), Task::count()) . '%',
-            'completed_tasks' => $this->decimalRepresentation($this->getCompletedTasksCount($id), Task::count()) . '%',
-            'opened_milestones' => $this->getOpenedMilestonesCount() . '%',
-            'completed_milestones' => $this->getCompletedMilestonesCount() . '%',
+            'project_progress' => $this->getProjectProgress($id),
+            'opened_tasks' => $this->decimalRepresentation($this->getOpenedTasksCount($id), Task::count()),
+            'completed_tasks' => $this->decimalRepresentation($this->getCompletedTasksCount($id), Task::count()),
+            'opened_milestones' => $this->getOpenedMilestonesCount(),
+            'completed_milestones' => $this->getCompletedMilestonesCount(),
         ];
     }
 

@@ -94,6 +94,48 @@ class Project extends Model
      */
     public function type(): HasOne
     {
-        return $this->hasOne(ProjectType::class, 'type_id', 'id');
+        return $this->hasOne(ProjectType::class, 'id', 'type_id');
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function department(): HasOne
+    {
+        return $this->hasOne(Department::class, 'id', 'department_id');
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function status(): HasOne
+    {
+        return $this->hasOne(Status::class, 'id', 'status_id');
+    }
+
+    /**
+     * @return float
+     */
+    public function getProgressAttribute(): float
+    {
+        $completedTasks = $this->getCompletedTasksCount();
+        $total = $this->getAllTasksCount();
+        return number_format((($total - $completedTasks) / $total) * 100, 2);
+    }
+
+    /**
+     * @return int
+     */
+    private function getCompletedTasksCount(): int
+    {
+        return Task::where('completed_at', '!=', null)->where('project_id', $this->id)->count();
+    }
+
+    /**
+     * @return int
+     */
+    private function getAllTasksCount(): int
+    {
+        return Task::where('project_id', $this->id)->count();
     }
 }
