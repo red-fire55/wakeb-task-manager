@@ -2,6 +2,8 @@ import { axios } from 'spack'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { ChartTasksWeekly, ChartTasksYearly } from 'types'
+import {useProjectDetail} from "Store/project-detail";
+
 
 interface Metrics {
   completed_tasks: number
@@ -17,7 +19,9 @@ interface Charts {
 export const useHomeStore = defineStore('home', () => {
   const fetching = ref<boolean>(true),
     metrics = ref<Metrics>(),
-    charts = ref<Charts>()
+    charts = ref<Charts>(),
+    project = useProjectDetail()
+
 
   init()
 
@@ -42,7 +46,7 @@ export const useHomeStore = defineStore('home', () => {
   }
 
   function fetchCharts() {
-    return axios.get<Charts>('charts')
+    return axios.get<Charts>(`charts/${project.data.id}`)
   }
 
   return {
