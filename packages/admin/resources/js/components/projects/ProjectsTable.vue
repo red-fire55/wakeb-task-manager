@@ -14,20 +14,21 @@
                   <tr>
                     <TableTh
                       name="name"
-                      :index="indexUser"
+                      :index="indexProjects"
                       :label="__('Name')"
                       sort="name"
                     />
-                    <TableTh name="status" :index="indexUser" :label="__('Status')" />
-                    <TableTh name="Users" :index="indexUser" :label="__('Users')" />
-                    <TableTh name="Progress" :index="indexUser" :label="__('Progress')" />
-                    <TableTh name="end time" :index="indexUser" :label="__('EndTime')" />
+                    <TableTh name="status" :index="indexProjects" :label="__('Status')" />
+                    <TableTh name="Users" :index="indexProjects" :label="__('Users')" />
+                    <TableTh name="Progress" :index="indexProjects" :label="__('Progress')" />
+                    <TableTh name="end time" :index="indexProjects" :label="__('EndTime')" />
+                    <TableTh name="end time" :index="indexProjects" :label="__('Actions')" />
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
                   <tr
                     class="border-b hover:bg-gray-100"
-                    v-for="(project, i) in projects"
+                    v-for="(project, i) in indexProjects.data"
                     :key="i"
                   >
                     <th
@@ -86,11 +87,29 @@
                     >
                       {{ project.end_time }}
                     </td>
+                    <td
+                      class="whitespace-no-wrap flex items-center justify-start px-6 py-4 text-right text-sm font-medium leading-5"
+                    >
+                      <span
+                        class="ml-2"
+                        @click="openModal(project.id)"
+                      >
+                        <PencilSquareIcon
+                          class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
+                        />
+                      </span>
+                        <!-- v-if="can('user:delete')" -->
+            
+                      <TrashIcon
+                        class="ml-2 w-5 cursor-pointer text-gray-400 hover:text-gray-800"
+                        @click="indexProjects.deleteIt(project.id)"
+                      />
+                    </td>
                   </tr>
                 </tbody>
               </table>
 
-              <IndexPagination :index="indexUser" />
+              <IndexPagination :index="indexProjects" />
             </div>
           </div>
         </div>
@@ -103,51 +122,35 @@
 import { ref } from "vue";
 import { useIndexStore, useModalsStore, axios } from "spack";
 import { IndexPagination, Loader, TableTh, TheButton, Topbar } from "thetheme";
-import Form from "../../components/milestone/Form.vue";
+import Form from "../../views/projects/Form.vue";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/vue/24/outline";
 
-const projects = ref<any>([]);
-
-axios.get("projects").then((response) => {
-  projects.value = response.data;
-});
-const indexUser = useIndexStore("user")(),
-  indexInvitation = useIndexStore("invitation")(),
+const indexProjects = useIndexStore("all-projects")(),
   processing = ref(true);
-// invitations = ref([])
 
 checkProcessing();
 
-indexUser.setConfig({
-  uri: "users",
+indexProjects.setConfig({
+  uri: "projects",
   orderByDirection: "desc",
 });
-indexUser.fetch();
-
-indexInvitation.setConfig({
-  uri: "invitations",
-  orderByDirection: "desc",
-});
-indexInvitation.fetch();
+indexProjects.fetch();
 
 function checkProcessing() {
   setTimeout(function () {
-    if (indexUser.fetching || indexInvitation.fetching) {
+    if (indexProjects.fetching) {
       checkProcessing();
       return;
     }
-
     renderData();
   }, 150);
 }
 
 function renderData() {
   processing.value = false;
+  localStorage.setItem("projects", indexProjects.data)
 }
 
-function OpenCreateMilestoneModal(id = null) {
-  useModalsStore().add(Form, { id });
-}
 
 function openModal(id: number | null = null) {
   useModalsStore().add(Form, { id });

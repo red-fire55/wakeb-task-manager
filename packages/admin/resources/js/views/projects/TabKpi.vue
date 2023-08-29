@@ -4,7 +4,7 @@
   </div>
   <div v-else>
     <section>
-      <KpiMetrics @filterKpis="filter_kpi_category" :filters="filters"/>
+      <KpiMetrics @filterKpis="filter_kpi_category" :filters="filters" />
 
       <Topbar :title="__('BalanceScore')">
         <div class="ltr:ml-auto rtl:mr-auto">
@@ -238,9 +238,12 @@ function filter_kpi_category(data) {
     dates: dates,
   };
   categories = data;
+  let filter_categories = data.map((category) => {
+    return category.id;
+  });
   axios
     .get(`kpis`, {
-      params: { ...indexKpis.params, "category[]": data, "date[]": dates },
+      params: { ...indexKpis.params, "category[]": filter_categories, "date[]": dates },
     })
     .then((res) => {
       indexKpis.data.data = res.data.data;

@@ -80,7 +80,7 @@
                     <td
                       class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                     >
-                      <span v-for="(item, i) in item.tasks" :key="i">{{ item.title }}</span>
+                      <span v-for="(item, i) in item.tasks" :key="i" class="shadow-sm shadow-gray-400 mr-1 ml-1 p-1 rounded-lg">{{ item.title }}</span>
                     </td>
 <td
                       class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
@@ -149,23 +149,24 @@
   } from 'thetheme'
   import Form from '../../components/milestone/Form.vue'
   import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
-
+  import {useProjectDetail} from "Store/project-detail";
+  
 
   const indexMilestone = useIndexStore('milestone')(),
-    processing = ref(true)
+    processing = ref(true),
+    project = useProjectDetail()
 
   checkProcessing()
     
   indexMilestone.setConfig({
-    uri: 'milestone',
+    uri: `milestone?project_id=${project.data.id}`,
     orderByDirection: 'desc',
   })
   indexMilestone.fetch()
 
- 
   function checkProcessing() {
     setTimeout(function () {
-      if (indexMilestone.fetching ) {
+      if (indexMilestone.fetching) {
         checkProcessing()
         return
       }
