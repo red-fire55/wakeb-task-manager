@@ -38,8 +38,9 @@
                     </th>
                     <td class="px-4 py-2 whitespace-nowrap">
                       <span
-                        class="bg-sky-300 text-primary-800 text-xs font-medium px-2.5 py-0.5 rounded"
-                        >{{ project.status }}</span
+                        :class="project.progress < 100 ? 'bg-sky-300 text-white text-xs font-medium px-2.5 py-0.5 rounded':
+                        'bg-green-300 text-white text-xs font-medium px-2.5 py-0.5 rounded'"
+                        >{{ project.progress < 100 ? 'in progress' : 'completed' }}</span
                       >
                     </td>
                     <td class="px-4 py-2 whitespace-nowrap">
