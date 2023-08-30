@@ -60,7 +60,7 @@ const emit = defineEmits(["filterKpis"]);
 
 const filter_kpi = (item) => {
   item.active = true;
-  filter_categories.push(item.id);
+  filter_categories.push(item);
   emit("filterKpis", filter_categories);
 };
 
@@ -71,7 +71,7 @@ watch(
   () => props.filters,
   (val) => {
     categories.value.forEach((category) => {
-      let check = val.categories.indexOf(category.id);
+      let check = val.categories.indexOf(category);
       check == -1 ? (category.active = false) : "";
     });
   },

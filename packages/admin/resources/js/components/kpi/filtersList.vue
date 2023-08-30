@@ -25,23 +25,33 @@
           class="py-2 text-sm text-gray-700 dark:text-gray-200"
           aria-labelledby="dropdownUserAvatarButton"
         >
-          <li
-            v-for="(item, i) in filters.categories"
-            :key="i"
-            @click="remove_category(item)"
-          >
+          <li class="px-4">
+            <div class="px-1 block">
+              filtered by categories
+            </div>
             <a
               href="#"
-              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >filtered by category {{ item }}</a
+              v-for="(item, i) in filters.categories"
+              :key="i"
+              @click="remove_category(item)"
+              class="block px-1 py-2 bg-indigo-500 text-white text-xs mt-2 rounded-lg text-center"
+              > {{ item.name }}</a
             >
           </li>
-          <li v-if="filters.dates.length > 1" @click="remove_date">
+          <li v-if="filters.dates.length > 1" @click="remove_date" class="px-4 mt-2 cursor-pointer">
+            <div class="px-1 block">
+              filtered by date
+            </div>
             <a
               href="#"
-              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >filtered by date
+              class="block px-1 py-2 bg-green-500 text-white text-xs mt-2 rounded-lg text-center mt-2"
+              >
               <div class="w-full">FROM : {{ filters.dates[0] }}</div>
+            </a>
+            <a
+              href="#"
+              class="block px-1 py-2 bg-green-500 text-white text-xs mt-2 rounded-lg text-center mt-2"
+              >
               <div class="w-full">TO : {{ filters.dates[1] }}</div>
             </a>
           </li>
