@@ -2,12 +2,12 @@
 
 namespace Admin\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use AhsanDev\Support\Authorization\Http\Controllers\AuthorizeController;
 use App\Http\Filters\ActivityFilters;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 
-class ActivityController extends Controller
+class ActivityController extends AuthorizeController
 {
 
     public function __invoke(Request $request)

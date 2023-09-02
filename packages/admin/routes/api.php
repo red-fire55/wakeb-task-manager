@@ -58,7 +58,8 @@ use Admin\Http\Controllers\Api\{ActivityController,
     TimeLogsController,
     UpdateApp,
     UpdateRecipe,
-    UsersController
+    UsersController,
+    UnitController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -159,3 +160,6 @@ Route::resource('levels', LevelController::class);
 
 // Sections of radar
 Route::resource('sections', SectionController::class);
+
+// Units of radar
+Route::resource('units', UnitController::class);
