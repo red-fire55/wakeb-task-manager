@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use AhsanDev\Support\Optionable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Section extends Model
 {
-    use HasFactory;
+    use HasFactory, Optionable;
 
     protected $fillable = ['name', 'description'];
 
