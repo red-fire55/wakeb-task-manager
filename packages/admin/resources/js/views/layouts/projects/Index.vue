@@ -51,10 +51,8 @@
             ></path>
           </svg>
 
-          <h3
-            class="px-3 text-xs font-semibold uppercase tracking-wider text-gray-500"
-          >
-            {{ __('Projects') }}
+          <h3 class="px-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
+            {{ __("Projects") }}
           </h3>
 
           <div class="ml-auto flex items-center">
@@ -65,25 +63,8 @@
             >
               <FolderOpenIcon class="h-3.5 w-3.5" />
             </RouterLink> -->
-            <RouterLink
-              v-slot="{ href, navigate }"
-              to="/tech-radar"
-              custom
-            >
-              <a
-                :href="href"
-                data-cy="projects-index-button-sidebar"
-                class="mr-2 flex h-6 w-6 items-center justify-center rounded text-gray-500 hover:bg-gray-700 hover:text-gray-300"
-                @click.stop="navigate"
-              >
-                <SignalIcon class="h-3.5 w-3.5" />
-              </a>
-            </RouterLink>
-            <RouterLink
-              v-slot="{ href, navigate }"
-              to="/projects"
-              custom
-            >
+            
+            <RouterLink v-slot="{ href, navigate }" to="/projects" custom>
               <a
                 :href="href"
                 data-cy="projects-index-button-sidebar"
@@ -122,10 +103,7 @@
                     : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                   'group flex items-center rounded-md px-3 py-2 text-sm font-medium',
                 ]"
-                @click="navigate, 
-            setId(item.id)"
-            
-                
+                @click="navigate, setId(item.id)"
               >
                 <span
                   class="h-2.5 w-2.5 rounded-full ltr:ml-1 ltr:mr-4 rtl:mr-1 rtl:ml-4"
@@ -152,30 +130,30 @@
 </template>
 
 <script setup lang="ts">
-  import SidebarProjectMenu from './ProjectMenu.vue'
-  import { useProjectIndex } from 'Store/project'
-  import { Collapsible } from 'thetheme'
-  import { FolderOpenIcon, PlusIcon, SignalIcon } from '@heroicons/vue/24/outline'
-  import { useRouter } from 'vue-router'
-  import { computed, ref } from 'vue'
+import SidebarProjectMenu from "./ProjectMenu.vue";
+import { useProjectIndex } from "Store/project";
+import { Collapsible } from "thetheme";
+import { FolderOpenIcon, PlusIcon } from "@heroicons/vue/24/outline";
+import { useRouter } from "vue-router";
+import { computed, ref } from "vue";
 
-  const project = useProjectIndex(),
-    router = useRouter(),
-    path = computed(() => router.currentRoute.value.path),
-    currentIndex = ref(null)
+const project = useProjectIndex(),
+  router = useRouter(),
+  path = computed(() => router.currentRoute.value.path),
+  currentIndex = ref(null);
 
-  function isActive(href: string): boolean {
-    return path.value.startsWith(href)
-  }
-function setId(id:number){
-  localStorage.setItem("project_id", id)
+function isActive(href: string): boolean {
+  return path.value.startsWith(href);
+}
+function setId(id: number) {
+  localStorage.setItem("project_id", id);
 }
 
-  function onToggle(data: any) {
-    if (data.state) {
-      currentIndex.value = data.index
-    } else if (currentIndex.value == data.index) {
-      currentIndex.value = null
-    }
+function onToggle(data: any) {
+  if (data.state) {
+    currentIndex.value = data.index;
+  } else if (currentIndex.value == data.index) {
+    currentIndex.value = null;
   }
+}
 </script>

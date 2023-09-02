@@ -1,71 +1,76 @@
 <template>
-<div>
-  <button @click="sliceCount++" class="bg-[red] text-white mr-5">add</button>
-     <button @click="sliceCount--">remove</button>
-  <div class="flex flex-row content-center justify-center">
-    
-    <div class="pie-container p-8 mx-auto">
-    <svg :width="size" :height="size">
-      <circle :cx="radius" :cy="radius" :r="radius" fill="white" stroke="black" stroke-width="2" />
-      <g v-for="(slice, index) in slices" :key="index" fill="white">
-        <path :d="describeArc(radius, radius, radius, slice.startAngle, slice.endAngle)" :stroke="slice.color" />
-      </g>
-    </svg>
+  <div>
+    <Topbar title="Technology Tadar">
+      <div class="ltr:ml-auto rtl:mr-auto">
+        <div class="flex flex-row flex-row-reverse items-center">
+          <TheButton
+            size="lg"
+            data-cy="topbar-invitation-create-button"
+            @click="OpenCreateKpisModal"
+          >
+            New Entry
+          </TheButton>
+        </div>
+      </div>
+    </Topbar>
+    <div class="flex flex-row content-center justify-center">
+      <div class="pie-container p-8 mx-auto">
+        <svg id="radar"></svg>
+      </div>
+    </div>
   </div>
-  </div></div>
 </template>
 
 <script>
+import { radar_visualization } from "./radar";
+import { TheButton, Topbar } from "thetheme";
 export default {
+  components:{
+    TheButton, Topbar
+  },
   data() {
-    return {
-      slices: [],
-      size: 900,
-      radius: 250,
-      sliceCount: 5 // Change this value to adjust the number of slices
-    }
+    return {};
   },
-  methods: {
-    describeArc(x, y, radius, startAngle, endAngle) {
-      const start = this.polarToCartesian(x, y, radius, endAngle)
-      const end = this.polarToCartesian(x, y, radius, startAngle)
-      const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1"
-      const d = [
-        "M", start.x, start.y,
-        "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y,
-        "L", x, y,
-        "L", start.x, start.y,
-        "z"
-      ].join(" ")
-      return d
-    },
-    polarToCartesian(x, y, radius, angleInDegrees) {
-      const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0
-      return {
-        x: x + (radius * Math.cos(angleInRadians)),
-        y: y + (radius * Math.sin(angleInRadians))
-      }
-    },
-    updateSlices() {
-      const sliceAngle = 360 / this.sliceCount
-      this.slices = []
-      for (let i = 0; i < this.sliceCount; i++) {
-        const startAngle = i * sliceAngle
-        const endAngle = (i + 1) * sliceAngle
-        const color = `hsl(${i * (360 / this.sliceCount)}, 50%, 50%)`
-        this.slices.push({ startAngle, endAngle, color })
-      }
-    }
+  methods: {},
+  async mounted() {
+    radar_visualization({
+      svg_id: "radar",
+      width: 1450,
+      height: 1000,
+      colors: {
+        background: "#fff",
+        grid: "#bbb",
+        inactive: "#ddd",
+      },
+      title: "Wakeb Technology Radar",
+      quadrants: [
+        { name: "Languages & Frameworks" },
+        { name: "Platforms" },
+        { name: "Techniques" },
+        { name: "Tools" },
+      ],
+      rings: [
+        { name: "Adopt", color: "#5ba300" },
+        { name: "Trial", color: "#009eb0" },
+        { name: "Assess", color: "#c7ba00" },
+        { name: "Hold", color: "#e09b96" },
+      ],
+      print_layout: true,
+      links_in_new_tabs: true,
+      entries: [
+        {
+          label: "PHP",
+          quadrant: 3, // 0,1,2,3 (counting clockwise, starting from bottom right)
+          ring: 2, // 0,1,2,3 (starting from inside)
+          moved: -1, // -1 = moved out (triangle pointing down)
+          //  0 = not moved (circle)
+          //  1 = moved in  (triangle pointing up)
+        },
+        // ...
+      ],
+    });
   },
-  mounted() {
-    this.updateSlices()
-  },
-  watch: {
-    sliceCount() {
-      this.updateSlices()
-    }
-  }
-}
+};
 </script>
 
 <style>
