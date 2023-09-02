@@ -60,8 +60,11 @@ const emit = defineEmits(["filterKpis"]);
 
 const filter_kpi = (item) => {
   item.active = true;
-  filter_categories.push(item);
-  emit("filterKpis", filter_categories);
+  let index = filter_categories.indexOf(item);
+  if (index == -1) {
+    filter_categories.push(item);
+    emit("filterKpis", filter_categories);
+  }
 };
 
 const props = defineProps<{

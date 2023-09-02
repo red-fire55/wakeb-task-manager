@@ -1,4 +1,4 @@
-import { HomeIcon, InboxIcon, UserIcon } from '@heroicons/vue/24/outline'
+import { HomeIcon, InboxIcon, UserIcon, SignalIcon, ChartBarIcon } from '@heroicons/vue/24/outline'
 import type { SidebarNav } from '@/types'
 
 export const useSidebarNav: SidebarNav[] = [
@@ -9,5 +9,15 @@ export const useSidebarNav: SidebarNav[] = [
     uri: '/users',
     icon: UserIcon,
     permission: 'user:view',
+  },
+  {
+    label: 'Technology Radar',
+    uri: '/tech-radar',
+    icon: SignalIcon,
+  },
+  {
+    label: 'Balance Score',
+    uri: '/balance-score',
+    icon: ChartBarIcon,
   },
 ]
