@@ -43,24 +43,24 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, inject } from 'vue'
-  import { useSidebarNav } from 'Use/sidebar-nav'
-  import { useRouter } from 'vue-router'
-  import { PlusIcon } from '@heroicons/vue/24/outline'
+import { computed, inject } from "vue";
+import { useSidebarNav } from "Use/sidebar-nav";
+import { useRouter } from "vue-router";
+import { PlusIcon } from "@heroicons/vue/24/outline";
 
-  const can = inject('can')
-  const router = useRouter()
-  const path = computed(() => router.currentRoute.value.path)
+const can = inject("can");
+const router = useRouter();
+const path = computed(() => router.currentRoute.value.path);
 
-  function isActive(uri: string) {
-    if (uri === '/' || uri == '/projects') {
-      return path.value === uri
-    }
-
-    return path.value.startsWith(uri)
+function isActive(uri: string) {
+  if (uri === "/" || uri == "/projects") {
+    return path.value === uri;
   }
 
-  function create(uri: string) {
-    router.push(uri)
-  }
+  return path.value.startsWith(uri);
+}
+
+function create(uri: string) {
+  router.push(uri);
+}
 </script>

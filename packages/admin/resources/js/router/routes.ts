@@ -19,6 +19,7 @@ import Categories from "View/settings/cruds/category.vue"
 import Departments from "View/settings/cruds/Deoartments.vue"
 import Types from "View/settings/cruds/Types.vue"
 import Statuses from "View/settings/cruds/Status.vue"
+import Kpi from "View/Kpi/index.vue"
 
 
 
@@ -48,9 +49,11 @@ export const routes: RouteRecordRaw[] = [
 
   //new routes
   { path: '/tech-radar', component: techRadar },
+  { path: '/balance-score', component: Kpi },
+
 
   { path: '/403', name: 'Forbidden', component: Forbidden },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
-
+  
   //new routes
 ]
