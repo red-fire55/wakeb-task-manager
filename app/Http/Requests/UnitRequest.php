@@ -19,6 +19,7 @@ class UnitRequest extends FormRequest
             'description' => 'nullable',
             'section_id' => 'required|exists:sections,id',
             'level_id' => 'required|exists:levels,id',
+            'next_level' => 'nullable|exists:levels,id',
         ];
     }
 }

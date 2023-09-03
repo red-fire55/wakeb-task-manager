@@ -21,7 +21,7 @@ class UnitController extends AuthorizeController
     public function index(Request $request): Paginator
     {
         $query = Unit::query();
-        return $query->with('section')->with('level')->simplePaginate($request->input('per_page', 10));
+        return $query->with('section')->with('level')->with('nextLevel')->simplePaginate($request->input('per_page', 10));
     }
 
     /**
@@ -102,6 +102,7 @@ class UnitController extends AuthorizeController
             ->field('name', $model->name)
             ->field('description', $model->description)
             ->field('section_id', optional($model->section)->id, Section::options())
-            ->field('level_id', optional($model->level)->id, Level::options());
+            ->field('level_id', optional($model->level)->id, Level::options())
+            ->field('next_level', optional($model->nextlevel)->id, Level::options());
     }
 }
