@@ -48,22 +48,22 @@ export function radar_visualization(config) {
     ];
   
     const rings = [
-      { radius: 40 },
-      { radius: 120 },
-      { radius: 200 },
-      { radius: 300 }
+      { radius: 50 },
+      { radius: 130 },
+      { radius: 230 },
+      { radius: 310 }
     ];
   
     const title_offset =
-      { x: -575, y: -360 };
+      { x: -555, y: -385 };
   
     const footer_offset =
-      { x: -575, y: 360 };
+      { x: -555, y: 380 };
   
     const legend_offset = [
       { x: 340, y: 70 },
-      { x: -575, y: 70 },
-      { x: -575, y: -310 },
+      { x: -555, y: 70 },
+      { x: -555, y: -310 },
       { x: 340, y: -310 }
     ];
   
@@ -184,10 +184,10 @@ export function radar_visualization(config) {
   
     function viewbox(quadrant) {
       return [
-        Math.max(0, quadrants[quadrant].factor_x * 400) - 420,
-        Math.max(0, quadrants[quadrant].factor_y * 400) - 420,
-        440,
-        440
+        Math.max(0, quadrants[quadrant].factor_x * 310) - 420,
+        Math.max(0, quadrants[quadrant].factor_y * 310) - 420,
+        310,
+        310
       ].join(" ");
     }
   
@@ -207,13 +207,13 @@ export function radar_visualization(config) {
   
     // draw grid lines
     grid.append("line")
-      .attr("x1", 0).attr("y1", -400)
-      .attr("x2", 0).attr("y2", 400)
+      .attr("x1", 0).attr("y1", -310)
+      .attr("x2", 0).attr("y2", 310)
       .style("stroke", config.colors.grid)
       .style("stroke-width", 1);
     grid.append("line")
-      .attr("x1", -400).attr("y1", 0)
-      .attr("x2", 400).attr("y2", 0)
+      .attr("x1", -310).attr("y1", 0)
+      .attr("x2", 310).attr("y2", 0)
       .style("stroke", config.colors.grid)
       .style("stroke-width", 1);
   
@@ -248,7 +248,7 @@ export function radar_visualization(config) {
           .style("fill", config.rings[i].color)
           .style("opacity", 0.35)
           .style("font-family", "Arial, Helvetica")
-          .style("font-size", "42px")
+          .style("font-size", "32px")
           .style("font-weight", "bold")
           .style("pointer-events", "none")
           .style("user-select", "none");
@@ -284,7 +284,7 @@ export function radar_visualization(config) {
         .attr("transform", translate(title_offset.x, title_offset.y + 20))
         .text(config.date || "")
         .style("font-family", "Arial, Helvetica")
-        .style("font-size", "14")
+        .style("font-size", "10px")
         .style("fill", "#999")
   
       // footer
