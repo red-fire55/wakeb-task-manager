@@ -48,8 +48,8 @@ export function radar_visualization(config) {
     ];
   
     const rings = [
-      { radius: 50 },
-      { radius: 130 },
+      { radius: 90 },
+      { radius: 160 },
       { radius: 230 },
       { radius: 310 }
     ];
