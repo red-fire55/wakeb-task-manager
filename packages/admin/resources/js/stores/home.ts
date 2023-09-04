@@ -2,7 +2,7 @@ import { axios } from 'spack'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { ChartTasksWeekly, ChartTasksYearly } from 'types'
-import {useProjectDetail} from "Store/project-detail";
+import { useProjectDetail } from "Store/project-detail";
 
 
 interface Metrics {
@@ -46,7 +46,9 @@ export const useHomeStore = defineStore('home', () => {
   }
 
   function fetchCharts() {
-    return axios.get<Charts>(`charts/${project.data.id}`)
+    return project.data.id ?
+      axios.get<Charts>(`charts/${project.data.id}`)
+      : axios.get<Charts>(`charts`)
   }
 
   return {
