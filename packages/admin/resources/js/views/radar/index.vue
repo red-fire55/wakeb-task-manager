@@ -113,8 +113,8 @@ export default {
       });
       radar_visualization({
         svg_id: "radar",
-        width: 1450,
-        height: 1000,
+        width: 1150,
+        height: 850,
         colors: {
           background: "#fff",
           grid: "#bbb",
