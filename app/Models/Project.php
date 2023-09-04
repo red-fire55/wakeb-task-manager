@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Filters\ProjectFilters;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -137,5 +138,14 @@ class Project extends Model
     private function getAllTasksCount(): int
     {
         return Task::where('project_id', $this->id)->count();
+    }
+
+    /**
+     * @param $date
+     * @return string
+     */
+    public function getEndTimeAttribute($date): string
+    {
+        return Carbon::create($date)->diffForHumans();
     }
 }
