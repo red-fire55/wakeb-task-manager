@@ -29,7 +29,7 @@
 <script>
 import { radar_visualization } from "./radar";
 import { TheButton, Topbar, Loader } from "thetheme";
-import { ref } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useIndexStore, useModalsStore, useFormStore, axios } from "spack";
 import Form from "@/components/radar/Form.vue";
 export default {
@@ -38,21 +38,11 @@ export default {
     Topbar,
     Loader,
   },
-  data() {
-    return {
-      categories: [
-        { name: "Languages & Frameworks" },
-        { name: "Platforms" },
-        { name: "Techniques" },
-        { name: "Tools" },
-      ],
-      rings: [
-        { name: "Adopt", color: "#5ba300" },
-        { name: "Trial", color: "#009eb0" },
-        { name: "Assess", color: "#c7ba00" },
-        { name: "Hold", color: "#e09b96" },
-      ],
-      entries: [
+  
+  setup() {
+    let indexUnits = useIndexStore("units")(),
+      processing = ref(true),
+      entries= [
         // {
         //   label: "PHP Laravel",
         //   quadrant: 0, // 0,1,2,3 (counting clockwise, starting from bottom right)
@@ -61,12 +51,18 @@ export default {
         //   //  0 = not moved (circle)
         //   //  1 = moved in  (triangle pointing up)
         // },
+      ],categories= [
+        { name: "Languages & Frameworks" },
+        { name: "Platforms" },
+        { name: "Techniques" },
+        { name: "Tools" },
       ],
-    };
-  },
-  setup() {
-    let indexUnits = useIndexStore("units")(),
-      processing = ref(true);
+      rings= [
+        { name: "Adopt", color: "#5ba300" },
+        { name: "Trial", color: "#009eb0" },
+        { name: "Assess", color: "#c7ba00" },
+        { name: "Hold", color: "#e09b96" },
+      ];
 
     function checkProcessing() {
       setTimeout(function () {
@@ -88,27 +84,14 @@ export default {
       });
     }
 
-    return {
-      OpenCreateEntryModal,
-      indexUnits,
-      checkProcessing,
-    };
-  },
-  methods: {},
-  async created() {
-    this.checkProcessing();
-    this.indexUnits.setConfig({
-      uri: "units",
-      orderByDirection: "desc",
-    });
-    await this.indexUnits.fetch();
-    setTimeout(() => {
-      this.entries = this.indexUnits.data.data.map((item) => {
+   function drawRadar(){
+localStorage.setItem("units-all-new", JSON.stringify(indexUnits.data.data))
+      entries = indexUnits.data.data.map((item) => {
         return {
           label: item.name,
           quadrant: item.section.order,
           ring: item.level.order,
-          moved: item.next_level.id,
+          moved: item.next_level,
         };
       });
       radar_visualization({
@@ -121,14 +104,37 @@ export default {
           inactive: "#ddd",
         },
         title: "Wakeb Technology Radar",
-        quadrants: this.categories,
-        rings: this.rings,
+        quadrants: categories,
+        rings: rings,
         print_layout: true,
         links_in_new_tabs: true,
-        entries: this.entries,
+        entries: entries,
       });
-    }, 2000);
+   }
+ onMounted(async ()=>{
+  checkProcessing();
+    indexUnits.setConfig({
+      uri: "units",
+      orderByDirection: "desc",
+    });
+    await indexUnits.fetch()
+   
+ })
+ watch(()=> indexUnits.fetching, (val)=>{
+  if(!val){
+    setTimeout(()=>{
+    drawRadar()
+
+    }, 1000)
+  }
+ })
+    return {
+      OpenCreateEntryModal,
+      indexUnits,
+      checkProcessing,
+    };
   },
+  methods: {},
   async mounted() {},
 };
 </script>
