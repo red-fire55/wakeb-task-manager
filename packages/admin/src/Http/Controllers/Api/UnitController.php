@@ -4,7 +4,6 @@ namespace Admin\Http\Controllers\Api;
 
 use AhsanDev\Support\Authorization\Http\Controllers\AuthorizeController;
 use AhsanDev\Support\Field;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\UnitRequest;
 use App\Models\Level;
 use App\Models\Section;
@@ -21,7 +20,7 @@ class UnitController extends AuthorizeController
     public function index(Request $request): Paginator
     {
         $query = Unit::query();
-        return $query->with('section')->with('level')->with('nextLevel')->simplePaginate($request->input('per_page', 10));
+        return $query->with('section')->with('level')->simplePaginate($request->input('per_page', 10));
     }
 
     /**
@@ -103,6 +102,6 @@ class UnitController extends AuthorizeController
             ->field('description', $model->description)
             ->field('section_id', optional($model->section)->id, Section::options())
             ->field('level_id', optional($model->level)->id, Level::options())
-            ->field('next_level', optional($model->nextlevel)->id, Level::options());
+            ->field('next_level', $model->next_level);
     }
 }
