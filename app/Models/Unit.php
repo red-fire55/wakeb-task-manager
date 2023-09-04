@@ -27,12 +27,4 @@ class Unit extends Model
     {
         return $this->belongsTo(Level::class);
     }
-
-    /**
-     * @return BelongsTo
-     */
-    public function nextlevel(): BelongsTo
-    {
-        return $this->belongsTo(Level::class, 'next_level', 'id');
-    }
 }
