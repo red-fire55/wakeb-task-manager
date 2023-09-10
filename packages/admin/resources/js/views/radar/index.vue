@@ -38,11 +38,11 @@ export default {
     Topbar,
     Loader,
   },
-  
+
   setup() {
     let indexUnits = useIndexStore("units")(),
       processing = ref(true),
-      entries= [
+      entries = [
         // {
         //   label: "PHP Laravel",
         //   quadrant: 0, // 0,1,2,3 (counting clockwise, starting from bottom right)
@@ -51,13 +51,14 @@ export default {
         //   //  0 = not moved (circle)
         //   //  1 = moved in  (triangle pointing up)
         // },
-      ],categories= [
+      ],
+      categories = [
         { name: "Languages & Frameworks" },
         { name: "Platforms" },
         { name: "Techniques" },
         { name: "Tools" },
       ],
-      rings= [
+      rings = [
         { name: "Adopt", color: "#5ba300" },
         { name: "Trial", color: "#009eb0" },
         { name: "Assess", color: "#c7ba00" },
@@ -84,8 +85,8 @@ export default {
       });
     }
 
-   function drawRadar(){
-localStorage.setItem("units-all-new", JSON.stringify(indexUnits.data.data))
+    function drawRadar() {
+      localStorage.setItem("units-all-new", JSON.stringify(indexUnits.data.data));
       entries = indexUnits.data.data.map((item) => {
         return {
           label: item.name,
@@ -94,9 +95,11 @@ localStorage.setItem("units-all-new", JSON.stringify(indexUnits.data.data))
           moved: item.next_level,
         };
       });
+      
+      let width = window.outerWidth
       radar_visualization({
         svg_id: "radar",
-        width: 1150,
+        width: width <1920 && width > 1280? 1150: 1450,
         height: 850,
         colors: {
           background: "#fff",
@@ -110,32 +113,36 @@ localStorage.setItem("units-all-new", JSON.stringify(indexUnits.data.data))
         links_in_new_tabs: true,
         entries: entries,
       });
-   }
- onMounted(async ()=>{
-  checkProcessing();
-    indexUnits.setConfig({
-      uri: "units",
-      orderByDirection: "desc",
+    }
+    onMounted(async () => {
+      checkProcessing();
+      indexUnits.setConfig({
+        uri: "units",
+        orderByDirection: "desc",
+      });
+      await indexUnits.fetch();
     });
-    await indexUnits.fetch()
-   
- })
- watch(()=> indexUnits.fetching, (val)=>{
-  if(!val){
-    setTimeout(()=>{
-    drawRadar()
+    watch(
+      () => indexUnits.fetching,
+      (val) => {
+        if (!val) {
+          setTimeout(() => {
+            drawRadar();
+          }, 1000);
+        }
+      }
+    );
 
-    }, 1000)
-  }
- })
     return {
       OpenCreateEntryModal,
       indexUnits,
       checkProcessing,
+      height
     };
   },
   methods: {},
-  async mounted() {},
+  async mounted() {
+  },
 };
 </script>
 
