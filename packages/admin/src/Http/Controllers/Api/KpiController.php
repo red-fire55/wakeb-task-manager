@@ -8,6 +8,7 @@ use App\Http\Filters\KpiFilters;
 use App\Http\Requests\KpiRequest;
 use App\Models\Kpi;
 use App\Models\KpiCategory;
+use App\Models\Project;
 use App\Models\Status;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\Paginator;
@@ -25,7 +26,7 @@ class KpiController extends AuthorizeController
         $filters = $request->all();
         $query = Kpi::query();
         $query = (new KpiFilters)->apply($query, $filters);
-        return $query->with('owner', 'category', 'status')->latest()->simplePaginate($request->input('per_page', 15));
+        return $query->with('owner', 'category', 'status', 'project')->latest()->simplePaginate($request->input('per_page', 15));
     }
 
     /**
@@ -103,6 +104,8 @@ class KpiController extends AuthorizeController
             ->field('sub_weight', $model->sub_weight)
             ->field('weight', $model->weight)
             ->field('kpi_category_id', $model->kpi_category_id, KpiCategory::options())
+            ->field('project_id', $model->project_id, Project::options())
+            ->field('isCompany', $model->isCompany)
             ->field('previous_result', $resultHistory > 1 ? $model->resultHistory()->offset($resultHistory - 2)->limit(1)->get() : null)
             ->field('current_result', $model->resultHistory()->latest()->first());
     }

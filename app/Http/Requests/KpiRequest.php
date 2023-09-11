@@ -24,6 +24,8 @@ class KpiRequest extends FormRequest
             'kpi_category_id' => 'required|exists:kpi_categories,id',
             'frequency' => 'nullable|numeric|exists:frequencies,id',
             'sub_weight' => 'required|numeric',
+            'project_id' => 'nullable|exists:projects,id',
+            'isCompany' => 'nullable',
         ];
     }
 
