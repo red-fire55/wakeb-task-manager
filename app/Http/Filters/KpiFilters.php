@@ -34,4 +34,9 @@ class KpiFilters
     {
         return $query->where('project_id', $project_id);
     }
+
+    private function company($query, $isCompany): mixed
+    {
+        return $query->where('isCompany', $isCompany);
+    }
 }
