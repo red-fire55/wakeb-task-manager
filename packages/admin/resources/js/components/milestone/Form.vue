@@ -1,7 +1,7 @@
 <template>
   <FormModal :id="id" :name="name" uri="milestone">
     <FieldText name="name" label="Name" class="col-span-12" />
-    <FieldText name="order" label="Order" class="col-span-12" type="number" />
+    <FieldText name="order" label="Priority" class="col-span-12" type="number" />
     <DatePicker name="Start Date" value="start_date" :formName="name" class="col-span-12"/>
     <DatePicker name="End Date" value="end_date" :formName="name" class="col-span-12"/>
   </FormModal>

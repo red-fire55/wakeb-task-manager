@@ -146,6 +146,8 @@
     { component: markRaw(TabKpi), label: 'Kpi' },
   ])
 
+  tab.select(2)
+
   project.fetch(route.params.id as string)
 
   function openModal(id: string) {

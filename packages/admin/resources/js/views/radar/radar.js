@@ -46,7 +46,11 @@ export function radar_visualization(config) {
       { radial_min: -1, radial_max: -0.5, factor_x: -1, factor_y: -1 },
       { radial_min: -0.5, radial_max: 0, factor_x: 1, factor_y: -1 }
     ];
-  
+   
+    // let rings_size = ()=>{
+    //   reutrn window.innerWidth <
+    // } 
+
     const rings = [
       { radius: 90 },
       { radius: 160 },
@@ -61,12 +65,18 @@ export function radar_visualization(config) {
       { x: -555, y: 380 };
   
     const legend_offset = [
+      { x: 30, y: -490 },
+      { x: 30, y: 585 },
+      { x: -350, y: 585 },
+      { x: -350, y: -490 }
+    ];
+
+    const sub_legend_offset = [
       { x: 340, y: 70 },
-      { x: -555, y: 70 },
-      { x: -555, y: -310 },
+      { x: -515, y: 70 },
+      { x: -515, y: -310 },
       { x: 340, y: -310 }
     ];
-  
     function polar(cartesian) {
       var x = cartesian.x;
       var y = cartesian.y;
@@ -204,6 +214,7 @@ export function radar_visualization(config) {
     }
   
     var grid = radar.append("g");
+
   
     // draw grid lines
     grid.append("line")
@@ -262,8 +273,8 @@ export function radar_visualization(config) {
         dy = dy + 36 + segmented[quadrant][ring-1].length * 12;
       }
       return translate(
-        legend_offset[quadrant].x + dx,
-        legend_offset[quadrant].y + dy
+        sub_legend_offset[quadrant].x + dx,
+        sub_legend_offset[quadrant].y + dy
       );
     }
   
@@ -277,6 +288,7 @@ export function radar_visualization(config) {
         .style("font-family", "Arial, Helvetica")
         .style("font-size", "30")
         .style("font-weight", "bold")
+        .style("font-family", "cursive")
   
       // date
       radar
@@ -306,7 +318,8 @@ export function radar_visualization(config) {
           .text(config.quadrants[quadrant].name)
           .style("font-family", "Arial, Helvetica")
           .style("font-size", "18px")
-          .style("font-weight", "bold");
+          .style("font-weight", "bold")
+          .style("rotate","90deg")
         for (var ring = 0; ring < 4; ring++) {
           legend.append("text")
             .attr("transform", legend_transform(quadrant, ring))
@@ -314,7 +327,9 @@ export function radar_visualization(config) {
             .style("font-family", "Arial, Helvetica")
             .style("font-size", "12px")
             .style("font-weight", "bold")
-            .style("fill", config.rings[ring].color);
+            .style("fill", config.rings[ring].color)
+            .style("textLength", "80%")
+            .style("lengthAdjust", "spacingAndGlyphs")
           legend.selectAll(".legend" + quadrant + ring)
             .data(segmented[quadrant][ring])
             .enter()

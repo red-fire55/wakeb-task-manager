@@ -179,7 +179,7 @@ import {
   DatePicker,
   Dropdown,
 } from "thetheme";
-import Form from "@/components/kpi/Form.vue";
+import Form from "@/components/kpi/generalForm.vue";
 import ResultForm from "@/components/kpi/addKpiResult.vue";
 import KpiMetrics from "@/components/kpi/kpi_metrics.vue";
 import charts from "@/components/kpi/charts.vue";
@@ -197,7 +197,7 @@ let indexKpis = useIndexStore("kpis")(),
 
 checkProcessing();
 indexKpis.setConfig({
-  uri: "kpis",
+  uri: `kpis?company=1`,
   filterUri: "kpis",
   orderByDirection: "desc",
   page: 2,
@@ -242,7 +242,7 @@ function filter_kpi_category(data) {
     return category.id;
   });
   axios
-    .get(`kpis`, {
+    .get(`kpis?company=1`, {
       params: { ...indexKpis.params, "category[]": filter_categories, "date[]": dates },
     })
     .then((res) => {
@@ -260,7 +260,7 @@ watch(
         dates: dates,
       };
       axios
-        .get(`kpis`, {
+        .get(`kpis?company=1`, {
           params: {
             ...indexKpis.params,
             "category[]": categories,
@@ -285,7 +285,7 @@ watch(
         dates: dates,
       };
       axios
-        .get(`kpis`, {
+        .get(`kpis?company=1`, {
           params: {
             ...indexKpis.params,
             "category[]": categories,
@@ -308,7 +308,7 @@ function remove_category(data) {
     dates: dates,
   };
   axios
-    .get(`kpis`, {
+    .get(`kpis?company=1`, {
       params: {
         ...indexKpis.params,
         "category[]": categories,
@@ -326,7 +326,7 @@ function remove_date() {
     dates: dates,
   };
   axios
-    .get(`kpis`, {
+    .get(`kpis?company=1`, {
       params: {
         ...indexKpis.params,
         "category[]": categories,

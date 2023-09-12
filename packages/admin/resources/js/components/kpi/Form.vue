@@ -17,6 +17,7 @@
 <script setup lang="ts">
   import { FormModal, useFieldSelect, useFieldText, useTextArea } from 'thetheme'
   import { useFormStore, useIndexStore, useModalsStore } from 'spack'
+  import {useProjectDetail} from "Store/project-detail";
 
   defineProps<{
     id?: number
@@ -28,7 +29,12 @@
   const FieldText = useFieldText<any>()
   const FieldSelect = useFieldSelect<any>()
   const TextArea = useTextArea<any>()
+  const project = useProjectDetail()
 
+ setTimeout(()=>{
+    form.data['project_id'] = project.data.id
+    form.data["isCompany"] =  0
+  }, 1000)
   form.onSuccess(() => {
     index.fetch()
     useModalsStore().pop()
