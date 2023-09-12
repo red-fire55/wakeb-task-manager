@@ -20,10 +20,10 @@ class MilestoneController extends AuthorizeController
      */
     public function index(Request $request): Paginator
     {
-        $query = Milestone::query();
+        $query = Milestone::query()->with('notes');
         if ($request->has('project_id'))
             $query = $query->where('project_id', '=', $request->project_id);
-        return $query->with(['tasks', 'notes'])->simplePaginate($request->input('per_page', 10));
+        return $query->with(['tasks'])->simplePaginate($request->input('per_page', 10));
     }
 
 
@@ -107,7 +107,7 @@ class MilestoneController extends AuthorizeController
             ->field('start_date', $model->start_date)
             ->field('end_date', $model->end_date)
             ->field('tasks', $model->tasks()->get(), Task::options())
-            ->field('notes', $model->notes)
+            ->field('note', $model->notes()->get())
             ->field('project', $model->project()->get() ?? null, ['send project id as a foreign key']);
     }
 }

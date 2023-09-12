@@ -43,6 +43,6 @@ class Milestone extends Model
      */
     public function notes(): MorphMany
     {
-        return $this->morphMany('App\Models\Note', 'notable');
+        return $this->morphMany('App\Models\Note', 'notable')->latest();
     }
 }
