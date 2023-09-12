@@ -8,6 +8,7 @@ use App\Models\Milestone;
 use App\Models\Note;
 use App\Models\Task;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Models\Activity;
 
 class MilestoneRequest extends FormRequest
 {
@@ -54,13 +55,33 @@ class MilestoneRequest extends FormRequest
 
             if ($this->request->note) {
                 //last note =>> needed to update his status
-                $lastNote = $this->model->notes()->latest()->first();
-                if ($lastNote)
-                    $note = Note::where('notable_type', Milestone::class)
-                        ->where('notable_id', $this->model->id)
-                        ->find($lastNote->id)?->update(['status' => 'previous']);
-                $this->model->notes()->save(new note(['description' => $this->request->note, 'status' => 'current']));
+                $action = "Created";
+                $properties = ['attributes' => array_merge($this->model->getAttributes(), ['note' => $this->request->note])];
+                if (!$this->model->wasRecentlyCreated) {
+                    $action = "Updated";
+                    $old_milestone = Activity::where('subject_type', Milestone::class)
+                        ->where('subject_id', $this->model->id)
+                        ->latest()
+                        ->first();
+                    $properties = ['old' => $this->getOldMilestoneFormat($old_milestone), 'new' => array_merge($this->model->getAttributes(), ['note' => $this->request->note])];
+                }
+                activity()
+                    ->causedBy(auth()->user())
+                    ->performedOn($this->model)
+                    ->withProperties($properties)
+                    ->log($action);
             }
         });
+    }
+
+    /**
+     * @param $old_milestone
+     * @return array
+     */
+    private function getOldMilestoneFormat($old_milestone): array
+    {
+        if (property_exists($old_milestone, 'new'))
+            return (array)json_decode($old_milestone->properties)->new;
+        return (array)json_decode($old_milestone->properties)->attributes;
     }
 }

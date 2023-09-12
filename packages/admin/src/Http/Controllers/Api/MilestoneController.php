@@ -10,6 +10,7 @@ use App\Models\Task;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
 
 class MilestoneController extends AuthorizeController
 {
@@ -20,7 +21,7 @@ class MilestoneController extends AuthorizeController
      */
     public function index(Request $request): Paginator
     {
-        $query = Milestone::query()->with('notes');
+        $query = Milestone::query();
         if ($request->has('project_id'))
             $query = $query->where('project_id', '=', $request->project_id);
         return $query->with(['tasks'])->simplePaginate($request->input('per_page', 10));
@@ -89,7 +90,7 @@ class MilestoneController extends AuthorizeController
     {
         $milestone = Milestone::find($milestone_id);
         $milestone->tasks()->update(['milestone_id' => null]);
-        $milestone->notes()->delete();
+        Activity::where('subject_type', Milestone::class)->where('subject_id', $milestone->id)->delete();
         $milestone->delete();
         return ['message' => 'Milestone deleted successfully'];
     }
@@ -107,7 +108,7 @@ class MilestoneController extends AuthorizeController
             ->field('start_date', $model->start_date)
             ->field('end_date', $model->end_date)
             ->field('tasks', $model->tasks()->get(), Task::options())
-            ->field('note', $model->notes()->get())
+            ->field('note',)
             ->field('project', $model->project()->get() ?? null, ['send project id as a foreign key']);
     }
 }

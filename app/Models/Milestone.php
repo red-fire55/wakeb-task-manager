@@ -13,6 +13,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Milestone extends Model
 {
+    protected static $recordEvents = ['deleted'];
     use HasFactory;
     use Optionable, LogsActivity;
 
@@ -36,13 +37,5 @@ class Milestone extends Model
     {
         return LogOptions::defaults()
             ->logFillable();
-    }
-
-    /**
-     * @return MorphMany
-     */
-    public function notes(): MorphMany
-    {
-        return $this->morphMany('App\Models\Note', 'notable')->latest();
     }
 }

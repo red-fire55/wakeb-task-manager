@@ -15,6 +15,6 @@ class ActivityController extends AuthorizeController
         $filters = $request->all();
         $query = Activity::query();
         $query = (new ActivityFilters)->apply($query, $filters);
-        return $query->with('causer')->simplePaginate($request->input('per_page', 15));
+        return $query->with('causer')->latest()->simplePaginate($request->input('per_page', 15));
     }
 }
