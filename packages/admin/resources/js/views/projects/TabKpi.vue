@@ -185,6 +185,8 @@ import KpiMetrics from "@/components/kpi/kpi_metrics.vue";
 import charts from "@/components/kpi/charts.vue";
 import FiltersList from "@/components/kpi/filtersList.vue";
 import { PencilSquareIcon, TrashIcon, PlusCircleIcon } from "@heroicons/vue/24/outline";
+import {useProjectDetail} from "Store/project-detail";
+
 let indexKpis = useIndexStore("kpis")(),
   processing = ref(true),
   kpis_form = useFormStore("kpis")(),
@@ -194,10 +196,11 @@ let indexKpis = useIndexStore("kpis")(),
     categories: [],
     dates: [],
   });
+  const project = useProjectDetail()
 
 checkProcessing();
 indexKpis.setConfig({
-  uri: "kpis",
+  uri: `kpis?project=${project.data.id}`,
   filterUri: "kpis",
   orderByDirection: "desc",
   page: 2,
@@ -242,7 +245,7 @@ function filter_kpi_category(data) {
     return category.id;
   });
   axios
-    .get(`kpis`, {
+    .get(`kpis?project=${project.data.id}`, {
       params: { ...indexKpis.params, "category[]": filter_categories, "date[]": dates },
     })
     .then((res) => {
@@ -260,7 +263,7 @@ watch(
         dates: dates,
       };
       axios
-        .get(`kpis`, {
+        .get(`kpis?project=${project.data.id}`, {
           params: {
             ...indexKpis.params,
             "category[]": categories,
@@ -285,7 +288,7 @@ watch(
         dates: dates,
       };
       axios
-        .get(`kpis`, {
+        .get(`kpis?project=${project.data.id}`, {
           params: {
             ...indexKpis.params,
             "category[]": categories,
@@ -308,7 +311,7 @@ function remove_category(data) {
     dates: dates,
   };
   axios
-    .get(`kpis`, {
+    .get(`kpis?project=${project.data.id}`, {
       params: {
         ...indexKpis.params,
         "category[]": categories,
@@ -326,7 +329,7 @@ function remove_date() {
     dates: dates,
   };
   axios
-    .get(`kpis`, {
+    .get(`kpis?project=${project.data.id}`, {
       params: {
         ...indexKpis.params,
         "category[]": categories,

@@ -101,6 +101,14 @@
                       class="whitespace-no-wrap flex items-center justify-start px-6 py-4 text-right text-sm font-medium leading-5"
                     >
                         <!-- v-if="can('milestone:update')" -->
+<span
+                        class="ml-2"
+                        @click="addNote(item.id)"
+                      >
+                        <DocumentTextIcon
+                          class="w-5 cursor-pointer text-gray-400 hover:text-gray-800"
+                        />
+                      </span>
 
                       <span
                         class="ml-2"
@@ -148,7 +156,8 @@
     Topbar,
   } from 'thetheme'
   import Form from '../../components/milestone/Form.vue'
-  import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
+  import NoteForm from '../../components/milestone/NoteForm.vue'
+  import { PencilSquareIcon, TrashIcon, DocumentTextIcon } from '@heroicons/vue/24/outline'
   import {useProjectDetail} from "Store/project-detail";
   
 
@@ -184,5 +193,9 @@
 
   function openModal(id: number | null = null) {
     useModalsStore().add(Form, { id })
+  }
+
+  function addNote(id: number | null = null) {
+    useModalsStore().add(NoteForm, { id })
   }
 </script>

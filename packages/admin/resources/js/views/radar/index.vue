@@ -4,7 +4,7 @@
       <Loader size="40" color="#5850ec" />
     </div>
     <div class="w-full" v-else>
-      <Topbar title="Technology Tadar">
+      <Topbar title="Technology Radar">
         <div class="ltr:ml-auto rtl:mr-auto">
           <div class="flex flex-row flex-row-reverse items-center">
             <TheButton
@@ -14,15 +14,48 @@
             >
               New Unit
             </TheButton>
+             <TheButton
+              size="lg"
+              data-cy="topbar-invitation-create-button"
+              @click="generatePdf"
+              class="mr-3"
+            >
+              Export Pdf 
+            </TheButton>
           </div>
         </div>
       </Topbar>
       <div class="flex flex-row content-center justify-center">
         <div class="pie-container p-8 mx-auto">
-          <svg id="radar"></svg>
+          <svg id="radar" style="font-family:cursive"></svg>
         </div>
       </div>
     </div>
+    <vue3-html2pdf
+        :show-layout="false"
+        :float-layout="true"
+        :enable-download="true"
+        :preview-modal="true"
+        :paginate-elements-by-height="1400"
+        filename="hee hee"
+        :pdf-quality="2"
+        :manual-pagination="false"
+        pdf-format="a4"
+        pdf-orientation="landscape"
+        pdf-content-width="800px"
+
+        @progress="onProgress($event)"
+        @hasStartedGeneration="hasStartedGeneration()"
+        @hasGenerated="hasGenerated($event)"
+        ref="html2Pdf"
+    >
+        <section slot="pdf-content">
+          <div class="pie-container p-8 mx-auto">
+          <svg id="radar" style="font-family:cursive"></svg>
+        </div>
+            <!-- PDF Content Here -->
+        </section>
+    </vue3-html2pdf>
   </div>
 </template>
 
@@ -32,11 +65,13 @@ import { TheButton, Topbar, Loader } from "thetheme";
 import { ref, onMounted, watch } from "vue";
 import { useIndexStore, useModalsStore, useFormStore, axios } from "spack";
 import Form from "@/components/radar/Form.vue";
+import Vue3Html2pdf from 'vue3-html2pdf'
 export default {
   components: {
     TheButton,
     Topbar,
     Loader,
+    Vue3Html2pdf
   },
 
   setup() {
@@ -140,7 +175,11 @@ export default {
       height
     };
   },
-  methods: {},
+  methods: {
+     generatePdf () {
+            this.$refs.html2Pdf.generatePdf()
+        }
+  },
   async mounted() {
   },
 };
