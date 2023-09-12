@@ -214,6 +214,7 @@ export function radar_visualization(config) {
     }
   
     var grid = radar.append("g");
+
   
     // draw grid lines
     grid.append("line")
@@ -287,6 +288,7 @@ export function radar_visualization(config) {
         .style("font-family", "Arial, Helvetica")
         .style("font-size", "30")
         .style("font-weight", "bold")
+        .style("font-family", "cursive")
   
       // date
       radar
