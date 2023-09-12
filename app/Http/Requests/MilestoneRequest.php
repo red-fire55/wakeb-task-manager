@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 
 use AhsanDev\Support\Requests\FormRequest;
+use App\Models\Milestone;
+use App\Models\Note;
 use App\Models\Task;
 use Illuminate\Support\Facades\DB;
 
@@ -25,6 +27,7 @@ class MilestoneRequest extends FormRequest
             'tasks' => 'nullable|array',
             'project_id' => 'nullable|exists:projects,id',
             'project_list_id' => 'nullable|exists:project_lists,id',
+            'note' => 'nullable'
         ];
     }
 
@@ -32,6 +35,7 @@ class MilestoneRequest extends FormRequest
     {
         DB::transaction(function () {
             unset($this->attributes['tasks']);
+            unset($this->attributes['note']);
             $this->model->forceFill($this->attributes);
             $this->model->save();
 
@@ -46,6 +50,16 @@ class MilestoneRequest extends FormRequest
                 foreach ($this->request->tasks as $task_id) {
                     Task::find($task_id)?->update(['milestone_id' => $this->model->id]);
                 }
+            }
+
+            if ($this->request->note) {
+                //last note =>> needed to update his status
+                $lastNote = $this->model->notes()->latest()->first();
+                if ($lastNote)
+                    $note = Note::where('notable_type', Milestone::class)
+                        ->where('notable_id', $this->model->id)
+                        ->find($lastNote->id)?->update(['status' => 'previous']);
+                $this->model->notes()->save(new note(['description' => $this->request->note, 'status' => 'current']));
             }
         });
     }

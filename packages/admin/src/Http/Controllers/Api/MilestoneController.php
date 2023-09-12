@@ -23,7 +23,7 @@ class MilestoneController extends AuthorizeController
         $query = Milestone::query();
         if ($request->has('project_id'))
             $query = $query->where('project_id', '=', $request->project_id);
-        return $query->with('tasks')->simplePaginate();
+        return $query->with(['tasks', 'notes'])->simplePaginate($request->input('per_page', 10));
     }
 
 
@@ -89,6 +89,7 @@ class MilestoneController extends AuthorizeController
     {
         $milestone = Milestone::find($milestone_id);
         $milestone->tasks()->update(['milestone_id' => null]);
+        $milestone->notes()->delete();
         $milestone->delete();
         return ['message' => 'Milestone deleted successfully'];
     }
@@ -106,6 +107,7 @@ class MilestoneController extends AuthorizeController
             ->field('start_date', $model->start_date)
             ->field('end_date', $model->end_date)
             ->field('tasks', $model->tasks()->get(), Task::options())
+            ->field('notes', $model->notes)
             ->field('project', $model->project()->get() ?? null, ['send project id as a foreign key']);
     }
 }
