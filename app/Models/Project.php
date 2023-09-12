@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use AhsanDev\Support\Optionable;
 use App\Http\Filters\ProjectFilters;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class Project extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Optionable;
 
     /**
      * The attributes that should be cast to native types.

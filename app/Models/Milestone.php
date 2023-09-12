@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany as MorphMany;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -35,5 +36,13 @@ class Milestone extends Model
     {
         return LogOptions::defaults()
             ->logFillable();
+    }
+
+    /**
+     * @return MorphMany
+     */
+    public function notes(): MorphMany
+    {
+        return $this->morphMany('App\Models\Note', 'notable');
     }
 }

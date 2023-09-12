@@ -29,4 +29,14 @@ class KpiFilters
     {
         return $query->whereBetween('created_at', $dateRange);
     }
+
+    private function project($query, $project_id): mixed
+    {
+        return $query->where('project_id', $project_id);
+    }
+
+    private function company($query, $isCompany): mixed
+    {
+        return $query->where('isCompany', $isCompany);
+    }
 }

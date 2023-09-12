@@ -18,7 +18,7 @@ class Kpi extends Model
     use HasFactory, Optionable, LogsActivity;
 
 
-    protected $fillable = ['measure', 'owner_id', 'notes', 'status', 'target', 'kpi_category_id', 'frequency', 'sub_weight'];
+    protected $fillable = ['measure', 'owner_id', 'notes', 'status', 'target', 'kpi_category_id', 'frequency', 'sub_weight', 'isCompany', 'project_id'];
 
     protected $appends = ['weight'];
 
@@ -99,5 +99,13 @@ class Kpi extends Model
     public function status(): HasOne
     {
         return $this->hasOne(Status::class, 'id', 'status_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
     }
 }
