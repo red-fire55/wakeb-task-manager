@@ -19,7 +19,7 @@ class Milestone extends Model
     use HasFactory;
     use Optionable, LogsActivity;
 
-    protected $fillable = ['name', 'start_date', 'end_date', 'project_id', 'order'];
+    protected $fillable = ['name', 'start_date', 'end_date', 'project_id', 'order', 'status'];
 
 
     public function tasks(): HasMany

@@ -28,7 +28,8 @@ class MilestoneRequest extends FormRequest
             'tasks' => 'nullable|array',
             'project_id' => 'nullable|exists:projects,id',
             'project_list_id' => 'nullable|exists:project_lists,id',
-            'note' => 'nullable'
+            'note' => 'nullable',
+            'status' => 'nullable'
         ];
     }
 
