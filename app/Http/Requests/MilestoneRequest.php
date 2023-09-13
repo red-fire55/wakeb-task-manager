@@ -40,36 +40,23 @@ class MilestoneRequest extends FormRequest
             $this->model->forceFill($this->attributes);
             $this->model->save();
 
-            // add milestone id for each task
-            if ($this->request->tasks) {
-                //old tasks =>> needed in update
-                $old_tasks = $this->model->tasks->pluck('id')->toArray();
-                $tasksToDelete = array_diff($old_tasks, $this->request->tasks);
-                if (!empty($tasksToDelete)) {
-                    Task::whereIn('id', $tasksToDelete)->update(['milestone_id' => null]);
-                }
-                foreach ($this->request->tasks as $task_id) {
-                    Task::find($task_id)?->update(['milestone_id' => $this->model->id]);
-                }
-            }
-
-            if ($this->request->note) {
+            $old_milestone = Activity::where('subject_type', Milestone::class)
+                ->where('subject_id', $this->model->id)
+                ->latest()
+                ->first();
+            //dd($this->checkIfNoteIsChanged($old_milestone, $this->request->note));
+            if ($this->request->note && $this->checkIfNoteIsChanged($old_milestone, $this->request->note)) {
                 //last note =>> needed to update his status
-                $action = "Created";
-                $properties = ['attributes' => array_merge($this->model->getAttributes(), ['note' => $this->request->note])];
                 if (!$this->model->wasRecentlyCreated) {
                     $action = "Updated";
-                    $old_milestone = Activity::where('subject_type', Milestone::class)
-                        ->where('subject_id', $this->model->id)
-                        ->latest()
-                        ->first();
-                    $properties = ['old' => $this->getOldMilestoneFormat($old_milestone), 'new' => array_merge($this->model->getAttributes(), ['note' => $this->request->note])];
+
+                    $properties = ['old' => $this->getOldMilestoneFormat($old_milestone), 'new' => array_merge(['note' => $this->request->note])];
+                    activity()
+                        ->causedBy(auth()->user())
+                        ->performedOn($this->model)
+                        ->withProperties($properties)
+                        ->log($action);
                 }
-                activity()
-                    ->causedBy(auth()->user())
-                    ->performedOn($this->model)
-                    ->withProperties($properties)
-                    ->log($action);
             }
         });
     }
@@ -80,8 +67,27 @@ class MilestoneRequest extends FormRequest
      */
     private function getOldMilestoneFormat($old_milestone): array
     {
-        if (property_exists($old_milestone, 'new'))
+        if ($old_milestone && property_exists(json_decode($old_milestone?->properties), 'new'))
             return (array)json_decode($old_milestone->properties)->new;
-        return (array)json_decode($old_milestone->properties)->attributes;
+        return [];
     }
+
+    /**
+     * @param $old_milestone
+     * @param $newNote
+     * @return bool
+     */
+    private function checkIfNoteIsChanged($old_milestone, $newNote): bool
+    {
+        if (!$old_milestone)
+            return true;
+        $attributes = json_decode($old_milestone->properties);
+        if (!property_exists($attributes, 'new'))
+            return true;
+
+        if (!isset($attributes->new->note))
+            return true;
+        return $attributes->new->note != $newNote;
+    }
+
 }
