@@ -1,52 +1,76 @@
 <template>
   <FormModal :id="id" :name="name" uri="milestone">
-    <div v-if="processing" class="mt-8 flex justify-center absolute">
-        <Loader size="40" color="#5850ec" />
+    <ul
+      class="hidden text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400 col-span-12 mt-2 mt-1"
+    >
+      <li class="w-full" @click="show = 'create'">
+        <a
+          href="#"
+          :class="
+            show == 'create'
+              ? `inline-block w-full p-4 text-gray-900 bg-gray-100 rounded-l-lg  active focus:outline-none 
+          focus:bg-gray-700 focus:text-white`
+              : `inline-block w-full p-4  rounded-l-lg  active`
+          "
+          aria-current="page"
+          >Create Notes</a
+        >
+      </li>
+      <li class="w-full" @click="show = 'show'">
+        <a
+          href="#"
+          :class="
+            show != 'create'
+              ? `inline-block w-full p-4 bg-white hover:text-gray-700 hover:bg-gray-50 
+          focus:outline-none focus:bg-gray-700 focus:text-white dark:bg-gray-800 dark:hover:bg-gray-700 rounded-r-lg`
+              : `inline-block w-full p-4  text-gray-700 bg-gray-50 
+          focus:outline-none focus:bg-gray-700 focus:text-white dark:bg-gray-800 dark:hover:bg-gray-700 rounded-r-lg`
+          "
+          >Show Previous Notes</a
+        >
+      </li>
+    </ul>
+    <TextArea
+      name="note"
+      label="Notes"
+      class="col-span-12 mt-2 mt-1"
+      v-if="show == 'create'"
+    />
+    <div class="col-span-12 mt-2 mt-1" v-else>
+      <div class="w-100 p-3" v-for="(item, i) in form.data.notes" :key="i">
+        
+      </div>
     </div>
-        <div class="col-span-6">
-            <TextArea name="note" label="Notes"  class="col-span-12 mt-2 mt-1"/>
-            
-        </div>
-         <div class="col-span-6 bg-gray-100 p-2" v-if="form.data.notes.length > 0">
-             <h2 class="mb-2 text-lg font-semibold text-gray-900 p-2">Previous Notes</h2>
-             <ul class="max-w-md space-y-1 text-gray-500 list-inside p-2">
-                 <li class="flex items-center cursor-pointer bg-white p-2" v-for="(item, i) in form.data.notes" :key="i" @click="show(item)">
-                     <svg class="w-3.5 h-3.5 mr-2 text-green-500 dark:text-green-400 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                     </svg>
-                     {{ item.description }}
-                 </li>
-
-
-             </ul>
-
-
-         </div>
   </FormModal>
 </template>
 
 <script setup lang="ts">
-  import { FormModal, useTextArea } from 'thetheme'
-  import { useFormStore, useIndexStore, useModalsStore } from 'spack'
-  import {useProjectDetail} from "Store/project-detail";
+import { FormModal, useFieldSelect, useFieldText, DatePicker } from "thetheme";
+import { useFormStore, useIndexStore, useModalsStore } from "spack";
+import { useProjectDetail } from "Store/project-detail";
+import { ref } from "vue";
 
-  defineProps<{
-    id?: number
-  }>()
+defineProps<{
+  id?: number;
+}>();
 
-  const name = 'milestone notes'
-  const form = useFormStore(name)()
-  const index = useIndexStore(name)()
-  const TextArea = useTextArea<any>()
-  const project = useProjectDetail()
-
-  setTimeout(()=>{
-    form.data['project_id'] = project.data.id
-    delete form.data['projects']
-    delete form.data['tasks']
-  }, 1000)
-  form.onSuccess(() => {
-    index.fetch()
-    useModalsStore().pop()
-  })
+const name = "milestone note";
+const form = useFormStore(name)();
+const index = useIndexStore(name)();
+const FieldText = useFieldText<any>();
+const FieldSelect = useFieldSelect<any>();
+const project = useProjectDetail();
+let show = ref("create");
+setTimeout(() => {
+  form.data["project_id"] = project.data.id;
+}, 500);
+form.onSuccess(() => {
+  index.fetch();
+  useModalsStore().pop();
+});
 </script>
+<style scoped>
+.modal-content section {
+  width: 80vw !important;
+}
+</style>

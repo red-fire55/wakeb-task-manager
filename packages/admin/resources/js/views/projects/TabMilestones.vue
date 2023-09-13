@@ -35,15 +35,10 @@
                       :label="__('Name')"
                       sort="name"
                     />
-                    <TableTh
-                      name="milestone"
-                      :index="indexMilestone"
-                      :label="__('AllTasks')"
-                    />
                      <TableTh
                       name="milestone"
                       :index="indexMilestone"
-                      :label="__('Order')"
+                      label="Priority"
                     />
                      <TableTh
                       name="milestone"
@@ -77,11 +72,7 @@
                         </div>
                       </div>
                     </td>
-                    <td
-                      class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
-                    >
-                      <span v-for="(item, i) in item.tasks" :key="i" class="shadow-sm shadow-gray-400 mr-1 ml-1 p-1 rounded-lg">{{ item.title }}</span>
-                    </td>
+                   
 <td
                       class="whitespace-no-wrap px-6 py-4 text-sm font-medium text-gray-500"
                     >

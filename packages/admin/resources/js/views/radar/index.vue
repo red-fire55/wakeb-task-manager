@@ -14,48 +14,45 @@
             >
               New Unit
             </TheButton>
-             <TheButton
+            <TheButton
               size="lg"
               data-cy="topbar-invitation-create-button"
               @click="generatePdf"
               class="mr-3"
             >
-              Export Pdf 
+              Export Pdf
             </TheButton>
           </div>
         </div>
       </Topbar>
       <div class="flex flex-row content-center justify-center">
         <div class="pie-container p-8 mx-auto">
-          <svg id="radar" style="font-family:cursive"></svg>
+          <svg id="radar" style="font-family: cursive"></svg>
         </div>
       </div>
     </div>
-    <vue3-html2pdf
-        :show-layout="false"
-        :float-layout="true"
-        :enable-download="true"
-        :preview-modal="true"
-        :paginate-elements-by-height="1400"
-        filename="hee hee"
-        :pdf-quality="2"
-        :manual-pagination="false"
-        pdf-format="a4"
-        pdf-orientation="landscape"
-        pdf-content-width="800px"
-
-        @progress="onProgress($event)"
-        @hasStartedGeneration="hasStartedGeneration()"
-        @hasGenerated="hasGenerated($event)"
-        ref="html2Pdf"
+    <VueHtml2pdf
+      :show-layout="false"
+      :float-layout="true"
+      :enable-download="false"
+      :preview-modal="true"
+      :paginate-elements-by-height="1400"
+      filename="Radar"
+      :pdf-quality="2"
+      :manual-pagination="false"
+      pdf-format="a4"
+      :pdf-margin="10"
+      pdf-orientation="portrait"
+      pdf-content-width="800px"
+      @progress="onProgress($event)"
+      ref="html2Pdf"
     >
-        <section slot="pdf-content">
-          <div class="pie-container p-8 mx-auto">
-          <svg id="radar" style="font-family:cursive"></svg>
+      <template v-slot:pdf-content>
+        <div class="pie-container pr-12 pl-12 mx-auto" id="radar-print-container">
+          <radarSection title="plarforms" bgColor="orange"/>
         </div>
-            <!-- PDF Content Here -->
-        </section>
-    </vue3-html2pdf>
+      </template>
+    </VueHtml2pdf>
   </div>
 </template>
 
@@ -65,13 +62,15 @@ import { TheButton, Topbar, Loader } from "thetheme";
 import { ref, onMounted, watch } from "vue";
 import { useIndexStore, useModalsStore, useFormStore, axios } from "spack";
 import Form from "@/components/radar/Form.vue";
-import Vue3Html2pdf from 'vue3-html2pdf'
+import VueHtml2pdf from "vue3-html2pdf";
+import radarSection from "./radarSection.vue"
 export default {
   components: {
     TheButton,
     Topbar,
     Loader,
-    Vue3Html2pdf
+    VueHtml2pdf,
+    radarSection
   },
 
   setup() {
@@ -98,7 +97,8 @@ export default {
         { name: "Trial", color: "#009eb0" },
         { name: "Assess", color: "#c7ba00" },
         { name: "Hold", color: "#e09b96" },
-      ];
+      ],
+      img = null;
 
     function checkProcessing() {
       setTimeout(function () {
@@ -121,7 +121,6 @@ export default {
     }
 
     function drawRadar() {
-      localStorage.setItem("units-all-new", JSON.stringify(indexUnits.data.data));
       entries = indexUnits.data.data.map((item) => {
         return {
           label: item.name,
@@ -130,11 +129,11 @@ export default {
           moved: item.next_level,
         };
       });
-      
-      let width = window.outerWidth
+
+      let width = window.outerWidth;
       radar_visualization({
         svg_id: "radar",
-        width: width <1920 && width > 1280? 1150: 1450,
+        width: width < 1920 && width > 1280 ? 1150 : 1450,
         height: 850,
         colors: {
           background: "#fff",
@@ -170,18 +169,36 @@ export default {
 
     return {
       OpenCreateEntryModal,
-      indexUnits,
-      checkProcessing,
-      height
+      drawRadar,
+      img,
     };
   },
   methods: {
-     generatePdf () {
-            this.$refs.html2Pdf.generatePdf()
-        }
+    generatePdf() {
+      let el = document.getElementById("radar").innerHTML;
+      try {
+        var svg = document.querySelector("svg");
+        var xml = new XMLSerializer().serializeToString(svg);
+        var svg64 = btoa(xml); //for utf8: btoa(unescape(encodeURIComponent(xml)))
+        var b64start = "data:image/svg+xml;base64,";
+        var image64 = b64start + svg64;
+        localStorage.setItem("img", image64);
+        this.img = image64
+        let img = document.createElement("img");
+        img.setAttribute("src", image64);
+        let container = document.getElementById("radar-print-container");
+        container.appendChild(img);
+        localStorage.setItem("cont", container);
+        setTimeout(()=>{
+        this.$refs.html2Pdf.generatePdf();
+
+        }, 2000)
+      } catch (err) {
+        localStorage.setItem("canv", err);
+      }
+    },
   },
-  async mounted() {
-  },
+  async mounted() {},
 };
 </script>
 
@@ -189,6 +206,5 @@ export default {
 .pie-container {
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 </style>

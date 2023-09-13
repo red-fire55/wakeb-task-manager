@@ -41,17 +41,17 @@ class MilestoneRequest extends FormRequest
             $this->model->save();
 
             // add milestone id for each task
-            if ($this->request->tasks) {
-                //old tasks =>> needed in update
-                $old_tasks = $this->model->tasks->pluck('id')->toArray();
-                $tasksToDelete = array_diff($old_tasks, $this->request->tasks);
-                if (!empty($tasksToDelete)) {
-                    Task::whereIn('id', $tasksToDelete)->update(['milestone_id' => null]);
-                }
-                foreach ($this->request->tasks as $task_id) {
-                    Task::find($task_id)?->update(['milestone_id' => $this->model->id]);
-                }
-            }
+            // if ($this->request->tasks) {
+            //     //old tasks =>> needed in update
+            //     $old_tasks = $this->model->tasks->pluck('id')->toArray();
+            //     $tasksToDelete = array_diff($old_tasks, $this->request->tasks);
+            //     if (!empty($tasksToDelete)) {
+            //         Task::whereIn('id', $tasksToDelete)->update(['milestone_id' => null]);
+            //     }
+            //     foreach ($this->request->tasks as $task_id) {
+            //         Task::find($task_id)?->update(['milestone_id' => $this->model->id]);
+            //     }
+            // }
 
             if ($this->request->note) {
                 //last note =>> needed to update his status
