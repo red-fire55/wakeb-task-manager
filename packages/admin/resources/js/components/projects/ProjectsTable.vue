@@ -85,7 +85,7 @@
                     <td
                       class="px-4 py-2 whitespace-nowrap font-medium text-gray-900 text-xs"
                     >
-                      {{ project.end_time }}
+                      {{ project.human_end_time }}
                     </td>
                     <td
                       class="whitespace-no-wrap flex items-center justify-start px-6 py-4 text-right text-sm font-medium leading-5"
