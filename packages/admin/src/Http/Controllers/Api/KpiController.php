@@ -2,8 +2,8 @@
 
 namespace Admin\Http\Controllers\Api;
 
-use AhsanDev\Support\Authorization\Http\Controllers\AuthorizeController;
 use AhsanDev\Support\Field;
+use App\Http\Controllers\Controller;
 use App\Http\Filters\KpiFilters;
 use App\Http\Requests\KpiRequest;
 use App\Models\Kpi;
@@ -15,7 +15,7 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class KpiController extends AuthorizeController
+class KpiController extends Controller
 {
 
     /**

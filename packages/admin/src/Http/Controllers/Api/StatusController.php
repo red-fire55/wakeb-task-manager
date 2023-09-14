@@ -2,14 +2,14 @@
 
 namespace Admin\Http\Controllers\Api;
 
-use AhsanDev\Support\Authorization\Http\Controllers\AuthorizeController;
 use AhsanDev\Support\Field;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StatusRequest;
 use App\Models\Status;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Request;
 
-class StatusController extends AuthorizeController
+class StatusController extends Controller
 {
     /**
      * @return Paginator

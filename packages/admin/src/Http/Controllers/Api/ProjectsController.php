@@ -2,6 +2,7 @@
 
 namespace Admin\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Filters\ProjectFilters;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Department;
@@ -11,7 +12,6 @@ use App\Models\ProjectType;
 use App\Models\RecentProject;
 use App\Models\Status;
 use App\Models\User;
-use AhsanDev\Support\Authorization\Http\Controllers\AuthorizeController;
 use AhsanDev\Support\Field;
 use Facades\Admin\Static\Color;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection as CollectionAlias;
 
-class ProjectsController extends AuthorizeController
+class ProjectsController extends Controller
 {
     protected $name = 'project';
 
