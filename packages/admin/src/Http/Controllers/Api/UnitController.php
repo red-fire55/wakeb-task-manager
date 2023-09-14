@@ -2,8 +2,8 @@
 
 namespace Admin\Http\Controllers\Api;
 
-use AhsanDev\Support\Authorization\Http\Controllers\AuthorizeController;
 use AhsanDev\Support\Field;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UnitRequest;
 use App\Models\Level;
 use App\Models\Section;
@@ -11,7 +11,7 @@ use App\Models\Unit;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Request;
 
-class UnitController extends AuthorizeController
+class UnitController extends Controller
 {
     /**
      * @param Request $request

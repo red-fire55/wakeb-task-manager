@@ -2,8 +2,8 @@
 
 namespace Admin\Http\Controllers\Api;
 
-use AhsanDev\Support\Authorization\Http\Controllers\AuthorizeController;
 use AhsanDev\Support\Field;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\MilestoneRequest;
 use App\Models\Milestone;
 use App\Models\Task;
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 
-class MilestoneController extends AuthorizeController
+class MilestoneController extends Controller
 {
 
     /**

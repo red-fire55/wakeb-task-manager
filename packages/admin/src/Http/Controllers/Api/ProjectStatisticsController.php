@@ -2,12 +2,12 @@
 
 namespace Admin\Http\Controllers\Api;
 
-use AhsanDev\Support\Authorization\Http\Controllers\AuthorizeController;
+use App\Http\Controllers\Controller;
 use App\Models\Milestone;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
-class ProjectStatisticsController extends AuthorizeController
+class ProjectStatisticsController extends Controller
 {
     /**
      * @param Request $request

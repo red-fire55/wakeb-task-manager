@@ -2,15 +2,15 @@
 
 namespace Admin\Http\Controllers\Api;
 
-use AhsanDev\Support\Authorization\Http\Controllers\AuthorizeController;
 use AhsanDev\Support\Field;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\KpiResultRequest;
 use App\Models\Kpi;
 use App\Models\KpiResult;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Request;
 
-class KpiResultController extends AuthorizeController
+class KpiResultController extends Controller
 {
 
     /**
