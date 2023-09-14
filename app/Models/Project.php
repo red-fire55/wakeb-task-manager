@@ -25,6 +25,8 @@ class Project extends Model
         'meta' => 'array',
     ];
 
+    protected $appends = ['human_end_time'];
+
     /**
      * Determine if the project has remaining users.
      *
@@ -145,7 +147,7 @@ class Project extends Model
      * @param $date
      * @return string
      */
-    public function getEndTimeAttribute($date): string
+    public function getHumanEndTimeAttribute($date): string
     {
         return Carbon::create($date)->diffForHumans();
     }
