@@ -55,12 +55,11 @@
               note.updated_at.toString().substr(0, 10)
             }}</time>
             <div class="text-sm font-normal text-gray-500 dark:text-gray-300">
-              قام {{ note?.causer?.name }}
-              بإدخال الملحوظة
+              <pre>قام {{ note?.causer?.name }} بإدخال الملحوظة </pre>
               <a
                 href="#"
                 class="font-semibold text-blue-600 dark:text-blue-500 hover:underline"
-                >{{ note?.properties?.new.note }}</a
+                > {{ note?.properties?.new.note }}</a
               >
             </div>
           </div>
