@@ -1,6 +1,6 @@
 <template>
   <FormModal :id="id" :name="name" uri="milestone">
-    <ul
+    <!-- <ul
       class="hidden text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400 col-span-12 mt-2 mt-1"
     >
       <li class="w-full" @click="show = 'create'">
@@ -29,24 +29,22 @@
           >Show Previous Notes</a
         >
       </li>
-    </ul>
+    </ul> -->
     <TextArea
       name="note"
       label="Notes"
       class="col-span-12 mt-2 mt-1"
       v-if="show == 'create'"
     />
-    <div class="col-span-12 mt-2 mt-1" v-else>
-      <div class="w-100 p-3" v-for="(item, i) in form.data.notes" :key="i">
-        
-      </div>
-    </div>
+    <!-- <div class="col-span-12 mt-2 mt-1" v-else>
+      <div class="w-100 p-3" v-for="(item, i) in notes" :key="i"></div>
+    </div> -->
   </FormModal>
 </template>
 
 <script setup lang="ts">
-import { FormModal, useFieldSelect, useFieldText, DatePicker } from "thetheme";
-import { useFormStore, useIndexStore, useModalsStore } from "spack";
+import { FormModal, useTextArea } from "thetheme";
+import { useFormStore, useIndexStore, useModalsStore, axios } from "spack";
 import { useProjectDetail } from "Store/project-detail";
 import { ref } from "vue";
 
@@ -57,10 +55,13 @@ defineProps<{
 const name = "milestone note";
 const form = useFormStore(name)();
 const index = useIndexStore(name)();
-const FieldText = useFieldText<any>();
-const FieldSelect = useFieldSelect<any>();
+const TextArea = useTextArea<any>();
 const project = useProjectDetail();
 let show = ref("create");
+let notes = ref([]);
+axios.get(`logs?milestone=3`).then((res) => {
+  notes.value = res.data.data;
+});
 setTimeout(() => {
   form.data["project_id"] = project.data.id;
 }, 500);
