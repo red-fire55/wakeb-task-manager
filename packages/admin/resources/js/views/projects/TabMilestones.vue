@@ -157,9 +157,9 @@ const indexMilestone = useIndexStore("milestone")(),
   project = useProjectDetail();
 
 checkProcessing();
-
+indexMilestone.params['project_id'] = project.data.id
 indexMilestone.setConfig({
-  uri: `milestone?project_id=${project.data.id}`,
+  uri: `milestone`,
   orderByDirection: "desc",
 });
 indexMilestone.fetch();
