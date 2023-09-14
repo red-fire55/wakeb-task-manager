@@ -147,8 +147,8 @@ class Project extends Model
      * @param $date
      * @return string
      */
-    public function getHumanEndTimeAttribute($date): string
+    public function getHumanEndTimeAttribute(): string
     {
-        return Carbon::create($date)->diffForHumans();
+        return Carbon::create($this->end_time)->diffForHumans();
     }
 }
