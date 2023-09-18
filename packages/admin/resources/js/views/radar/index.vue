@@ -48,7 +48,7 @@
       ref="html2Pdf"
     >
       <template v-slot:pdf-content>
-          <img :src="'data:image/svg+xml;base64,' + img" />
+        <img :src="'data:image/svg+xml;base64,' + img" class="mt-[250px]" />
 
         <div class="pie-container mx-auto flex flex-col" id="radar-print-container">
           <radarSection
@@ -56,19 +56,21 @@
             bgColor="orange"
             v-for="(category, i) in categories"
             :key="i"
+            :units="pdf_entries[i]"
           />
         </div>
       </template>
     </VueHtml2pdf>
 
-    <div ref="pdf-print" v-show="show_print">
+    <!-- <div ref="pdf-print" v-show="show_print">
       <radarSection
         :title="category.name"
         bgColor="orange"
         v-for="(category, i) in categories"
         :key="i"
+        :data="entries"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -108,6 +110,7 @@ export default {
         //   //  1 = moved in  (triangle pointing up)
         // },
       ],
+      pdf_entries = ref([{ arr: [] }, { arr: [] }, { arr: [] }, { arr: [] }]),
       categories = ref([
         { name: "Languages & Frameworks" },
         { name: "Platforms" },
@@ -152,6 +155,19 @@ export default {
         };
       });
 
+      indexUnits.data.data.forEach((item) => {
+        let new_item = {
+          label: item.name,
+          quadrant: item.section.order,
+          ring: item.level.order,
+          moved: item.next_level,
+          description: item.description,
+          category: categories.value[item.section.order].name,
+          level: rings[item.level.order].name
+        };
+        pdf_entries.value[Number(item.section.order)].arr.push(new_item);
+      });
+
       let width = window.outerWidth;
       radar_visualization({
         svg_id: "radar",
@@ -194,6 +210,7 @@ export default {
       drawRadar,
       categories,
       show_print,
+      pdf_entries
     };
   },
   methods: {
