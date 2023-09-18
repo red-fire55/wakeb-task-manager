@@ -41,18 +41,34 @@
       :pdf-quality="2"
       :manual-pagination="false"
       pdf-format="a4"
-      :pdf-margin="10"
+      :pdf-margin="0"
       pdf-orientation="portrait"
       pdf-content-width="800px"
       @progress="onProgress($event)"
       ref="html2Pdf"
     >
       <template v-slot:pdf-content>
-        <div class="pie-container pr-12 pl-12 mx-auto" id="radar-print-container">
-          <radarSection title="plarforms" bgColor="orange"/>
+          <img :src="'data:image/svg+xml;base64,' + img" />
+
+        <div class="pie-container mx-auto flex flex-col" id="radar-print-container">
+          <radarSection
+            :title="category.name"
+            bgColor="orange"
+            v-for="(category, i) in categories"
+            :key="i"
+          />
         </div>
       </template>
     </VueHtml2pdf>
+
+    <div ref="pdf-print" v-show="show_print">
+      <radarSection
+        :title="category.name"
+        bgColor="orange"
+        v-for="(category, i) in categories"
+        :key="i"
+      />
+    </div>
   </div>
 </template>
 
@@ -63,16 +79,22 @@ import { ref, onMounted, watch } from "vue";
 import { useIndexStore, useModalsStore, useFormStore, axios } from "spack";
 import Form from "@/components/radar/Form.vue";
 import VueHtml2pdf from "vue3-html2pdf";
-import radarSection from "./radarSection.vue"
+import radarSection from "./radarSection.vue";
+import jsPdf from "jspdf";
+import * as d3 from "d3";
 export default {
   components: {
     TheButton,
     Topbar,
     Loader,
     VueHtml2pdf,
-    radarSection
+    radarSection,
   },
-
+  data() {
+    return {
+      img: null,
+    };
+  },
   setup() {
     let indexUnits = useIndexStore("units")(),
       processing = ref(true),
@@ -86,19 +108,19 @@ export default {
         //   //  1 = moved in  (triangle pointing up)
         // },
       ],
-      categories = [
+      categories = ref([
         { name: "Languages & Frameworks" },
         { name: "Platforms" },
         { name: "Techniques" },
         { name: "Tools" },
-      ],
+      ]),
       rings = [
         { name: "Adopt", color: "#5ba300" },
         { name: "Trial", color: "#009eb0" },
         { name: "Assess", color: "#c7ba00" },
         { name: "Hold", color: "#e09b96" },
       ],
-      img = null;
+      show_print = ref(false);
 
     function checkProcessing() {
       setTimeout(function () {
@@ -141,7 +163,7 @@ export default {
           inactive: "#ddd",
         },
         title: "Wakeb Technology Radar",
-        quadrants: categories,
+        quadrants: categories.value,
         rings: rings,
         print_layout: true,
         links_in_new_tabs: true,
@@ -170,29 +192,42 @@ export default {
     return {
       OpenCreateEntryModal,
       drawRadar,
-      img,
+      categories,
+      show_print,
     };
   },
   methods: {
     generatePdf() {
-      let el = document.getElementById("radar").innerHTML;
       try {
-        var svg = document.querySelector("svg");
-        var xml = new XMLSerializer().serializeToString(svg);
-        var svg64 = btoa(xml); //for utf8: btoa(unescape(encodeURIComponent(xml)))
-        var b64start = "data:image/svg+xml;base64,";
-        var image64 = b64start + svg64;
-        localStorage.setItem("img", image64);
-        this.img = image64
-        let img = document.createElement("img");
-        img.setAttribute("src", image64);
-        let container = document.getElementById("radar-print-container");
-        container.appendChild(img);
-        localStorage.setItem("cont", container);
-        setTimeout(()=>{
-        this.$refs.html2Pdf.generatePdf();
+        var svgElement = document.getElementById("radar");
 
-        }, 2000)
+        var serializer = new XMLSerializer();
+        var svgString = serializer.serializeToString(svgElement);
+
+        var svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+
+        var reader = new FileReader();
+
+        reader.onload = () => {
+          var base64String = reader.result.split(",")[1]; // Extract the base64 string
+          this.img = base64String;
+          this.$refs.html2Pdf.generatePdf();
+
+          // Now, 'base64String' contains the SVG as a base64-encoded string
+        };
+
+        reader.readAsDataURL(svgBlob);
+        // localStorage.setItem("hello", "el");
+
+        // let el = this.$refs["pdf-print"];
+        // localStorage.setItem("el", el);
+        // const doc = new jsPdf();
+        // this.show_print = true;
+        // doc.html(el, {
+        //   callback: function (doc) {
+        //     doc.save("radar.pdf");
+        //   },
+        // });
       } catch (err) {
         localStorage.setItem("canv", err);
       }
