@@ -1,13 +1,30 @@
 {
+  "../node_modules/dompurify/dist/purify.es.js": {
+    "file": "assets/purify.es-f07eb60f.js",
+    "isDynamicEntry": true,
+    "src": "../node_modules/dompurify/dist/purify.es.js"
+  },
+  "../node_modules/jspdf/node_modules/canvg/lib/index.es.js": {
+    "file": "assets/index.es-82414419.js",
+    "imports": [
+      "js/main.ts"
+    ],
+    "isDynamicEntry": true,
+    "src": "../node_modules/jspdf/node_modules/canvg/lib/index.es.js"
+  },
   "js/main.css": {
-    "file": "assets/main-f879711e.css",
+    "file": "assets/main-3e0afc79.css",
     "src": "js/main.css"
   },
   "js/main.ts": {
     "css": [
-      "assets/main-f879711e.css"
+      "assets/main-3e0afc79.css"
     ],
-    "file": "assets/main-6478fbb6.js",
+    "dynamicImports": [
+      "../node_modules/dompurify/dist/purify.es.js",
+      "../node_modules/jspdf/node_modules/canvg/lib/index.es.js"
+    ],
+    "file": "assets/main-ae539281.js",
     "isEntry": true,
     "src": "js/main.ts"
   }
