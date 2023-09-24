@@ -42,13 +42,16 @@
       :manual-pagination="false"
       pdf-format="a4"
       :pdf-margin="0"
-      pdf-orientation="portrait"
+      pdf-orientation="landscape"
       pdf-content-width="800px"
       @progress="onProgress($event)"
       ref="html2Pdf"
     >
       <template v-slot:pdf-content>
-        <img :src="'data:image/svg+xml;base64,' + img" class="mt-[250px]" />
+        <page1 />
+        <div class="w-[1122px] h-[790px]">
+          <img :src="'data:image/svg+xml;base64,' + img" />
+        </div>
 
         <div class="pie-container mx-auto flex flex-col" id="radar-print-container">
           <radarSection
@@ -56,7 +59,7 @@
             bgColor="orange"
             v-for="(category, i) in categories"
             :key="i"
-            :units="pdf_entries[i]"
+            :units="pdf_entries[i].arr"
           />
         </div>
       </template>
@@ -82,6 +85,7 @@ import { useIndexStore, useModalsStore, useFormStore, axios } from "spack";
 import Form from "@/components/radar/Form.vue";
 import VueHtml2pdf from "vue3-html2pdf";
 import radarSection from "./radarSection.vue";
+import page1 from "./page1.vue";
 import jsPdf from "jspdf";
 import * as d3 from "d3";
 export default {
@@ -91,6 +95,7 @@ export default {
     Loader,
     VueHtml2pdf,
     radarSection,
+    page1,
   },
   data() {
     return {
@@ -144,10 +149,19 @@ export default {
         id,
       });
     }
+    //listen to entries click
 
     function drawRadar() {
       entries = indexUnits.data.data.map((item) => {
+        setTimeout(()=>{
+          let el = document.getElementById(`entry${item.id}`);
+          el.addEventListener("click", ()=>{
+            openEntryModal(item.id)
+          })
+        },3000)
+
         return {
+          id: item.id,
           label: item.name,
           quadrant: item.section.order,
           ring: item.level.order,
@@ -163,11 +177,10 @@ export default {
           moved: item.next_level,
           description: item.description,
           category: categories.value[item.section.order].name,
-          level: rings[item.level.order].name
+          level: rings[item.level.order].name,
         };
         pdf_entries.value[Number(item.section.order)].arr.push(new_item);
       });
-
       let width = window.outerWidth;
       radar_visualization({
         svg_id: "radar",
@@ -186,13 +199,19 @@ export default {
         entries: entries,
       });
     }
+
+    function openEntryModal(id) {
+      useModalsStore().add(Form, {
+        id,
+      });
+    }
     onMounted(async () => {
       checkProcessing();
       indexUnits.setConfig({
         uri: "units",
         orderByDirection: "desc",
       });
-      await indexUnits.fetch();
+      indexUnits.fetch();
     });
     watch(
       () => indexUnits.fetching,
@@ -210,7 +229,8 @@ export default {
       drawRadar,
       categories,
       show_print,
-      pdf_entries
+      pdf_entries,
+      openEntryModal,
     };
   },
   methods: {
