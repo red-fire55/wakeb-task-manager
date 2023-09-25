@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[100vw] h-[1122px] text-left" >
+  <div class="w-[100vw] h-[795px] text-left" >
     <table class="w-[100vw]">
       <tr>
         <th :class="`w-full`" :style="`height: 25px;`">
@@ -12,12 +12,12 @@
           </h3>
         </th>
       </tr>
-      <tr class="mt-10">
-        <td class="flex flex-row flex-wrap w-[800px] gap-1">
+      <tr>
+        <td class="flex flex-row flex-wrap w-[800px] gap-1 mt-36">
           <figure
             class="flex flex-col items-center justify-center p-8 text-center 
-            bg-white border-gray-200 rounded-b-lg md:rounded-br-lg dark:bg-gray-800 dark:border-gray-700 w-[260px] mt-10"
-            v-for="(item, i) in props.units.arr"
+            bg-white border-gray-200 rounded-b-lg md:rounded-br-lg dark:bg-gray-800 dark:border-gray-700 w-[260px] "
+            v-for="(item, i) in props.units"
             :key="i"
           >
             <figcaption class="flex items-center justify-center space-x-3">
@@ -54,6 +54,7 @@ const props = defineProps<{
   bgColor?: number;
   units?: any;
 }>();
+
 </script>
 
 <style></style>
