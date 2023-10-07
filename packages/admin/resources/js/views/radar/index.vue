@@ -54,13 +54,13 @@
         </div>
 
         <div class="pie-container mx-auto flex flex-col" id="radar-print-container">
-          <radarSection
-            :title="category.name"
-            bgColor="orange"
-            v-for="(category, i) in categories"
-            :key="i"
-            :units="pdf_entries[i].arr"
-          />
+          <div class="w-100" v-for="(category, i) in categories" :key="i">
+            <radarSection
+              :title="category.name"
+              :units="pdf_entries[i].arr"
+              :rings="rings"
+            />
+          </div>
         </div>
       </template>
     </VueHtml2pdf>
@@ -122,12 +122,12 @@ export default {
         { name: "Techniques" },
         { name: "Tools" },
       ]),
-      rings = [
+      rings = ref([
         { name: "Adopt", color: "#5ba300" },
         { name: "Trial", color: "#009eb0" },
         { name: "Assess", color: "#c7ba00" },
         { name: "Hold", color: "#e09b96" },
-      ],
+      ]),
       show_print = ref(false);
 
     function checkProcessing() {
@@ -153,12 +153,12 @@ export default {
 
     function drawRadar() {
       entries = indexUnits.data.data.map((item) => {
-        setTimeout(()=>{
+        setTimeout(() => {
           let el = document.getElementById(`entry${item.id}`);
-          el.addEventListener("click", ()=>{
-            openEntryModal(item.id)
-          })
-        },3000)
+          el.addEventListener("click", () => {
+            openEntryModal(item.id);
+          });
+        }, 3000);
 
         return {
           id: item.id,
@@ -177,7 +177,7 @@ export default {
           moved: item.next_level,
           description: item.description,
           category: categories.value[item.section.order].name,
-          level: rings[item.level.order].name,
+          level: rings.value[item.level.order].name,
         };
         pdf_entries.value[Number(item.section.order)].arr.push(new_item);
       });
@@ -193,9 +193,9 @@ export default {
         },
         title: "Wakeb Technology Radar",
         quadrants: categories.value,
-        rings: rings,
+        rings: rings.value,
         print_layout: true,
-        links_in_new_tabs: true,
+        links_in_new_tabs: false,
         entries: entries,
       });
     }
@@ -231,6 +231,7 @@ export default {
       show_print,
       pdf_entries,
       openEntryModal,
+      rings
     };
   },
   methods: {

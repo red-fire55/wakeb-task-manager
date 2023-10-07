@@ -1,9 +1,9 @@
 <template>
   <div class="w-[1122px] h-[790px] flex">
     <img :src="img" class="absolute z-0" />
-    <div class="w-[40%] relative z-10 text-white  ml-auto mt-28">
-      <p class="w-100 font-bold" style="font-size: 5rem">Wakeb</p>
-      <p class="w-100 font-bold" style="font-size: 2.5rem">Technology Radar</p>
+    <div class="w-[40%] relative z-10 text-white  mx-auto  mt-28">
+      <p class="w-100 font-bold text-center" style="font-size: 5rem">Wakeb</p>
+      <p class="w-100 font-bold text-center" style="font-size: 2.5rem">Technology Radar</p>
     </div>
   </div>
 </template>

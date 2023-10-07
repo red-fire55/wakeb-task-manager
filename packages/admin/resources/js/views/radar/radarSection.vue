@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[100vw] h-[795px] text-left" >
+  <div class="w-[100vw] h-[794px] text-left">
     <table class="w-[100vw]">
       <tr>
         <th :class="`w-full`" :style="`height: 25px;`">
@@ -13,10 +13,31 @@
         </th>
       </tr>
       <tr>
-        <td class="flex flex-row flex-wrap w-[800px] gap-1 mt-36">
+        <td class="flex flex-row flex-wrap w-[800px] gap-1 mt-28">
           <figure
-            class="flex flex-col items-center justify-center p-8 text-center 
-            bg-white border-gray-200 rounded-b-lg md:rounded-br-lg dark:bg-gray-800 dark:border-gray-700 w-[260px] "
+            class="flex flex-col items-start justify-start p-8 pt-0 text-center rounded-b-lg md:rounded-br-lg bg-gray-800 border-gray-700 w-[260px] h-[710px]"
+          >
+            <figcaption
+              class="flex items-center justify-center space-x-3 pt-4 pb-4"
+              v-for="(item, i) in props.rings"
+              :key="i"
+            >
+              <div class="space-y-0.5 font-medium text-white text-left">
+                <h5 :style="`color: ${item.color}`">{{ item.name }}</h5>
+                <div
+                  class="text-sm text-gray-500 dark:text-gray-400"
+                  v-for="(unit, i) in props.units"
+                  :key="i"
+                >
+                  <span v-if="unit.level == item.name">
+                    {{ unit.label }}
+                  </span>
+                </div>
+              </div>
+            </figcaption>
+          </figure>
+          <figure
+            class="flex flex-col items-start justify-start p-8 bg-white border-gray-200 rounded-b-lg md:rounded-br-lg dark:bg-gray-800 dark:border-gray-700 w-[260px] text-left"
             v-for="(item, i) in props.units"
             :key="i"
           >
@@ -28,19 +49,14 @@
               /> -->
               <div class="space-y-0.5 font-medium dark:text-white text-left">
                 <div>{{ item.label }} ({{ item?.level }})</div>
-                <div class="text-sm text-gray-500 dark:text-gray-400">{{ item.category }}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  {{ item.category }}
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  {{ item.description }}
+                </div>
               </div>
             </figcaption>
-            <blockquote
-              class="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400"
-            >
-              <!-- <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                
-              </h3> -->
-              <p>
-                {{ item.description }}
-              </p>
-            </blockquote>
           </figure>
         </td>
       </tr>
@@ -53,8 +69,8 @@ const props = defineProps<{
   title?: string;
   bgColor?: number;
   units?: any;
+  rings?: any;
 }>();
-
 </script>
 
 <style></style>
