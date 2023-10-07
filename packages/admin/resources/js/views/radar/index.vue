@@ -58,6 +58,7 @@
             <radarSection
               :title="category.name"
               :units="pdf_entries[i].arr"
+              :rings="rings"
             />
           </div>
         </div>
@@ -121,12 +122,12 @@ export default {
         { name: "Techniques" },
         { name: "Tools" },
       ]),
-      rings = [
+      rings = ref([
         { name: "Adopt", color: "#5ba300" },
         { name: "Trial", color: "#009eb0" },
         { name: "Assess", color: "#c7ba00" },
         { name: "Hold", color: "#e09b96" },
-      ],
+      ]),
       show_print = ref(false);
 
     function checkProcessing() {
@@ -176,7 +177,7 @@ export default {
           moved: item.next_level,
           description: item.description,
           category: categories.value[item.section.order].name,
-          level: rings[item.level.order].name,
+          level: rings.value[item.level.order].name,
         };
         pdf_entries.value[Number(item.section.order)].arr.push(new_item);
       });
@@ -192,7 +193,7 @@ export default {
         },
         title: "Wakeb Technology Radar",
         quadrants: categories.value,
-        rings: rings,
+        rings: rings.value,
         print_layout: true,
         links_in_new_tabs: false,
         entries: entries,
@@ -230,6 +231,7 @@ export default {
       show_print,
       pdf_entries,
       openEntryModal,
+      rings
     };
   },
   methods: {
