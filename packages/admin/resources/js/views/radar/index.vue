@@ -54,13 +54,12 @@
         </div>
 
         <div class="pie-container mx-auto flex flex-col" id="radar-print-container">
-          <radarSection
-            :title="category.name"
-            bgColor="orange"
-            v-for="(category, i) in categories"
-            :key="i"
-            :units="pdf_entries[i].arr"
-          />
+          <div class="w-100" v-for="(category, i) in categories" :key="i">
+            <radarSection
+              :title="category.name"
+              :units="pdf_entries[i].arr"
+            />
+          </div>
         </div>
       </template>
     </VueHtml2pdf>
@@ -153,12 +152,12 @@ export default {
 
     function drawRadar() {
       entries = indexUnits.data.data.map((item) => {
-        setTimeout(()=>{
+        setTimeout(() => {
           let el = document.getElementById(`entry${item.id}`);
-          el.addEventListener("click", ()=>{
-            openEntryModal(item.id)
-          })
-        },3000)
+          el.addEventListener("click", () => {
+            openEntryModal(item.id);
+          });
+        }, 3000);
 
         return {
           id: item.id,
@@ -195,7 +194,7 @@ export default {
         quadrants: categories.value,
         rings: rings,
         print_layout: true,
-        links_in_new_tabs: true,
+        links_in_new_tabs: false,
         entries: entries,
       });
     }
