@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div >
     <div v-if="processing" class="mt-8 flex justify-center">
       <Loader size="40" color="#5850ec" />
     </div>
     <div class="w-full" v-else>
-      <Topbar title="Technology Radar">
+      <Topbar title="Technology Radar" style="max-width: 100vw">
         <div class="ltr:ml-auto rtl:mr-auto">
           <div class="flex flex-row flex-row-reverse items-center">
             <TheButton
@@ -27,7 +27,7 @@
       </Topbar>
       <div class="flex flex-row content-center justify-center">
         <div class="pie-container p-8 mx-auto">
-          <svg id="radar" style="font-family: cursive"></svg>
+          <svg id="radar"></svg>
         </div>
       </div>
     </div>
@@ -79,7 +79,7 @@
 
 <script>
 import { radar_visualization } from "./radar";
-import { TheButton, Topbar, Loader } from "thetheme";
+import { TheButton, Topbar, Loader, Modal } from "thetheme";
 import { ref, onMounted, watch } from "vue";
 import { useIndexStore, useModalsStore, useFormStore, axios } from "spack";
 import Form from "@/components/radar/Form.vue";
@@ -87,7 +87,6 @@ import VueHtml2pdf from "vue3-html2pdf";
 import radarSection from "./radarSection.vue";
 import page1 from "./page1.vue";
 import jsPdf from "jspdf";
-import * as d3 from "d3";
 export default {
   components: {
     TheButton,
@@ -96,6 +95,7 @@ export default {
     VueHtml2pdf,
     radarSection,
     page1,
+    Modal,
   },
   data() {
     return {
@@ -144,6 +144,10 @@ export default {
       processing.value = false;
     }
 
+    function openModal() {
+      useModalsStore().add()
+    }
+
     function OpenCreateEntryModal(id) {
       useModalsStore().add(Form, {
         id,
@@ -184,8 +188,8 @@ export default {
       let width = window.outerWidth;
       radar_visualization({
         svg_id: "radar",
-        width: width < 1920 && width > 1280 ? 1150 : 1450,
-        height: 850,
+        width: 1400,
+        height: 1050,
         colors: {
           background: "#fff",
           grid: "#bbb",
@@ -231,7 +235,8 @@ export default {
       show_print,
       pdf_entries,
       openEntryModal,
-      rings
+      rings,
+      openModal
     };
   },
   methods: {
