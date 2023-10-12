@@ -1,5 +1,5 @@
-import { defineComponent } from 'vue'
-import { RouterView } from 'vue-router'
+import { defineComponent, watch, ref } from 'vue'
+import { RouterView, useRoute } from 'vue-router'
 import SidebarMobile from './SidebarMobile.vue'
 import TheHeader from './Header.vue'
 import TheSidebar from './Sidebar.vue'
@@ -7,11 +7,17 @@ import { FlashMessage, Modals } from 'thetheme'
 
 export default defineComponent({
   setup() {
+    let route = useRoute()
+    let current_route = ref(null)
+    watch(
+      () => route.path,
+      (val) => {
+        current_route.value = val 
+      })
     return () => (
       <div class="flex h-screen overflow-hidden bg-gray-100">
         <SidebarMobile />
-
-        <TheSidebar />
+        {current_route.value !== '/tech-radar' && <TheSidebar />}
 
         <div class="flex w-0 flex-1 flex-col overflow-hidden">
           <TheHeader />

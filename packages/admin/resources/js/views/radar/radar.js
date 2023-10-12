@@ -52,42 +52,32 @@ export function radar_visualization(config) {
   // } 
 
   const rings = [
-    { radius: 90 },
-    { radius: 160 },
-    { radius: 230 },
-    { radius: 310 }
+    { radius: 130 },
+    { radius: 220 },
+    { radius: 310 },
+    { radius: 400 }
   ];
 
-  const title_offset = window.outerWidth >= 1920 ?
-    { x: -690, y: -385 } : { x: -555, y: -385 };
+  const title_offset =
+    { x: -200, y: -450 };
 
-  const footer_offset = window.outerWidth >= 1920 ?
-    { x: -690, y: 380 } : { x: -555, y: 380 };
+  const footer_offset =
+    { x: -690, y: 380 }
 
-  const legend_offset = window.outerWidth >= 1920 ?
+  const legend_offset =
     [
-      { x: 30, y: -600 },
-      { x: 30, y: 685 },
-      { x: -350, y: 685 },
-      { x: -350, y: -600 }
-    ] : [
-      { x: 30, y: -500 },
-      { x: 30, y: 595 },
-      { x: -350, y: 595 },
-      { x: -350, y: -500 }
-    ];
+      { x: 450, y: 90 },
+      { x: -675, y: 90 },
+      { x: -675, y: -310 },
+      { x: 450, y: -310 }
+    ]
 
-  const sub_legend_offset = window.outerWidth >= 1920 ? [
-    { x: 430, y: 70 },
-    { x: -605, y: 70 },
-    { x: -605, y: -310 },
-    { x: 430, y: -310 }
-  ] : [
-    { x: 340, y: 70 },
-    { x: -515, y: 70 },
-    { x: -515, y: -310 },
-    { x: 340, y: -310 }
-  ];
+  const sub_legend_offset = [
+    { x: 450, y: 110 },
+    { x: -675, y: 110 },
+    { x: -675, y: -290 },
+    { x: 450, y: -290 }
+  ]
   function polar(cartesian) {
     var x = cartesian.x;
     var y = cartesian.y;
@@ -229,13 +219,13 @@ export function radar_visualization(config) {
 
   // draw grid lines
   grid.append("line")
-    .attr("x1", 0).attr("y1", -310)
-    .attr("x2", 0).attr("y2", 310)
+    .attr("x1", 0).attr("y1", -400)
+    .attr("x2", 0).attr("y2", 400)
     .style("stroke", config.colors.grid)
     .style("stroke-width", 1);
   grid.append("line")
-    .attr("x1", -310).attr("y1", 0)
-    .attr("x2", 310).attr("y2", 0)
+    .attr("x1", -400).attr("y1", 0)
+    .attr("x2", 400).attr("y2", 0)
     .style("stroke", config.colors.grid)
     .style("stroke-width", 1);
 
@@ -270,7 +260,7 @@ export function radar_visualization(config) {
         .style("fill", config.rings[i].color)
         .style("opacity", 0.35)
         .style("font-family", "cursive")
-        .style("font-size", "32px")
+        .style("font-size", "25px")
         .style("font-weight", "bold")
         .style("pointer-events", "none")
         .style("user-select", "none");
@@ -333,11 +323,11 @@ export function radar_visualization(config) {
       linearGradient.append("stop").attr("offset", "100%").style("stop-color", "#ffffff").style("stop-opacity", "1");
 
       legend.append("rect")
-        .attr("x", legend_offset[quadrant].x)
-        .attr("y", legend_offset[quadrant].y - 45)
-        .attr("width", 100) // Adjust as needed
-        .attr("height", 30) // Adjust as needed
-      // .attr("fill", `url(#gradient-${quadrant})`);
+        .attr("transform", `translate(${legend_offset[quadrant].x - 10}, ${legend_offset[quadrant].y }) rotate(90)`)
+        .attr("width", 250) // Adjust as needed
+        .attr("height", 5) // Adjust as needed
+        .attr("fill", `url(#gradient-${quadrant})`);
+
 
       // 
       legend.append("text")
@@ -349,7 +339,6 @@ export function radar_visualization(config) {
         .style("font-family", "cursive")
         .style("font-size", "18px")
         .style("font-weight", "bold")
-        .style("rotate", "90deg")
 
       for (var ring = 0; ring < 4; ring++) {
         legend.append("text")
@@ -379,8 +368,9 @@ export function radar_visualization(config) {
           .text(function (d, i) { return d.id + ". " + d.label; })
           .style("font-family", "cursive")
           .style("font-size", "11px")
-          .on("mouseover", function (d) { showBubble(d); highlightLegendItem(d); })
-          .on("mouseout", function (d) { hideBubble(d); unhighlightLegendItem(d); });
+          .on("mouseover", function (i, d) { showBubble(d); highlightLegendItem(d); })
+          .on("mouseout", function (i, d) { hideBubble(d); unhighlightLegendItem(d); })
+
       }
     }
   }
@@ -453,8 +443,8 @@ export function radar_visualization(config) {
     .attr("class", "blip")
     .attr("id", function (d) { return `entry${d.id}` })
     .attr("transform", function (d, i) { return legend_transform(d.quadrant, d.ring, i); })
-    .on("mouseover", function (d) { showBubble(d); highlightLegendItem(d); })
-    .on("mouseout", function (d) { hideBubble(d); unhighlightLegendItem(d); })
+    .on("mouseover", function (i, d) { showBubble(d); highlightLegendItem(d); })
+    .on("mouseout", function (i, d) { hideBubble(d); unhighlightLegendItem(d); })
 
   // configure each blip
   blips.each(function (d) {
