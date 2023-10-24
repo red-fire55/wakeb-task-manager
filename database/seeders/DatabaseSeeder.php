@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FrequencyTableSeeder::class);
         $this->call(KpiCategorySeeder::class);
         $this->call(LevelSeeder::class);
+        $this->call(SectionSeeder::class);
     }
 }
