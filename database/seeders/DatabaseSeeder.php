@@ -14,10 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(RequiredSeeder::class);
+        //$this->call(RequiredSeeder::class);
         $this->call(FrequencyTableSeeder::class);
-        $this->call(KpiCategorySeeder::class);
-        $this->call(LevelSeeder::class);
+        //$this->call(KpiCategorySeeder::class);
+        //$this->call(LevelSeeder::class);
         $this->call(SectionSeeder::class);
     }
 }
